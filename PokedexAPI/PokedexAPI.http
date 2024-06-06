@@ -1,0 +1,135 @@
+@PokedexAPI_HostAddress = http://localhost:5019
+
+
+GET https://localhost:5019/pokemon
+
+###
+
+GET https://localhost:5019/pokemon/16
+
+###
+
+POST https://localhost:5019/pokemon/3
+Content-Type: application/json
+
+{
+  "name": "Caterpie",
+  "type1": {
+    "typeName": "Bug"
+  },
+  "pokemonWeaknesses": [
+    {
+      "type": {
+        "typeName": "Fire"
+      }
+    },
+    {
+      "type": {
+        "typeName": "Flying"
+      }
+    },
+        {
+      "type": {
+        "typeName": "Rock"
+      }
+    }
+  ],
+  "pokemonStrengths": [
+    {
+      "type": {
+        "typeName": "Grass"
+      }
+    },
+    {
+      "type": {
+        "typeName": "Dark"
+      }
+    },
+        {
+      "type": {
+        "typeName": "Poison"
+      }
+    }
+  ]
+}
+
+
+###
+
+DELETE https://localhost:5019/pokemon/caterpie
+
+###
+
+PUT https://localhost:5019/pokemon/5
+Content-Type: application/json
+
+{
+  "name": "Weedle",
+  "type1": {
+    "typeName": "Bug"
+  },
+  "type2": {
+    "typeName": "Poison"
+  },
+  "pokemonWeaknesses": [
+    {
+      "type": {
+        "typeName": "Fire"
+      }
+    },
+    {
+      "type": {
+        "typeName": "Flying"
+      }
+    },
+        {
+      "type": {
+        "typeName": "Psychic"
+      }
+    }
+  ],
+  "pokemonStrengths": [
+    {
+      "type": {
+        "typeName": "Grass"
+      }
+    },
+    {
+      "type": {
+        "typeName": "Fighting"
+      }
+    },
+        {
+      "type": {
+        "typeName": "Poison"
+      }
+    },
+            {
+      "type": {
+        "typeName": "Fairy"
+      }
+    },
+            {
+      "type": {
+        "typeName": "Bug"
+      }
+    }
+  ]
+}
+
+###
+
+GET https://localhost:5019/pokemon/type/8
+
+###
+
+GET https://localhost:5019/pokemon/pokemontype/2
+
+###
+
+GET https://localhost:5019/type
+
+###
+
+GET https://localhost:5019/type/Water
+
