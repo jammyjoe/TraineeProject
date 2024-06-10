@@ -1,7 +1,25 @@
 <div *ngIf="pokemons$ | async as pokemons; else loading">
   <div *ngIf="pokemons.length > 0; else noPokemon">
-    <div *ngFor="let pokemon of pokemons; trackBy: trackById">
-      <p>{{ pokemon.name }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+      <div *ngFor="let pokemon of pokemons; trackBy: trackById" class="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200">
+        <h2 class="text-2xl font-bold mb-4 text-center">{{ pokemon.name }}</h2>
+
+        <div class="text-sm text-gray-600 mb-4">
+          <strong>Type:</strong>
+          {{ pokemon.type1.typeName }}
+          <span *ngIf="pokemon.type2">{{ ' / ' + pokemon.type2.typeName }}</span>
+        </div>
+
+        <div class="text-sm text-gray-600 mb-4">
+          <strong>Strengths:</strong>
+          <div *ngFor="let strength of pokemon.strengths">{{ strength.typeName }}</div>
+        </div>
+
+        <div class="text-sm text-gray-600">
+          <strong>Weaknesses:</strong>
+          <div *ngFor="let weakness of pokemon.weaknesses">{{ weakness.typeName }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

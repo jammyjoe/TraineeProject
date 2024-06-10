@@ -1,9 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Pokemon } from '../models/pokemon.model';
+import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,20 +12,23 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = "PokemonApp";
-  http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5019/api/Pokemon';
-  pokemons$!: Observable<Pokemon[]>;
+  title = "PokedexApp";
+  pokemons: Pokemon[] = [];
+
+  constructor(private pokemonService: PokemonService) { }
 
   ngOnInit(): void {
-    this.pokemons$ = this.getPokemons();
+    this.fetchPokemons();
   }
 
-  private getPokemons(): Observable<Pokemon[]> {
-    return this.http.get<Pokemon[]>(`${this.apiUrl}`);
-  }
-
-  trackById(index: number, pokemon: Pokemon): number {
-    return pokemon.id;
+  fetchPokemons(): void {
+    this.pokemonService.getPokemons().subscribe(
+      (data: Pokemon[]) => {
+        this.pokemons = data;
+      },
+      (error) => {
+        console.error('Error fetching Pokemon data:', error);
+      }
+    );
   }
 }
