@@ -1,15 +1,15 @@
 @PokedexAPI_HostAddress = http://localhost:5019
 
 
-GET https://localhost:5019/pokemon
+GET https://localhost:5019/api/pokemon
 
 ###
 
-GET https://localhost:5019/pokemon/16
+GET https://localhost:5019/api/pokemon/16
 
 ###
 
-POST https://localhost:5019/pokemon/3
+POST https://localhost:5019/api/pokemon/3
 Content-Type: application/json
 
 {
@@ -56,11 +56,11 @@ Content-Type: application/json
 
 ###
 
-DELETE https://localhost:5019/pokemon/caterpie
+DELETE https://localhost:5019/api/pokemon/caterpie
 
 ###
 
-PUT https://localhost:5019/pokemon/5
+PUT https://localhost:5019/api/pokemon/5
 Content-Type: application/json
 
 {
@@ -119,17 +119,17 @@ Content-Type: application/json
 
 ###
 
-GET https://localhost:5019/pokemon/type/8
+GET https://localhost:5019/api/pokemon/type/8
 
 ###
 
-GET https://localhost:5019/pokemon/pokemontype/2
+GET https://localhost:5019/api/pokemon/pokemontype/2
 
 ###
 
-GET https://localhost:5019/type
+GET https://localhost:5019/api/type
 
 ###
 
-GET https://localhost:5019/type/Water
+GET https://localhost:5019/api/type/Water
 

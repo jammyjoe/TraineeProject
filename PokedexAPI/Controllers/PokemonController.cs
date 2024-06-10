@@ -10,7 +10,7 @@ using PokedexAPI.Models;
 namespace Pokedex.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
     public class PokemonController : ControllerBase
     {
