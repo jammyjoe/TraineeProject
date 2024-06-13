@@ -1,34 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Pokemon } from '../models/pokemon.model';
 import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe, CommonModule],
+  imports: [AsyncPipe, CommonModule],
+  providers: [PokemonService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = "PokedexApp";
-  pokemons: Pokemon[] = [];
+  title = "PokemonApp";
+  pokemons$!: Observable<Pokemon[]>;
 
-  constructor(private pokemonService: PokemonService) { }
+  pokemonService = inject(PokemonService);
 
   ngOnInit(): void {
-    this.fetchPokemons();
+    this.pokemons$ = this.pokemonService.getPokemons();
   }
 
-  fetchPokemons(): void {
-    this.pokemonService.getPokemons().subscribe(
-      (data: Pokemon[]) => {
-        this.pokemons = data;
-      },
-      (error) => {
-        console.error('Error fetching Pokemon data:', error);
-      }
-    );
+  trackById(index: number, pokemon: Pokemon): number {
+    return pokemon.id;
   }
 }

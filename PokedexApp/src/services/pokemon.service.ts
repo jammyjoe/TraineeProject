@@ -8,8 +8,8 @@ import { Pokemon } from '../models/pokemon.model';
 })
 export class PokemonService {
   private apiUrl = 'http://localhost:5019/api/Pokemon';
-  
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {}
 
   getPokemons(): Observable<Pokemon[]> {
     return this.http.get<Pokemon[]>(this.apiUrl);
