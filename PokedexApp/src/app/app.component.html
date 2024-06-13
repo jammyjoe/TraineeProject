@@ -1,24 +1,46 @@
-<div *ngIf="pokemons$ | async as pokemons;">
-  <div *ngIf="pokemons.length > 0; else noPokemons">
-    <div *ngFor="let pokemon of pokemons; trackBy: trackById">
-      <p>Name: {{ pokemon.name }}</p>
-      <p>Type 1: {{ pokemon.type1.typeName }}</p>
-      <p *ngIf="pokemon.type2">Type 2: {{ pokemon.type2?.typeName }}</p>
-      <div>
-        <p>Weaknesses:</p>
-        <ul>
-          <li *ngFor="let weakness of pokemon.pokemonWeaknesses">{{ weakness.type?.typeName }}</li>
-        </ul>
-      </div>
-      <div>
-        <p>Strengths:</p>
-        <ul>
-          <li *ngFor="let strength of pokemon.pokemonStrengths">{{ strength.type?.typeName }}</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <ng-template #noPokemons>
-    <p>No Pokemons available.</p>
-  </ng-template>
+<!-- Header Section -->
+<div class="bg-red-500 text-white p-8 text-center">
+  <h1 class="text-4xl font-bold">Pokedex</h1>
+  <p class="text-lg">Welcome to the virtual Pokedex</p>
 </div>
+
+<!-- Pokemon Cards Section -->
+<div *ngIf="pokemons$ | async as pokemons; else noPokemons">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+      <div *ngFor="let pokemon of pokemons; trackBy: trackById" class="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200">
+          <h2 class="text-2xl font-bold mb-4 text-center">{{ pokemon.name }}</h2>
+
+          <!-- Basic Info -->
+          <div class="text-sm text-gray-600 mb-4">
+              <strong>Type:</strong>
+              {{ pokemon.type1?.typeName }}
+              <span *ngIf="pokemon.type2"> / {{ pokemon.type2?.typeName }}</span>
+          </div>
+
+          <!-- Strengths Section -->
+          <div class="text-sm text-gray-600 mb-4">
+              <strong>Strengths:</strong>
+              <div *ngIf="pokemon.pokemonStrengths && pokemon.pokemonStrengths.length > 0; else noStrengths">
+                  <div *ngFor="let strength of pokemon.pokemonStrengths">
+                      <div *ngIf="strength.type">{{ strength.type.typeName }}</div>
+                  </div>
+              </div>
+              <ng-template #noStrengths>No Strengths</ng-template>
+          </div>
+
+          <!-- Weaknesses Section -->
+          <div class="text-sm text-gray-600">
+              <strong>Weaknesses:</strong>
+              <div *ngIf="pokemon.pokemonWeaknesses && pokemon.pokemonWeaknesses.length > 0; else noWeaknesses">
+                  <div *ngFor="let weakness of pokemon.pokemonWeaknesses">
+                      <div *ngIf="weakness.type">{{ weakness.type.typeName }}</div>
+                  </div>
+              </div>
+              <ng-template #noWeaknesses>No Weaknesses</ng-template>
+          </div>
+      </div>
+  </div>
+</div>
+<ng-template #noPokemons>
+  <div class="text-center text-gray-500">No Pokemons Found...</div>
+</ng-template>
