@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pokemon } from '../models/pokemon.model';
+import { Pokemon } from './shared/models/pokemon.model';
 import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
