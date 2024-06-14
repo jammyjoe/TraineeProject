@@ -3,14 +3,16 @@ import { Observable } from 'rxjs';
 import { Pokemon } from './shared/models/pokemon.model';
 import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { NavigationComponent } from "./navigation/navigation.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [AsyncPipe, CommonModule],
-  providers: [PokemonService],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    standalone: true,
+    providers: [PokemonService],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent,]
 })
 export class AppComponent implements OnInit {
   title = "PokemonApp";

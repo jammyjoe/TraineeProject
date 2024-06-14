@@ -1,23 +1,14 @@
-// import { Component, OnInit } from '@angular/core';
-// import { Observable } from 'rxjs';
-// import { Pokemon } from '../models/pokemon.model';
-// import { PokemonService } from '../services/pokemon.service';
+import { Component, Input } from '@angular/core';
+import { Pokemon } from '../app/shared/models/pokemon.model';
 
-// @Component({
-//   selector: 'app-pokemon-list',
-//   templateUrl: './pokemon-list.component.html',
-//   styleUrls: ['./pokemon-list.component.css']
-// })
-// export class PokemonListComponent implements OnInit {
-//   pokemons$: Observable<Pokemon[]> = new Observable<Pokemon[]>(); // Initialize here
+@Component({
+  selector: 'app-pokemon-list',
+  standalone: true,
+  templateUrl: './pokemon-list.component.html',
+  styleUrls: ['./pokemon-list.component.css']
+})
+export class PokemonListComponent {
+  @Input() pokemons: Pokemon[] = [];
 
-//   constructor(private pokemonService: PokemonService) { }
-
-//   ngOnInit(): void {
-//     this.getPokemons();
-//   }
-
-//   getPokemons(): void {
-//     this.pokemons$ = this.pokemonService.getPokemons();
-//   }
-// }
+  constructor() { }
+}

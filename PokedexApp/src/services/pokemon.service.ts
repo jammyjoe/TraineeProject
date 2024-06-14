@@ -14,4 +14,8 @@ export class PokemonService {
   getPokemons(): Observable<Pokemon[]> {
     return this.http.get<Pokemon[]>(this.apiUrl);
   }
+
+  searchPokemons(query: string): Observable<Pokemon[]> {
+    return this.http.get<Pokemon[]>(`${this.apiUrl}/search?query=${query}`);
+  }
 }
