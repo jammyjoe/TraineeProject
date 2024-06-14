@@ -4,11 +4,33 @@
       <input [(ngModel)]="searchQuery" type="text" placeholder="Enter Pokemon name" class="search-input border p-2 rounded-lg flex-grow"/>
       <button (click)="searchPokemon()" class="search-button bg-blue-500 text-white p-2 rounded-lg ml-4">Search</button>
     </div>
-    <div *ngIf="pokemonResults$ | async as pokemonResults" class="mt-8">
-      <div *ngIf="pokemonResults.length > 0; else noResults">
-        <div *ngFor="let pokemon of pokemonResults" class="pokemon-card p-4 border rounded-lg mb-4">
-          <h3 class="text-lg font-bold">{{ pokemon.name }}</h3>
-          <p>Type: {{ pokemon.type1 }}{{ pokemon.type2 ? ' / ' + pokemon.type2 : '' }}</p>
+    <div *ngIf="pokemonResult$ | async as pokemonResult" class="mt-8">
+      <div *ngIf="pokemonResult; else noResults">
+        <div class="pokemon-card p-4 border rounded-lg mb-4">
+          <h3 class="text-lg font-bold">{{ pokemonResult.name }}</h3>
+          <p>Type: {{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}</p>
+          <div class="text-sm text-gray-600">
+            <strong>Strengths:</strong>
+            <div *ngIf="pokemonResult.pokemonStrengths && pokemonResult.pokemonStrengths.length > 0; else noStrengths">
+              <div *ngFor="let strength of pokemonResult.pokemonStrengths">
+                <div>{{ strength.type.typeName }}</div>
+              </div>
+            </div>
+            <ng-template #noStrengths>
+              <div>None</div>
+            </ng-template>
+          </div>
+          <div class="text-sm text-gray-600">
+            <strong>Weaknesses:</strong>
+            <div *ngIf="pokemonResult.pokemonWeaknesses && pokemonResult.pokemonWeaknesses.length > 0; else noWeaknesses">
+              <div *ngFor="let weakness of pokemonResult.pokemonWeaknesses">
+                <div>{{ weakness.type.typeName }}</div>
+              </div>
+            </div>
+            <ng-template #noWeaknesses>
+              <div>None</div>
+            </ng-template>
+          </div>
         </div>
       </div>
       <ng-template #noResults>

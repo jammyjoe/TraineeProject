@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pokemon } from './shared/models/pokemon.model';
-import { PokemonService } from '../services/pokemon.service';
+import { Pokemon } from '../shared/models/pokemon.model';
+import { PokemonService } from '../../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavigationComponent } from "./navigation/navigation.component";
+import { NavigationComponent } from "../navigation/navigation.component";
 
 @Component({
     selector: 'app-root',

@@ -1,24 +1,32 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { PokemonService } from '../../services/pokemon.service';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Pokemon } from '../shared/models/pokemon.model';
-import { Observable } from 'rxjs';
+import { PokemonService } from '../../services/pokemon.service';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  imports: [CommonModule, AsyncPipe, FormsModule]
 })
 export class SearchComponent {
   searchQuery: string = '';
-  pokemonResults$!: Observable<Pokemon[]>;
+  pokemonResult$!: Observable<Pokemon | null>;
 
   constructor(private pokemonService: PokemonService) {}
 
   searchPokemon(): void {
-    this.pokemonResults$ = this.pokemonService.searchPokemons(this.searchQuery);
+    if (this.searchQuery.trim()) {
+      this.pokemonResult$ = this.pokemonService.getPokemon(this.searchQuery).pipe(
+        catchError(err => {
+          console.error('Search failed', err);
+          return of(null); // Return null on error
+        })
+      );
+    }
   }
 }
