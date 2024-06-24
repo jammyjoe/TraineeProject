@@ -20,13 +20,14 @@ export class PokemonService {
       .pipe(
         map((response: HttpResponse<Pokemon>) => {
           if (response.status === 200) {
+            console.log('Pokemon fetched successfully:', response.body); // Improve logging back success
             return response.body as Pokemon;
           } else {
-            throw new Error('Failed to fetch Pokemon');
+            throw new Error('Pokemon not found');
           }
         }),
         catchError(error => {
-          return throwError(() => new Error('Failed to fetch Pokemon: ' + error.message));
+          return throwError(() => new Error(`${error.error}: ${error.message}`));
         })
       );
   }

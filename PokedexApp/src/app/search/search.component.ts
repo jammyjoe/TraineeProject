@@ -16,15 +16,18 @@ import { FormsModule } from '@angular/forms';
 export class SearchComponent {
   searchQuery: string = '';
   pokemonResult$!: Observable<Pokemon | null>;
+  errorMessage: string = '';
 
   constructor(private pokemonService: PokemonService) {}
 
   searchPokemon(): void {
     if (this.searchQuery.trim()) {
+      this.errorMessage = '';
       this.pokemonResult$ = this.pokemonService.getPokemon(this.searchQuery).pipe(
         catchError(err => {
           console.error('Search failed', err);
-          return of(null); // Return null on error
+          this.errorMessage = 'Pokemon not found.';
+          return of(null);
         })
       );
     }
