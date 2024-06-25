@@ -13,9 +13,16 @@ export interface PokemonType {
 }
 
 export interface PokemonStrength {
+  id: number;
+  pokemonId: number;
+  typeId: number;
   type: PokemonType;
 }
 
 export interface PokemonWeakness {
+  id: number;
+  pokemonId: number;
+  typeId: number;
   type: PokemonType;
 }
+
