@@ -54,10 +54,10 @@ namespace Pokedex.Controllers
             return Ok(pokemon);
         }
 
-        [HttpPost("{id}")]
+        [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<PokemonDto>> CreatePokemon(PokemonDto pokemonCreate)
+        public async Task<ActionResult<PokemonDto>> CreatePokemon([FromBody] PokemonDto pokemonCreate)
         {
 
             if (pokemonCreate == null)

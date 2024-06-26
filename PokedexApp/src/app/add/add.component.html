@@ -3,7 +3,7 @@
   <form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()">
     <div class="mb-4">
       <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-      <input id="name" formControlName="name" type="text" class="mt-1 block w-full border p-2 rounded-lg"/>
+      <input type="text" id="name" formControlName="name" class="mt-1 block w-full border p-2 rounded-lg">
     </div>
     <div class="mb-4">
       <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
@@ -14,49 +14,12 @@
     <div class="mb-4">
       <label for="type2" class="block text-sm font-medium text-gray-700">Type 2 (Optional)</label>
       <select id="type2" formControlName="type2" class="mt-1 block w-full border p-2 rounded-lg">
+        <option value="">None</option>
         <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
       </select>
     </div>
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700">Strengths</label>
-      <div class="flex">
-        <div class="listbox-container w-1/2 overflow-auto h-32 border p-2 rounded-lg">
-          <ul>
-            <li *ngFor="let type of types" (click)="selectStrength(type)" class="cursor-pointer hover:bg-gray-200 p-2">
-              {{ type.typeName }}
-            </li>
-          </ul>
-        </div>
-        <div class="selected-container w-1/2 ml-4">
-          <ul>
-            <li *ngFor="let type of selectedStrengths" class="p-2">
-              {{ type.typeName }}
-              <button type="button" (click)="removeStrength(type)" class="text-red-500 ml-2">Remove</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700">Weaknesses</label>
-      <div class="flex">
-        <div class="listbox-container w-1/2 overflow-auto h-32 border p-2 rounded-lg">
-          <ul>
-            <li *ngFor="let type of types" (click)="selectWeakness(type)" class="cursor-pointer hover:bg-gray-200 p-2">
-              {{ type.typeName }}
-            </li>
-          </ul>
-        </div>
-        <div class="selected-container w-1/2 ml-4">
-          <ul>
-            <li *ngFor="let type of selectedWeaknesses" class="p-2">
-              {{ type.typeName }}
-              <button type="button" (click)="removeWeakness(type)" class="text-red-500 ml-2">Remove</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <!-- Add strengths and weaknesses section here using FormArray -->
+
     <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">Save</button>
   </form>
 </div>

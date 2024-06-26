@@ -1,22 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PokemonService } from '../../services/pokemon.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PokemonType, Pokemon } from '../shared/models/pokemon.model';
+import { PokemonType } from '../shared/models/pokemon.model';
+import { Pokemon } from '../shared/models/pokemon.model';
 
 @Component({
   selector: 'app-add',
   standalone: true,
   templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule]
+  styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
   addPokemonForm: FormGroup;
   types: PokemonType[] = [];
-  selectedStrengths: PokemonType[] = [];
-  selectedWeaknesses: PokemonType[] = [];
 
   constructor(private fb: FormBuilder, private pokemonService: PokemonService) {
     this.addPokemonForm = this.fb.group({
@@ -24,59 +20,50 @@ export class AddComponent implements OnInit {
       type1: ['', Validators.required],
       type2: [''],
       pokemonStrengths: this.fb.array([]), // You'll need to handle strengths and weaknesses
-      pokemonWeaknesses: this.fb.array([])
+      pokemonWeaknesses: this.fb.array([]) // using FormArray for dynamic lists
     });
   }
 
   ngOnInit(): void {
     this.pokemonService.getTypes().subscribe(
-      (types) => {
+      types => {
         this.types = types;
       },
-      (error) => {
+      error => {
         console.error('Error fetching types', error);
       }
     );
   }
 
-  selectStrength(type: PokemonType): void {
-    if (!this.selectedStrengths.includes(type)) {
-      this.selectedStrengths.push(type);
-    }
-  }
-
-  removeStrength(type: PokemonType): void {
-    this.selectedStrengths = this.selectedStrengths.filter(t => t !== type);
-  }
-
-  selectWeakness(type: PokemonType): void {
-    if (!this.selectedWeaknesses.includes(type)) {
-      this.selectedWeaknesses.push(type);
-    }
-  }
-
-  removeWeakness(type: PokemonType): void {
-    this.selectedWeaknesses = this.selectedWeaknesses.filter(t => t !== type);
-  }
-
   onSubmit(): void {
     if (this.addPokemonForm.valid) {
-      const pokemonDto: Pokemon = {
-        ...this.addPokemonForm.value,
-        pokemonStrengths: this.selectedStrengths.map(type => ({ type })),
-        pokemonWeaknesses: this.selectedWeaknesses.map(type => ({ type })),
+      const formData = this.addPokemonForm.value;
+      const pokemon: Pokemon = {
+        id: 0, // Assuming ID will be assigned by the backend
+        name: formData.name,
+        type1: {
+          typeName: formData.type1,
+          id: 0
+        },
+        type2: formData.type2 ? { typeName: formData.type2, id: 0 } : undefined,
+        pokemonStrengths: formData.pokemonStrengths, // Adjust as per your form structure
+        pokemonWeaknesses: formData.pokemonWeaknesses // Adjust as per your form structure
       };
-      this.pokemonService.addPokemon(pokemonDto).subscribe(
+
+      // Call your service method to save the Pokemon
+      this.pokemonService.addPokemon(pokemon).subscribe(
         response => {
-          console.log('Pokemon added successfully', response);
+          console.log('Pokemon added successfully:', response);
+          // Optionally, you can reset the form after successful submission
           this.addPokemonForm.reset();
-          this.selectedStrengths = [];
-          this.selectedWeaknesses = [];
         },
         error => {
-          console.error('Error adding pokemon', error);
+          console.error('Error adding Pokemon:', error);
+          // Handle error appropriately
         }
       );
+    } else {
+      console.error('Form is invalid. Cannot submit.');
     }
   }
 }
