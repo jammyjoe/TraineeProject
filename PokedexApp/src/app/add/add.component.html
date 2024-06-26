@@ -18,7 +18,36 @@
         <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
       </select>
     </div>
-    <!-- Add strengths and weaknesses section here using FormArray -->
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Strengths</label>
+      <div class="flex">
+        <select class="mt-1 block border p-2 rounded-lg" (change)="addStrength($event)">
+          <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+        </select>
+        <ul class="ml-4 list-none">
+          <li *ngFor="let strength of pokemonStrengths.controls; let i = index">
+            {{ strength.value.type.typeName }}
+            <button type="button" (click)="removeStrength(i)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Weaknesses</label>
+      <div class="flex">
+        <select class="mt-1 block border p-2 rounded-lg" (change)="addWeakness($event)">
+          <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+        </select>
+        <ul class="ml-4 list-none">
+          <li *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
+            {{ weakness.value.type.typeName }}
+            <button type="button" (click)="removeWeakness(i)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </div>
 
     <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">Save</button>
   </form>

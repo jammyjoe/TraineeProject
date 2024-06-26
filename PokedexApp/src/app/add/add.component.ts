@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../services/pokemon.service';
-import { PokemonType } from '../shared/models/pokemon.model';
-import { Pokemon } from '../shared/models/pokemon.model';
+import { Pokemon, PokemonType, PokemonStrength, PokemonWeakness } from '../shared/models/pokemon.model';
 
 @Component({
   selector: 'app-add',
   standalone: true,
   templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css']
+  styleUrls: ['./add.component.css'],
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class AddComponent implements OnInit {
   addPokemonForm: FormGroup;
@@ -19,8 +20,8 @@ export class AddComponent implements OnInit {
       name: ['', Validators.required],
       type1: ['', Validators.required],
       type2: [''],
-      pokemonStrengths: this.fb.array([]), // You'll need to handle strengths and weaknesses
-      pokemonWeaknesses: this.fb.array([]) // using FormArray for dynamic lists
+      pokemonStrengths: this.fb.array([]),
+      pokemonWeaknesses: this.fb.array([])
     });
   }
 
@@ -35,31 +36,72 @@ export class AddComponent implements OnInit {
     );
   }
 
+  get pokemonStrengths(): FormArray {
+    return this.addPokemonForm.get('pokemonStrengths') as FormArray;
+  }
+
+  get pokemonWeaknesses(): FormArray {
+    return this.addPokemonForm.get('pokemonWeaknesses') as FormArray;
+  }
+
+  addStrength(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedTypeName = selectElement.value;
+    const selectedType = this.types.find(type => type.typeName === selectedTypeName);
+    if (selectedType) {
+      this.pokemonStrengths.push(this.fb.group({
+        type: this.fb.group(selectedType),
+        pokemonId: [null] // Initialize with null or some other default value
+      }));
+    }
+  }
+
+  removeStrength(index: number): void {
+    this.pokemonStrengths.removeAt(index);
+  }
+
+  addWeakness(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedTypeName = selectElement.value;
+    const selectedType = this.types.find(type => type.typeName === selectedTypeName);
+    if (selectedType) {
+      this.pokemonWeaknesses.push(this.fb.group({
+        type: this.fb.group(selectedType),
+        pokemonId: [null] // Initialize with null or some other default value
+      }));
+    }
+  }
+
+  removeWeakness(index: number): void {
+    this.pokemonWeaknesses.removeAt(index);
+  }
+
   onSubmit(): void {
     if (this.addPokemonForm.valid) {
       const formData = this.addPokemonForm.value;
       const pokemon: Pokemon = {
-        id: 0, // Assuming ID will be assigned by the backend
+        id: 0,
         name: formData.name,
-        type1: {
-          typeName: formData.type1,
-          id: 0
-        },
-        type2: formData.type2 ? { typeName: formData.type2, id: 0 } : undefined,
-        pokemonStrengths: formData.pokemonStrengths, // Adjust as per your form structure
-        pokemonWeaknesses: formData.pokemonWeaknesses // Adjust as per your form structure
+        type1: this.types.find(type => type.typeName === formData.type1)!,
+        type2: formData.type2 ? this.types.find(type => type.typeName === formData.type2) : undefined,
+        pokemonStrengths: formData.pokemonStrengths.map((strength: any) => ({
+          ...strength,
+          pokemonId: 0 // Assign the PokemonId here, or update it after the Pokemon is created
+        })),
+        pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
+          ...weakness,
+          pokemonId: 0 // Assign the PokemonId here, or update it after the Pokemon is created
+        }))
       };
 
-      // Call your service method to save the Pokemon
       this.pokemonService.addPokemon(pokemon).subscribe(
         response => {
           console.log('Pokemon added successfully:', response);
-          // Optionally, you can reset the form after successful submission
+          // Here, you should update pokemonId for each strength and weakness if needed
           this.addPokemonForm.reset();
         },
         error => {
           console.error('Error adding Pokemon:', error);
-          // Handle error appropriately
         }
       );
     } else {
