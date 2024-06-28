@@ -1,4 +1,4 @@
-<!-- Pokemon Cards Section -->
+Pokemon Cards Section
 <div *ngIf="pokemons$ | async as pokemons; else noPokemons">
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       <div *ngFor="let pokemon of pokemons; trackBy: trackById" class="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200">
