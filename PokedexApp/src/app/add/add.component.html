@@ -1,54 +1,37 @@
-<div class="add-container p-8">
-  <h2 class="text-2xl font-bold mb-4">Add a New Pokemon</h2>
-  <form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()">
-    <div class="mb-4">
-      <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-      <input type="text" id="name" formControlName="name" class="mt-1 block w-full border p-2 rounded-lg">
-    </div>
-    <div class="mb-4">
-      <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
-      <select id="type1" formControlName="type1" class="mt-1 block w-full border p-2 rounded-lg">
-        <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-      </select>
-    </div>
-    <div class="mb-4">
-      <label for="type2" class="block text-sm font-medium text-gray-700">Type 2 (Optional)</label>
-      <select id="type2" formControlName="type2" class="mt-1 block w-full border p-2 rounded-lg">
-        <option value="">None</option>
-        <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-      </select>
-    </div>
+<form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name">
+  </div>
 
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700">Strengths</label>
-      <div class="flex">
-        <select class="mt-1 block border p-2 rounded-lg" (change)="addStrength($event)">
-          <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-        </select>
-        <ul class="ml-4 list-none">
-          <li *ngFor="let strength of pokemonStrengths.controls; let i = index">
-            {{ strength.value.type.typeName }}
-            <button type="button" (click)="removeStrength(i)">Remove</button>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <div class="form-group">
+    <label for="type1">Type 1:</label>
+    <select id="type1" formControlName="type1" (change)="onType1Change($event.target.value)">
+      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+    </select>
+  </div>
 
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700">Weaknesses</label>
-      <div class="flex">
-        <select class="mt-1 block border p-2 rounded-lg" (change)="addWeakness($event)">
-          <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-        </select>
-        <ul class="ml-4 list-none">
-          <li *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
-            {{ weakness.value.type.typeName }}
-            <button type="button" (click)="removeWeakness(i)">Remove</button>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <div class="form-group">
+    <label for="type2">Type 2:</label>
+    <select id="type2" formControlName="type2" (change)="onType2Change($event.target.value)">
+      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+    </select>
+  </div>
 
-    <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">Save</button>
-  </form>
-</div>
+  <div class="form-group">
+    <label>Strengths:</label>
+    <div *ngFor="let strength of pokemonStrengths.controls; let i = index">
+      <div>{{ strength.value.type.typeName }} <button type="button" (click)="removeStrength(i)">Remove</button></div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Weaknesses:</label>
+    <div *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
+      <div>{{ weakness.value.type.typeName }} <button type="button" (click)="removeWeakness(i)">Remove</button></div>
+    </div>
+  </div>
+
+  <button type="submit">Save</button>
+  <p>{{ successMessage }}</p>
+</form>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PokemonService } from '../../services/pokemon.service';
-import { Pokemon, PokemonType, PokemonStrength, PokemonWeakness } from '../shared/models/pokemon.model';
+import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add',
@@ -13,6 +14,7 @@ import { Pokemon, PokemonType, PokemonStrength, PokemonWeakness } from '../share
 })
 export class AddComponent implements OnInit {
   addPokemonForm: FormGroup;
+  successMessage: string = '';
   types: PokemonType[] = [];
 
   constructor(private fb: FormBuilder, private pokemonService: PokemonService) {
@@ -47,12 +49,14 @@ export class AddComponent implements OnInit {
   addStrength(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedTypeName = selectElement.value;
-    const selectedType = this.types.find(type => type.typeName === selectedTypeName);
-    if (selectedType) {
-      this.pokemonStrengths.push(this.fb.group({
-        type: this.fb.group(selectedType),
-        pokemonId: [null] // Initialize with null or some other default value
-      }));
+    if (selectedTypeName) {
+      const selectedType = this.types.find(type => type.typeName === selectedTypeName);
+      if (selectedType) {
+        this.pokemonStrengths.push(this.fb.group({
+          type: selectedType
+        }));
+        selectElement.selectedIndex = 0; // Reset the select element
+      }
     }
   }
 
@@ -63,12 +67,14 @@ export class AddComponent implements OnInit {
   addWeakness(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedTypeName = selectElement.value;
-    const selectedType = this.types.find(type => type.typeName === selectedTypeName);
-    if (selectedType) {
-      this.pokemonWeaknesses.push(this.fb.group({
-        type: this.fb.group(selectedType),
-        pokemonId: [null] // Initialize with null or some other default value
-      }));
+    if (selectedTypeName) {
+      const selectedType = this.types.find(type => type.typeName === selectedTypeName);
+      if (selectedType) {
+        this.pokemonWeaknesses.push(this.fb.group({
+          type: selectedType
+        }));
+        selectElement.selectedIndex = 0; // Reset the select element
+      }
     }
   }
 
@@ -83,22 +89,24 @@ export class AddComponent implements OnInit {
         id: 0,
         name: formData.name,
         type1: this.types.find(type => type.typeName === formData.type1)!,
-        type2: formData.type2 ? this.types.find(type => type.typeName === formData.type2) : undefined,
+        type2: formData.type2 && formData.type2 !== 'None' ? this.types.find(type => type.typeName === formData.type2) : undefined,
         pokemonStrengths: formData.pokemonStrengths.map((strength: any) => ({
-          ...strength,
-          pokemonId: 0 // Assign the PokemonId here, or update it after the Pokemon is created
+          type: strength.type
         })),
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
-          ...weakness,
-          pokemonId: 0 // Assign the PokemonId here, or update it after the Pokemon is created
+          type: weakness.type
         }))
       };
 
       this.pokemonService.addPokemon(pokemon).subscribe(
         response => {
+          this.successMessage = 'Pokemon successfully saved.';
           console.log('Pokemon added successfully:', response);
-          // Here, you should update pokemonId for each strength and weakness if needed
           this.addPokemonForm.reset();
+          this.addPokemonForm.patchValue({
+            strengths: [],
+            weaknesses: []
+          });
         },
         error => {
           console.error('Error adding Pokemon:', error);
