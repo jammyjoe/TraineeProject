@@ -9,9 +9,12 @@
     <div *ngIf="pokemonResult; else noResults">
       <div class="pokemon-card p-4 border rounded-lg mb-4">
         <h3 class="text-lg font-bold">{{ pokemonResult.name }}</h3>
-        <p>Type: {{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}</p>
-        <div class="text-sm text-gray-600">
-          <strong>Strengths:</strong>
+        <div class="text-sm text-gray-600 py-2">
+          <strong>Type</strong>
+          <p>{{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}</p>
+        </div>
+        <div class="text-sm text-gray-600 py-2">
+          <strong>Strengths</strong>
           <div *ngIf="pokemonResult.pokemonStrengths && pokemonResult.pokemonStrengths.length > 0; else noStrengths">
             <div *ngFor="let strength of pokemonResult.pokemonStrengths">
               <div>{{ strength.type.typeName }}</div>
@@ -22,7 +25,7 @@
           </ng-template>
         </div>
         <div class="text-sm text-gray-600">
-          <strong>Weaknesses:</strong>
+          <strong>Weaknesses</strong>
           <div *ngIf="pokemonResult.pokemonWeaknesses && pokemonResult.pokemonWeaknesses.length > 0; else noWeaknesses">
             <div *ngFor="let weakness of pokemonResult.pokemonWeaknesses">
               <div>{{ weakness.type.typeName }}</div>
