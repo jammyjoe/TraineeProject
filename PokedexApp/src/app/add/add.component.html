@@ -1,37 +1,57 @@
-<form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="name">Name:</label>
-    <input type="text" id="name" formControlName="name">
+<form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()" class="space-y-6">
+  <div class="form-group p-4">
+    <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+    <input id="name" formControlName="name" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
   </div>
 
-  <div class="form-group">
-    <label for="type1">Type 1:</label>
-    <select id="type1" formControlName="type1" (change)="onType1Change($event.target.value)">
+  <div class="form-group p-4">
+    <label for="type1" class="block text-sm font-medium text-gray-700">Type 1:</label>
+    <select id="type1" formControlName="type1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <option value="" disabled selected hidden></option>
       <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
     </select>
   </div>
 
-  <div class="form-group">
-    <label for="type2">Type 2:</label>
-    <select id="type2" formControlName="type2" (change)="onType2Change($event.target.value)">
+  <div class="form-group p-4">
+    <label for="type2" class="block text-sm font-medium text-gray-700">Type 2 (optional):</label>
+    <select id="type2" formControlName="type2" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <option value="" selected>None</option>
       <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
     </select>
   </div>
 
-  <div class="form-group">
-    <label>Strengths:</label>
-    <div *ngFor="let strength of pokemonStrengths.controls; let i = index">
-      <div>{{ strength.value.type.typeName }} <button type="button" (click)="removeStrength(i)">Remove</button></div>
-    </div>
+  <div class="form-group p-4">
+    <label class="block text-sm font-medium text-gray-700">Strengths:</label>
+    <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addStrength($event)">
+      <option value="" disabled selected hidden></option>
+      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+    </select>
+    <ul class="mt-2 space-y-2">
+      <li class="flex items-center justify-between p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let strength of pokemonStrengths.controls; let i = index">
+        {{ strength.value.type.typeName }}
+        <button type="button" class="text-red-500 hover:text-red-700" (click)="removeStrength(i)">Remove</button>
+      </li>
+    </ul>
   </div>
 
-  <div class="form-group">
-    <label>Weaknesses:</label>
-    <div *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
-      <div>{{ weakness.value.type.typeName }} <button type="button" (click)="removeWeakness(i)">Remove</button></div>
-    </div>
+  <div class="form-group p-4">
+    <label class="block text-sm font-medium text-gray-700">Weaknesses:</label>
+    <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addWeakness($event)">
+      <option value="" disabled selected hidden></option>
+      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+    </select>
+    <ul class="mt-2 space-y-2">
+      <li class="flex items-center justify-between p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
+        {{ weakness.value.type.typeName }}
+        <button type="button" class="text-red-500 hover:text-red-700" (click)="removeWeakness(i)">Remove</button>
+      </li>
+    </ul>
   </div>
 
-  <button type="submit">Save</button>
-  <p>{{ successMessage }}</p>
+  <div class="flex justify-start p-4">
+    <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+  </div>
 </form>
+
+<div *ngIf="successMessage" class="text-green-600 mt-4">{{ successMessage }}</div>
+

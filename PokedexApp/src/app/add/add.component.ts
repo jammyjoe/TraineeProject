@@ -14,8 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class AddComponent implements OnInit {
   addPokemonForm: FormGroup;
-  successMessage: string = '';
   types: PokemonType[] = [];
+  successMessage: string = '';
 
   constructor(private fb: FormBuilder, private pokemonService: PokemonService) {
     this.addPokemonForm = this.fb.group({
@@ -100,9 +100,9 @@ export class AddComponent implements OnInit {
 
       this.pokemonService.addPokemon(pokemon).subscribe(
         response => {
-          this.successMessage = 'Pokemon successfully saved.';
           console.log('Pokemon added successfully:', response);
           this.addPokemonForm.reset();
+          this.successMessage = 'Pokemon successfully saved.';
           this.addPokemonForm.patchValue({
             strengths: [],
             weaknesses: []
