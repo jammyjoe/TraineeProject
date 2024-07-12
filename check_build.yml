@@ -28,7 +28,7 @@ jobs:
         displayName: 'Run Tests'
         inputs:
           command: test
-          projects: projects: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{parameters.SolutionName}}/${{parameters.SolutionName}}.Tests/${{parameters.SolutionName}}.Tests.csproj
+          projects: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{parameters.SolutionName}}/${{parameters.SolutionName}}.Tests/${{parameters.SolutionName}}.Tests.csproj
           arguments: '--no-restore'
 
     # steps:
