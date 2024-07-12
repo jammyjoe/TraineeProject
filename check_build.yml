@@ -1,6 +1,5 @@
 jobs:
   - job: Publish
-    pool: ubuntu-latest
     displayName: 'Build and Publish'
     steps:
       - task: UseDotNet@2
