@@ -12,8 +12,8 @@ jobs:
         displayName: 'Nuget Restore'
         inputs: 
           commands: restore
-          nugetConfigPath: $(Build.SourcesDirectory)/${{parameters.solutionName}}/Nuget.config
-          projects: $(Build.SourcesDirectory)/${{parameters.solutionName}}/${{parameters.solutionName}}.sln
+          nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config
+          projects: $(Build.SourcesDirectory)/$(solutionName).sln
           feedsToUse: config
 
 

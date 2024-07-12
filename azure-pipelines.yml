@@ -15,8 +15,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: Build
-    displayName: 'Check Build'
+  - stage: BuildWebApi
+    displayName: 'Check Web API Build'
     dependsOn: []
     jobs: 
       - template: check_build.yml
