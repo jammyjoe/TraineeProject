@@ -4,6 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 variables:
   solution: '**/*.sln'
+  solutionName: 'Pokedex'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -21,6 +22,7 @@ stages:
       - template: check_build.yml
         parameters:
           solution: ${{variables.solution}}
+          solutionName: ${{variable.solutionName}}
           buildPlatform: ${{variables.buildPlatform}}
           buildConfiguration: ${{variables.buildConfiguration}}
 
