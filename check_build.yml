@@ -1,12 +1,13 @@
-- job: Publish
-  pool: ubuntu-latest
-  displayName: 'Build and Publish'
-  steps:
-    - task: UseDotNet@2
-      displayName: "Use .NET 8.0.x SDK"
-      inputs:
-        version: 8.0.x
-        installationPath: $(Agent.ToolsDirectory)/dotnet
+jobs:
+  - job: Publish
+    pool: ubuntu-latest
+    displayName: 'Build and Publish'
+    steps:
+      - task: UseDotNet@2
+        displayName: "Use .NET 8.0.x SDK"
+        inputs:
+          version: 8.0.x
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
     # steps:
     # - task: NuGetToolInstaller@1
