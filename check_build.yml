@@ -22,7 +22,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.SolutionName }}/${{ parameters.SolutionName}}/${{ parameters.SolutionName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.SolutionName }}/${{ parameters.SolutionName}}.csproj'
 
 
     # steps:
