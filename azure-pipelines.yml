@@ -18,11 +18,9 @@ stages:
     displayName: 'Check Build'
     dependsOn: []
     jobs: 
-      - job:
-        steps:
-        - template: check_build.yml
-          parameters:
-            solution: ${{variables.solution}}
-            buildPlatform: ${{variables.buildPlatform}}
-            buildConfiguration: ${{variables.buildConfiguration}}
+      - template: check_build.yml
+        parameters:
+          solution: ${{variables.solution}}
+          buildPlatform: ${{variables.buildPlatform}}
+          buildConfiguration: ${{variables.buildConfiguration}}
 
