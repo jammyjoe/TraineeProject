@@ -12,9 +12,17 @@ jobs:
         displayName: 'Nuget Restore'
         inputs: 
           commands: restore
-          nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config
+          nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
           projects: $(Build.SourcesDirectory)/$(solutionName).sln
           feedsToUse: config
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish App'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration release'
+          projects: '$(Build.SourcesDirectory)/${{parameters.SolutionName }}/${{ parameters.SolutionName}}/${{ parameters.SolutionName}}.csproj'
 
 
     # steps:
