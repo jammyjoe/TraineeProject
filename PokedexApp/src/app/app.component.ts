@@ -5,7 +5,6 @@ import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationComponent } from "./navigation/navigation.component";
-import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
 import { HomeComponent } from './home/home.component';
 
 @Component({
@@ -14,7 +13,7 @@ import { HomeComponent } from './home/home.component';
     providers: [PokemonService],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, PokemonListComponent, HomeComponent]
+    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, HomeComponent]
 })
 export class AppComponent implements OnInit {
   title = "PokemonApp";
