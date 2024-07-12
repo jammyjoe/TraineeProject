@@ -16,6 +16,7 @@ export class AddComponent implements OnInit {
   addPokemonForm: FormGroup;
   types: PokemonType[] = [];
   successMessage: string = '';
+pokemons: any;
 
   constructor(private fb: FormBuilder, private pokemonService: PokemonService) {
     this.addPokemonForm = this.fb.group({
@@ -55,7 +56,7 @@ export class AddComponent implements OnInit {
         this.pokemonStrengths.push(this.fb.group({
           type: selectedType
         }));
-        selectElement.selectedIndex = 0; // Reset the select element
+        //selectElement.selectedIndex = 0; // Reset the select element
       }
     }
   }
