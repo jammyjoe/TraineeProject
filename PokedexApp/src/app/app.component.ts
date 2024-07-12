@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pokemon } from '../shared/models/pokemon.model';
-import { PokemonService } from '../../services/pokemon.service';
+import { Pokemon } from './shared/models/pokemon.model';
+import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavigationComponent } from "../navigation/navigation.component";
-import { PokemonListComponent } from '../pokemon-list/pokemon-list.component';
+import { NavigationComponent } from "./navigation/navigation.component";
+import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
+import { HomeComponent } from './home/home.component';
 
 @Component({
     selector: 'app-root',
@@ -13,7 +14,7 @@ import { PokemonListComponent } from '../pokemon-list/pokemon-list.component';
     providers: [PokemonService],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, PokemonListComponent]
+    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, PokemonListComponent, HomeComponent]
 })
 export class AppComponent implements OnInit {
   title = "PokemonApp";
