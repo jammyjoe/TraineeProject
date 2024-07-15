@@ -34,7 +34,7 @@ jobs:
       - task: CopyFiles@2
         displayName: 'Copy Artifact to Staging Folder'
         inputs:
-          SourceFolder: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{ parameters.SolutionName}}/
+          SourceFolder: $(Build.SourcesDirectory)/${{parameters.projectName}}
           Contents: '**/publish.zip'
           TargetFolder: $(Build.ArtifactStagingDirectory)
           CleanTargetFolder: true
