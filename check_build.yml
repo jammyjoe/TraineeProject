@@ -8,21 +8,21 @@ jobs:
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-      # - task: DotNetCoreCLI@2
-      #   displayName: 'Nuget Restore'
-      #   inputs: 
-      #     commands: restore
-      #     nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-      #     projects: $(Build.SourcesDirectory)/$(solutionName).sln
-      #     feedsToUse: config
+      - task: DotNetCoreCLI@2
+        displayName: 'Nuget Restore'
+        inputs: 
+          commands: restore
+          nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
+          projects: $(Build.SourcesDirectory)/$(solutionName).sln
+          feedsToUse: config
 
-      # - task: DotNetCoreCLI@2
-      #   displayName: 'Publish App'
-      #   inputs:
-      #     command: publish
-      #     publishWebProjects: false
-      #     arguments: '--configuration release'
-      #     projects: '$(Build.SourcesDirectory)/${{parameters.SolutionName }}/${{ parameters.SolutionName}}.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish App'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration release'
+          projects: '$(Build.SourcesDirectory)/${{parameters.SolutionName }}/${{ parameters.SolutionName}}.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Run Tests'
@@ -31,6 +31,8 @@ jobs:
           projects: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{parameters.SolutionName}}/${{parameters.SolutionName}}.Tests/${{parameters.SolutionName}}.Tests.csproj
           arguments: '--no-restore'
 
+          
+#Previous CI/CD  
     # steps:
     # - task: NuGetToolInstaller@1
 
