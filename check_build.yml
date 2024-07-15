@@ -22,7 +22,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName }}/${{ parameters.projectName  }}/${{ parameters.projectName  }}.csproj''
+          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName }}/${{ parameters.projectName  }}/${{ parameters.projectName  }}.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Run Tests'
