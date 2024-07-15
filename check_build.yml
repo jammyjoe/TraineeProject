@@ -8,12 +8,18 @@ jobs:
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
+      - script: |
+        echo "Build.SourcesDirectory: $(Build.SourcesDirectory)"
+        ls -la $(Build.SourcesDirectory)
+        ls -la $(Build.SourcesDirectory)/src
+      displayName: 'List directory contents'
+
       - task: DotNetCoreCLI@2
         displayName: 'Nuget Restore'
         inputs: 
           commands: restore
           nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-          projects: $(Build.SourcesDirectory)/$(solutionName).sln
+          projects: $(Build.SourcesDirectory)/$(parameters.solutionName).sln
           feedsToUse: config
 
       - task: DotNetCoreCLI@2
@@ -22,7 +28,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName }}/${{ parameters.solutionName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName }}/${{ parameters.projectName}}.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Run Tests'

@@ -7,6 +7,7 @@ variables:
   solutionName: 'Pokedex'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  projectName: 'PokedexAPI'
 
 trigger:
 - none
@@ -25,4 +26,6 @@ stages:
           solutionName: ${{variables.solutionName}}
           buildPlatform: ${{variables.buildPlatform}}
           buildConfiguration: ${{variables.buildConfiguration}}
+          projectName: ${{variables.projectName}}
+
 
