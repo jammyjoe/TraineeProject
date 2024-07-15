@@ -22,7 +22,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{  parameters.projectName  }}/${{  parameters.projectName  }}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.projectName}}/${{parameters.projectName}}.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Run Tests'
@@ -30,6 +30,21 @@ jobs:
           command: test
           projects: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{parameters.SolutionName}}/${{parameters.SolutionName}}.Tests/${{parameters.SolutionName}}.Tests.csproj
           arguments: '--no-restore'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Artifact to Staging Folder'
+        inputs:
+          SourceFolder: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{ parameters.SolutionName}}/
+          Contents: '**/publish.zip'
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: ${{parameters.SolutionName}}'
+        inputs:
+          ArtifactName: ${{parameters.SolutionName}}           
 
 
 #Previous CI/CD  
