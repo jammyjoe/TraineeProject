@@ -13,7 +13,7 @@ jobs:
         inputs: 
           commands: restore
           nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-          projects: $(Build.SourcesDirectory)/$(parameters.solutionName).sln
+          projects: $(Build.SourcesDirectory)/$(solutionName).sln
           feedsToUse: config
 
       - task: DotNetCoreCLI@2
@@ -22,7 +22,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName }}/${{ parameters.projectName  }}/${{ parameters.projectName  }}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName}}/${{projectName}}/${parameters.projectName}}.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Run Tests'
