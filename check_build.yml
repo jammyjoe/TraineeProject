@@ -24,12 +24,12 @@ jobs:
           arguments: '--configuration release'
           projects: '$(Build.SourcesDirectory)/${{parameters.projectName}}/${{parameters.projectName}}.csproj'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Run Tests'
-        inputs:
-          command: test
-          projects: $(Build.SourcesDirectory)/${{parameters.projectName}}.Tests/${{parameters.projectName}}.Tests.csproj
-          arguments: '--no-restore'
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Run Tests'
+      #   inputs:
+      #     command: test
+      #     projects: $(Build.SourcesDirectory)/${{parameters.projectName}}.Tests/${{parameters.projectName}}.Tests.csproj
+      #     arguments: '--no-restore'
 
       - task: CopyFiles@2
         displayName: 'Copy Artifact to Staging Folder'

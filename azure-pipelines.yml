@@ -28,4 +28,20 @@ stages:
           buildConfiguration: ${{variables.buildConfiguration}}
           projectName: ${{variables.projectName}}
 
+  - stage: BuildWebApp
+    displayName: 'Check Web App Build'
+    dependsOn: []
+    jobs: 
+      - job: Publish 
+        displayName: 'Build Angular App' 
+        steps:
+          - script: 
+              npm install
+              npm run build-prod
 
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Build Artifact' 
+            inputs:
+              PathtoPublish: '$(Build.SourcesDirectory)/dist'
+              ArtifactName: 'angular-app'
+            
