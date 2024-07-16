@@ -20,7 +20,7 @@ stages:
     displayName: 'Check Web API Build'
     dependsOn: []
     jobs: 
-      - template: check_build.yml
+      - template: build_webapi.yml
         parameters:
           solution: ${{variables.solution}}
           solutionName: ${{variables.solutionName}}
@@ -32,16 +32,15 @@ stages:
     displayName: 'Check Web App Build'
     dependsOn: []
     jobs: 
-      - job: Publish 
-        displayName: 'Build Angular App' 
-        steps:
-          - script: 
-              npm install
-              npm run build-prod
-
-          - task: PublishBuildArtifacts@1
-            displayName: 'Publish Build Artifact' 
-            inputs:
-              PathtoPublish: '$(Build.SourcesDirectory)/dist'
-              ArtifactName: 'angular-app'
+      - template: build_webapp.yml
             
+  - stage: PublishArtifacts
+    displayName: 'Publish Artifacts'
+    dependsOn: [BuildWebApi, BuildWebApp]
+    jobs:
+      - job: 'Publish'
+        steps:
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact: ${{parameters.SolutionName}}'
+            inputs:
+              ArtifactName: ${{parameters.SolutionName}}     

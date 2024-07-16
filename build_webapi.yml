@@ -1,12 +1,15 @@
 jobs:
-  - job: Publish
+  - job: Build
     displayName: 'Build and Publish'
     steps:
       - task: UseDotNet@2
         displayName: "Use .NET 8.0.x SDK"
         inputs:
+          packageType: 'sdk'
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
+
+      - task: NuGetToolInstaller@1
 
       - task: DotNetCoreCLI@2
         displayName: 'Nuget Restore'
@@ -17,7 +20,14 @@ jobs:
           feedsToUse: config
 
       - task: DotNetCoreCLI@2
-        displayName: 'Publish App'
+        displayName: 'Build PokedexAPI'
+        inputs:
+          command: build
+          projects: '$(Build.SourcesDirectory)/Pokedex/PokedexAPI/PokedexAPI.csproj'
+          arguments: '--configuration Release'
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish PokedexAPI'
         inputs:
           command: publish
           publishWebProjects: false
@@ -31,20 +41,7 @@ jobs:
       #     projects: $(Build.SourcesDirectory)/${{parameters.projectName}}.Tests/${{parameters.projectName}}.Tests.csproj
       #     arguments: '--no-restore'
 
-      - task: CopyFiles@2
-        displayName: 'Copy Artifact to Staging Folder'
-        inputs:
-          SourceFolder: $(Build.SourcesDirectory)/${{parameters.projectName}}
-          Contents: '**/publish.zip'
-          TargetFolder: $(Build.ArtifactStagingDirectory)
-          CleanTargetFolder: true
-          OverWrite: true
-          flattenFolders: true
-
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: ${{parameters.SolutionName}}'
-        inputs:
-          ArtifactName: ${{parameters.SolutionName}}           
+      
 
 
 #Previous CI/CD  
