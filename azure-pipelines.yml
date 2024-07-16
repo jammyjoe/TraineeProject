@@ -41,6 +41,6 @@ stages:
       - job: 'Publish'
         steps:
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Artifact: ${{parameters.SolutionName}}'
+            displayName: 'Publish Artifact: ${{parameters.solutionName}}'
             inputs:
-              ArtifactName: ${{parameters.SolutionName}}     
+              ArtifactName: ${{parameters.solutionName}}     
