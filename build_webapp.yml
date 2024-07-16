@@ -1,26 +1,26 @@
 jobs:
   - job: Build 
-        displayName: 'Build Angular App' 
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
-        - task: NodeTool@0
-          inputs:
-            versionSpec: '20.x'
-          displayName: 'Install Node.js'
+    displayName: 'Build Angular App' 
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '20.x'
+      displayName: 'Install Node.js'
 
-        - script: |
-            cd $(Build.SourcesDirectory)/Pokedex/PokedexApp
-            npm install
-            npm run build --prod
-          displayName: 'Build Angular App'
+    - script: |
+        cd $(Build.SourcesDirectory)/Pokedex/PokedexApp
+        npm install
+        npm run build --prod
+      displayName: 'Build Angular App'
 
-          - task: CopyFiles@2
-            displayName: 'Copy Artifact to Staging Folder'
-            inputs:
-              SourceFolder: $(Build.SourcesDirectory)/${{parameters.projectName}}
-              Contents: '**/publish.zip'
-              TargetFolder: $(Build.ArtifactStagingDirectory)
-              CleanTargetFolder: true
-              OverWrite: true
-              flattenFolders: true
+      - task: CopyFiles@2
+        displayName: 'Copy Artifact to Staging Folder'
+        inputs:
+          SourceFolder: $(Build.SourcesDirectory)/${{parameters.projectName}}
+          Contents: '**/publish.zip'
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
