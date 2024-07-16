@@ -5,7 +5,6 @@ jobs:
       - task: UseDotNet@2
         displayName: "Use .NET 8.0.x SDK"
         inputs:
-          packageType: 'sdk'
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
@@ -32,7 +31,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.projectName}}/${{parameters.projectName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
 
       # - task: DotNetCoreCLI@2
       #   displayName: 'Run Tests'

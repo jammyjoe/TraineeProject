@@ -10,7 +10,7 @@ jobs:
       displayName: 'Install Node.js'
 
     - script: |
-        cd $(Build.SourcesDirectory)/Pokedex/PokedexApp
+        cd $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         npm install
         npm run build --prod
       displayName: 'Build Angular App'
@@ -18,7 +18,7 @@ jobs:
     - task: CopyFiles@2
       displayName: 'Copy Artifact to Staging Folder'
       inputs:
-        SourceFolder: $(Build.SourcesDirectory)/${{parameters.projectName}}
+        SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         Contents: '**/publish.zip'
         TargetFolder: $(Build.ArtifactStagingDirectory)
         CleanTargetFolder: true
