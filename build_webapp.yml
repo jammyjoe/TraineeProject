@@ -10,7 +10,7 @@ jobs:
       displayName: 'Install Node.js'
 
     - script: |
-        cd $(Build.SourcesDirectory)/${{parameters.appProjectName}}
+        cd $(Build.SourcesDirectory)/PokedexApp
         npm install
         npm run build --prod
       displayName: 'Build Angular App'

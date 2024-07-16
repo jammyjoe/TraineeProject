@@ -22,7 +22,7 @@ jobs:
         displayName: 'Build PokedexAPI'
         inputs:
           command: build
-          projects: '$(Build.SourcesDirectory)/Pokedex/PokedexAPI/PokedexAPI.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
           arguments: '--configuration Release'
 
       - task: DotNetCoreCLI@2
