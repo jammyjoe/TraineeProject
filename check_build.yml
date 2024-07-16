@@ -28,7 +28,7 @@ jobs:
         displayName: 'Run Tests'
         inputs:
           command: test
-          projects: $(Build.SourcesDirectory)/${{parameters.SolutionName}}/${{parameters.SolutionName}}/${{parameters.SolutionName}}.Tests/${{parameters.SolutionName}}.Tests.csproj
+          projects: $(Build.SourcesDirectory)/${{parameters.projectName}}.Tests/${{parameters.projectName}}.Tests.csproj
           arguments: '--no-restore'
 
       - task: CopyFiles@2
