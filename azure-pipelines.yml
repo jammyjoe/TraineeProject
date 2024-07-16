@@ -41,6 +41,6 @@ stages:
       - job: 'Publish'
         steps:
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Artifact: ${{parameters.solutionName}}'
             inputs:
-              ArtifactName: ${{parameters.solutionName}}     
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
