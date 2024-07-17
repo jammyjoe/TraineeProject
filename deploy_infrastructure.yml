@@ -1,0 +1,12 @@
+parameters:
+  - name: Environment
+    type: string
+
+steps:
+- task: PowerShell@2
+  name: Deployment
+  displayName: "Deploy Terraform Resources"
+  inputs:
+    targetType: filePath
+    filePath: '$(Build.SourcesDirectory)/Deployment/terraform_deploy.ps1'
+    arguments: '-deploymentEnvironment ${{parameters.Environment}}'

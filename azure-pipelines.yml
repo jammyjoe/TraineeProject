@@ -47,3 +47,16 @@ stages:
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'drop'
+
+  - stage: Dev
+    displayName: 'Deploy to Dev'
+    dependsOn: [PublishArtifacts]
+    jobs:
+      - job: DeployInfrastructur
+        variables:
+          - group: PokedexDev
+        displayName: 'Deploy Infrastructure'
+        steps:
+        - template: deploy_infrastructure.yml
+          parameters:
+            Environment: $(Environment)
