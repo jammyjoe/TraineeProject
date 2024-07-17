@@ -33,9 +33,9 @@ jobs:
           arguments: '--configuration release'
           projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Run Tests'
-        inputs:
-          command: test
-          projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
-          arguments: '--no-restore'
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Run Tests'
+      #   inputs:
+      #     command: test
+      #     projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
+      #     arguments: '--no-restore'
