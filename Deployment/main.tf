@@ -23,26 +23,20 @@ resource "azurerm_service_plan" "appserviceplan" {
 
 resource "azurerm_mssql_server_name" "pokedex_sqlservername" {
   prefix = "sql"
-
-  tags = local.tags
 }
 
 resource "azurerm_mssql_server" "pokedex_sqlserver" {
-  name                         = random_pet.azurerm_mssql_server_name.id
+  name                         = azurerm_mssql_server_name.id
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   administrator_login          = "${local.admin_username}"
   administrator_login_password = "${local.admin_password}"
   version                      = "12.0"
-
-  tags = local.tags
 }
 
 resource "azurerm_mssql_database" "pokedex_db" {
   name      = "${local.sql_db_name}"
   server_id = azurerm_mssql_server.server.id
-
-  tags = local.tags
 }
 
 resource "azurerm_app_service" "pokedex_webapi" {
@@ -51,9 +45,6 @@ resource "azurerm_app_service" "pokedex_webapi" {
   resource_group_name           = azurerm_resource_group.resource_group.name
   app_service_plan_id           = azurerm_service_plan.appserviceplan.id
   https_only                    = false
-
-
-  tags = local.tags
   
   site_config { 
     always_on = true
@@ -61,7 +52,7 @@ resource "azurerm_app_service" "pokedex_webapi" {
   }
 
   app_settings = {
-    "AzureVault__Uri"                   = azurerm_key_vault.key_vault.vault_uri
+    #"AzureVault__Uri"                   = azurerm_key_vault.key_vault.vault_uri
     "SQL_CONNECTION_STRING"             = "Server=tcp:${azurerm_sql_server.pokedex_sql_server.name}"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"   = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"          = "1"
@@ -74,8 +65,6 @@ resource "azurerm_app_service" "pokedex_webapp" {
   resource_group_name           = azurerm_resource_group.resource_group.name
   app_service_plan_id           = azurerm_service_plan.appserviceplan.id
 
-  tags = local.tags
-  
   site_config {
     app_command_line = "npm start"
   }
