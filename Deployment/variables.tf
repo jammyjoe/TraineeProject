@@ -8,6 +8,7 @@ locals {
   admin_username = "jamil"
   admin_password = "Password01."
   sql_db_name = "pokedex_db"
+  sql_server_name = "pokedex_sqlserver"
   env_name = lower(terraform.workspace)
   resource_group = "rg"
   web_app = "web-app"

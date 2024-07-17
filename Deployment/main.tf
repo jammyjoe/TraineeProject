@@ -21,12 +21,8 @@ resource "azurerm_service_plan" "appserviceplan" {
   tags = local.tags
 }
 
-resource "azurerm_mssql_server_name" "pokedex_sqlservername" {
-  prefix = "sql"
-}
-
 resource "azurerm_mssql_server" "pokedex_sqlserver" {
-  name                         = azurerm_mssql_server_name.id
+  name                         = "${local.sql_server_name}"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   administrator_login          = "${local.admin_username}"
