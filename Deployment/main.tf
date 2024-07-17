@@ -22,7 +22,7 @@ resource "azurerm_service_plan" "appserviceplan" {
 }
 
 resource "azurerm_mssql_server" "pokedex_sqlserver" {
-  name                         = "${local.sql_server_name}"
+  name                         = "${local.resource_name}-${local.env_name}-${local.sql_server_name}"
   resource_group_name          = azurerm_resource_group.resource_group.name
   location                     = azurerm_resource_group.resource_group.location
   administrator_login          = "${local.admin_username}"
@@ -31,7 +31,7 @@ resource "azurerm_mssql_server" "pokedex_sqlserver" {
 }
 
 resource "azurerm_mssql_database" "pokedex_db" {
-  name      = "${local.sql_db_name}"
+  name      =  "${local.resource_name}-${local.env_name}-${local.sql_db_name}"
   server_id = azurerm_mssql_server.pokedex_sqlserver.id
 }
 
