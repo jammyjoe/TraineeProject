@@ -10,17 +10,6 @@ resource "azurerm_resource_group" "resource_group" {
 #   }
 }
 
-resource "azurerm_service_plan" "appserviceplan" {
-  name                = "${local.resource_name}-${local.env_name}-asp"
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
-  os_type             = "Windows"
-  sku_name            = "F1"
-  worker_count        = "2" ##Check out
-
-  tags = local.tags
-}
-
 resource "azurerm_mssql_server" "pokedex_sqlserver" {
   name                         = "${local.resource_name}-${local.env_name}-${local.sql_server_name}"
   resource_group_name          = azurerm_resource_group.resource_group.name
@@ -30,9 +19,25 @@ resource "azurerm_mssql_server" "pokedex_sqlserver" {
   version                      = "12.0"
 }
 
-resource "azurerm_mssql_database" "pokedex_db" {
+resource "azurerm_sql_database" "pokedex_db" {
   name      =  "${local.resource_name}-${local.env_name}-${local.sql_db_name}"
-  server_id = azurerm_mssql_server.pokedex_sqlserver.id
+  server_name         = azurerm_sql_server.pokedex_sql_server.name
+  resource_group_name = azurerm_resource_group.pokedex_rg.name
+  location            = azurerm_resource_group.pokedex_rg.location
+  collation           = "Latin1_General_CI_AS"
+  edition             = "Standard"
+  requested_service_objective_name = "S0"
+}
+
+resource "azurerm_service_plan" "appserviceplan" {
+  name                = "${local.resource_name}-${local.env_name}-asp"
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  os_type             = "Windows"
+  sku_name            = "F1"
+  worker_count        = "2" ##Check out
+
+  tags = local.tags
 }
 
 resource "azurerm_app_service" "pokedex_webapi" {
