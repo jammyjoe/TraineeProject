@@ -282,7 +282,7 @@ namespace Pokedex.Repository
         }
         public async Task<bool> SavePokemon()
         {
-            var saved = _context.SaveChanges();
+            var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
     }

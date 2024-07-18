@@ -15,8 +15,8 @@ namespace PokedexAPI.Models
         public int Type1Id { get; set; }
         public int? Type2Id { get; set; }
 
-        public virtual PokemonType Type1 { get; set; }
-        public virtual PokemonType? Type2 { get; set; }
+        public virtual PokemonType Type1 { get; set; } = null!;
+        public virtual PokemonType Type2 { get; set; }
 
         public virtual ICollection<PokemonStrength> PokemonStrengths { get; set; }
         public virtual ICollection<PokemonWeakness> PokemonWeaknesses { get; set; }

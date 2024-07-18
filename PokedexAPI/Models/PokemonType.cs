@@ -12,7 +12,7 @@ namespace PokedexAPI.Models
             Pokemons = new HashSet<Pokemon>();
         }
         public int Id { get; set; }
-        public string? TypeName { get; set; }
+        public string TypeName { get; set; }
 
         public virtual ICollection<PokemonStrength> PokemonStrengths { get; set; }
         public virtual ICollection<PokemonWeakness> PokemonWeaknesses { get; set; }
