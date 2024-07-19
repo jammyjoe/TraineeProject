@@ -50,7 +50,7 @@ resource "azurerm_app_service" "pokedex_webapi" {
 
   app_settings = {
     #"AzureVault__Uri"                   = azurerm_key_vault.key_vault.vault_uri
-    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_mssql_server.pokedex_mssql_server.name}.database.windows.net;Database=${azurerm_sql_database.pokedex_db.name};User ID=sqladmin;Password=P@ssword1234;Encrypt=true;Connection Timeout=30;"
+    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_mssql_server.pokedex_mssql_server.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=sqladmin;Password=P@ssword1234;Encrypt=true;Connection Timeout=30;"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"   = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"          = "1"
   }
