@@ -7,7 +7,7 @@ locals {
   resource_name     = "pokedex"
   admin_username    = "jamil"
   admin_password    = "Password01."
-  env_name = lower(terraform.workspace)
+  env_name          = lower(terraform.workspace)
   resource_group    = "rg"
   sql_db_name       = "db"
   mssql_server_name = "mssqlserver"
