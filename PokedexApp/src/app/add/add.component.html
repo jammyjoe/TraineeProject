@@ -31,7 +31,7 @@
     <ul class="mt-2 space-y-2">
       <li class="flex items-center justify-around size-fit p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let strength of pokemonStrengths.controls; let i = index">
         {{ strength.value.type.typeName }}
-        <button type="button" class="text-red-500 hover:text-red-700 " (click)="removeStrength(i)"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeStrength(i)"><i class="fa-solid fa-xmark"></i></button>
       </li>
     </ul>
   </div>
