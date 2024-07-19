@@ -10,8 +10,8 @@ resource "azurerm_resource_group" "resource_group" {
 #   }
 }
 
-resource "azurerm_sql_server" "pokedex_sqlserver" {
-  name                         = "${local.resource_name}-${local.env_name}-${local.sql_server_name}"
+resource "azurerm_mssql_server" "pokedex_mssqlserver" {
+  name                         = "${local.resource_name}-${local.env_name}-${local.mssql.server.name}"
   resource_group_name          = azurerm_resource_group.resource_group.name
   location                     = azurerm_resource_group.resource_group.location
   administrator_login          = "${local.admin_username}"
@@ -21,7 +21,7 @@ resource "azurerm_sql_server" "pokedex_sqlserver" {
 
 resource "azurerm_sql_database" "pokedex_db" {
   name      =  "${local.resource_name}-${local.env_name}-${local.sql_db_name}"
-  server_name         = azurerm_sql_server.pokedex_sqlserver.name
+  server_name         = azurerm_mssql_server.pokedex_mssqlserver.name
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   collation           = "Latin1_General_CI_AS"

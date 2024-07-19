@@ -3,16 +3,16 @@ variable "SUBSCRIPTION_ID" {
 }
 
 
-locals {
-  resource_name = "pokedex"
-  admin_username = "jamil"
-  admin_password = "Password01."
+locals { 
+  resource_name     = "pokedex"
+  admin_username    = "jamil"
+  admin_password    = "Password01."
   env_name = lower(terraform.workspace)
-  resource_group = "rg"
-  sql_db_name = "db"
-  sql_server_name = "sqlserver"
-  web_app = "web-app"
-  web_api = "web-api"
+  resource_group    = "rg"
+  sql_db_name       = "db"
+  mssql_server_name = "mssqlserver"
+  web_app           = "web-app"
+  web_api           = "web-api"
 
   tags = {
     SERVICE          = "TraineeProject"
