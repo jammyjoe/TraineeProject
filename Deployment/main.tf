@@ -19,14 +19,10 @@ resource "azurerm_mssql_server" "pokedex_mssqlserver" {
   version                      = "12.0"
 }
 
-resource "azurerm_sql_database" "pokedex_db" {
-  name                =  "${local.resource_name}-${local.env_name}-${local.sql_db_name}"
-  server_name         = azurerm_mssql_server.pokedex_mssqlserver.name
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
+resource "azurerm_mssql_database" "pokedex_db" {
+  name                =  "${local.resource_name}-${local.env_name}-${local.mssql_db_name}"
+  server_id           = azurerm_mssql_server.pokedex_mssqlserver.id
   collation           = "Latin1_General_CI_AS"
-  edition             = "Standard"
-  requested_service_objective_name = "S0"
 }
 
 resource "azurerm_service_plan" "appserviceplan" {
@@ -54,7 +50,7 @@ resource "azurerm_app_service" "pokedex_webapi" {
 
   app_settings = {
     #"AzureVault__Uri"                   = azurerm_key_vault.key_vault.vault_uri
-    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_sql_server.pokedex_sql_server.name}.database.windows.net;Database=${azurerm_sql_database.pokedex_db.name};User ID=sqladmin;Password=P@ssword1234;Encrypt=true;Connection Timeout=30;"
+    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_mssql_server.pokedex_mssql_server.name}.database.windows.net;Database=${azurerm_sql_database.pokedex_db.name};User ID=sqladmin;Password=P@ssword1234;Encrypt=true;Connection Timeout=30;"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"   = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"          = "1"
   }

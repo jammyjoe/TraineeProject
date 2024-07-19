@@ -9,7 +9,7 @@ locals {
   admin_password    = "Password01."
   env_name          = lower(terraform.workspace)
   resource_group    = "rg"
-  sql_db_name       = "db"
+  mssql_db_name       = "db"
   mssql_server_name = "mssqlserver"
   web_app           = "web-app"
   web_api           = "web-api"
