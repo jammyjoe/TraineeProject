@@ -15,8 +15,8 @@ if(!$?) { echo "Unable to select workspace"; throw "Workspace Error"}
 
 terraform validate
 if(!$?) { echo "Invalid terraform"; throw "Validation Error"}
-
-terraform plan -out "terraform.deployment.tfplan" | tee terraform_plan_output.txt
+ 
+terraform -destroy plan -out "terraform.deployment.tfplan" | tee terraform_plan_output.txt
 if(!$?) { echo "Terraform plan failed"; throw "Plan Error"}
 
 terraform apply "terraform.deployment.tfplan"
