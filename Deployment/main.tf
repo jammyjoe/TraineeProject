@@ -2,12 +2,12 @@
 resource "azurerm_resource_group" "resource_group" {
   name                            = "${local.resource_name}-${local.env_name}-${local.resource_group}"
   location                        = "UK South"
-#   tags = local.tags
-#   lifecycle {
-#     ignore_changes = [ 
-#       tags
-#      ]
-#   }
+  tags = local.tags
+  lifecycle {
+    ignore_changes = [ 
+      tags
+     ]
+  }
 }
 
 resource "azurerm_mssql_server" "pokedex_mssqlserver" {
@@ -30,8 +30,8 @@ resource "azurerm_service_plan" "appserviceplan" {
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   os_type             = "Windows"
-  sku_name            = "F1"
-  worker_count        = "2" ##Check out
+  sku_name            = "B1"
+  #worker_count        = "2" 
 
   tags = local.tags
 }
@@ -44,7 +44,6 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   https_only                    = false
   
   site_config { 
-    always_on = false
     application_stack {
       dotnet_version = "v8.0"
     }
