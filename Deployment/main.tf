@@ -45,7 +45,7 @@ resource "azurerm_app_service" "pokedex_webapi" {
   
   site_config { 
     always_on = true
-    dotnet_framework_version = "v8.0"
+    dotnet_framework_version = "8.0"
   }
 
   app_settings = {
@@ -56,11 +56,11 @@ resource "azurerm_app_service" "pokedex_webapi" {
   }
 }
 
-resource "azurerm_app_service" "pokedex_webapp" {
+resource "azurerm_windows_web_app" "pokedex_webapp" {
   name                          = "${local.resource_name}-${local.env_name}-${local.web_app}"
+  service_plan_id               = azurerm_service_plan.appserviceplan.id
   location                      = azurerm_resource_group.resource_group.location
   resource_group_name           = azurerm_resource_group.resource_group.name
-  app_service_plan_id           = azurerm_service_plan.appserviceplan.id
 
   site_config {
     app_command_line = "npm start"
