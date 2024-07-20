@@ -44,6 +44,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   https_only                    = false
   
   site_config { 
+    always_on = false
     application_stack {
       dotnet_version = "v8.0"
     }
