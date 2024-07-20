@@ -36,16 +36,18 @@ resource "azurerm_service_plan" "appserviceplan" {
   tags = local.tags
 }
 
-resource "azurerm_app_service" "pokedex_webapi" {
+resource "azurerm_windows_web_app" "pokedex_webapi" {
   name                          = "${local.resource_name}-${local.env_name}-${local.web_api}"
   location                      = azurerm_resource_group.resource_group.location
   resource_group_name           = azurerm_resource_group.resource_group.name
-  app_service_plan_id           = azurerm_service_plan.appserviceplan.id
+  service_plan_id               = azurerm_service_plan.appserviceplan.id            
   https_only                    = false
   
   site_config { 
     always_on = true
-    dotnet_framework_version = "8.0"
+    application_stack {
+      dotnet_version = "8.0"
+    }
   }
 
   app_settings = {
