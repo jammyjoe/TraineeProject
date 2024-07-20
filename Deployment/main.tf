@@ -70,7 +70,7 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
   
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = "1"
-    "API_URL"                  = "https://${azurerm_app_service.pokedex_webapi.default_site_hostname}"
+    "API_URL"                  = "https://${azurerm_windows_web_app.pokedex_webapi.default_site_hostname}"
 
   }
 }
