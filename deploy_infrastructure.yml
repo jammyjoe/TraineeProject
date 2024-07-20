@@ -12,3 +12,8 @@ steps:
     arguments: '-deploymentEnvironment ${{parameters.Environment}}'
   env:
     TF_VAR_SUBSCRIPTION_ID: $(SubscriptionId)
+    TF_VAR_CLIENT_ID: $(ClientId)
+    TF_VAR_TENANT_ID: $(TenantId)
+    TF_VAR_CLIENT_SECRET: $(ClientSecret)
+
+
