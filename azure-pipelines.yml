@@ -17,7 +17,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: BuildWebApi
+  - stage: BuildPokedexWebApi
     displayName: 'Check Web API Build'
     dependsOn: []
     jobs: 
@@ -29,7 +29,7 @@ stages:
           buildConfiguration: ${{variables.buildConfiguration}}
           apiProjectName: ${{variables.apiProjectName}}
 
-  - stage: BuildWebApp
+  - stage: BuildPokedexWebApp
     displayName: 'Check Web App Build'
     dependsOn: []
     jobs: 
@@ -52,7 +52,7 @@ stages:
     displayName: 'Deploy to Dev'
     dependsOn: [PublishArtifacts]
     jobs:
-      - job: DeployInfrastructur
+      - job: DeployInfrastructure
         variables:
           - group: PokedexDev
         displayName: 'Deploy Infrastructure'
@@ -60,3 +60,14 @@ stages:
         - template: deploy_infrastructure.yml
           parameters:
             Environment: $(Environment)
+      - job: DeployPokedexWebAPI
+        pool: 'ubuntu-latest'
+        displayName: 'Deploy Pokedex Web API'
+        dependsOn: [DeployInfrastructure]
+        steps:
+          - template: deploy_webapi.yml
+            parameters:
+              serviceConnectionName: "Visual Studio Enterprise Subscription"
+              solutionName: ${{variables.solutionName}}
+              apiProjectName: ${{variables.apiProjectName}}
+

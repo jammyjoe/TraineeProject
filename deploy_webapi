@@ -1,0 +1,41 @@
+parameters:
+  - name: solutionName
+    type: string
+  - name: apiProjectName
+    type: string
+  - name: serviceConnectionName
+    type: string
+
+steps:
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download App Package'
+  inputs:
+    artifact: ${{parameters.solutionName}}
+    path: $(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}
+
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish.zip' 
+    destinationFolder: $(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish
+
+- task: FileTransform@1
+  displayName: 'Apply Environment Specific Config'
+  inputs:
+    folderPath: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
+    enableXmlTransform: false
+    fileType: json
+    targetFiles: 'appsettings.json'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: ${{parameters.serviceConnectionName}}
+    appType: 'webApi'
+    appName: ${{parameters.apiProjectName}}
+    package: '$(Build.ArtifactStagingDirectory)/publish.zip'
