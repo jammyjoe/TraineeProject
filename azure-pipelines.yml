@@ -67,7 +67,7 @@ stages:
         steps:
           - template: deploy_webapi.yml
             parameters:
-              serviceConnectionName: "Azure Pipeline"
+              serviceConnectionName: "Azure Pipelines"
               solutionName: ${{variables.solutionName}}
               apiProjectName: ${{variables.apiProjectName}}
 

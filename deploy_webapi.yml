@@ -18,24 +18,40 @@ steps:
     archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish.zip' 
     destinationFolder: $(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish
 
-- task: FileTransform@1
-  displayName: 'Apply Environment Specific Config'
-  inputs:
-    folderPath: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
-    enableXmlTransform: false
-    fileType: json
-    targetFiles: 'appsettings.json'
+# - task: FileTransform@1
+#   displayName: 'Apply Environment Specific Config'
+#   inputs:
+#     folderPath: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
+#     enableXmlTransform: false
+#     fileType: json
+#     targetFiles: 'appsettings.json'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
+#     includeRootFolder: false
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
 
 - task: AzureWebApp@1
   inputs:
     azureSubscription: ${{parameters.serviceConnectionName}}
-    appType: 'webApi'
+    appType: 'webApp'
     appName: ${{parameters.apiProjectName}}
     package: '$(Build.ArtifactStagingDirectory)/publish.zip'
+
+
+          #     - task: DownloadPipelineArtifact@2
+          #   displayName: 'Download API Artifact'
+          #   inputs:
+          #     artifactName: 'drop'
+          #     targetPath: '$(Pipeline.Workspace)/drop'
+
+          # - task: AzureWebApp@1
+          #   displayName: 'Deploy Pokedex Web API to Azure'
+          #   inputs:
+          #     azureSubscription: 'Azure'
+          #     appType: 'webApp'
+          #     appName: 'your-app-service-name'
+          #     package: '$(Pipeline.Workspace)/drop/api.zip'
+          #     startUpCommand: ''
