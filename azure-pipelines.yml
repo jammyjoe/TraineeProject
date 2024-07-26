@@ -39,7 +39,7 @@ stages:
             
   - stage: PublishArtifacts
     displayName: 'Publish Artifacts'
-    dependsOn: [BuildWebApi, BuildWebApp]
+    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
     jobs:
       - job: 'Publish'
         steps:
