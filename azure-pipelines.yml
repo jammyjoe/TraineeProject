@@ -61,7 +61,7 @@ stages:
           parameters:
             Environment: $(Environment)
       - job: DeployPokedexWebAPI
-        pool: 'ubuntu-latest'
+        pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web API'
         dependsOn: [DeployInfrastructure]
         steps:
