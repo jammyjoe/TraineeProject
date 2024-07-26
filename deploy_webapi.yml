@@ -38,7 +38,7 @@ steps:
     azureSubscription: ${{parameters.serviceConnectionName}}
     appType: 'webApp'
     appName: ${{parameters.apiProjectName}}
-    package: '$(Build.ArtifactStagingDirectory)/publish.zip'
+    package: '$(Build.ArtifactStagingDirectory)/${{variables.solutionName}}/publish.zip'
 
 
           #     - task: DownloadPipelineArtifact@2
