@@ -67,7 +67,7 @@ stages:
         steps:
           - template: deploy_webapi.yml
             parameters:
-              serviceConnectionName: "Visual Studio Enterprise Subscription"
+              serviceConnectionName: "Azure Pipeline"
               solutionName: ${{variables.solutionName}}
               apiProjectName: ${{variables.apiProjectName}}
 
