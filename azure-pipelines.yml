@@ -67,7 +67,7 @@ stages:
         steps:
           - template: deploy_webapi.yml
             parameters:
-              serviceConnectionName: "Visual Studio Enterprise"
+              serviceConnectionName: "Visual Studio Enterprise Subscription"
               solutionName: ${{variables.solutionName}}
               apiProjectName: ${{variables.apiProjectName}}
 
