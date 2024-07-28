@@ -22,7 +22,7 @@ jobs:
         displayName: 'Build PokedexAPI'
         inputs:
           command: build
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
           arguments: '--configuration Release'
 
       - task: DotNetCoreCLI@2
@@ -31,7 +31,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
 
       # - task: DotNetCoreCLI@2
       #   displayName: 'Run Tests'
