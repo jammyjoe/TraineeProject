@@ -6,17 +6,17 @@ parameters:
   - name: serviceConnectionName
     type: string
 
-  - job: DeployPokedexWebAPI
-    pool: 'Azure Pipelines'
-    displayName: 'Deploy Pokedex Web API'
-    #dependsOn: [DeployInfrastructure]
-    steps:
-      - template: deploy_webapi.yml
-        parameters:
-          serviceConnectionName: "Pokedex Service Connection"
-          solutionName: ${{variables.solutionName}}
-          apiProjectName: ${{variables.apiProjectName}}
+steps:
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download App Package'
+  inputs:
+    artifact: ${{parameters.solutionName}}
+    path: $(Pipeline.Workspace)/${{parameters.solutionName}}
 
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish.zip' 
+    destinationFolder: $(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish
 
 # - task: FileTransform@1
 #   displayName: 'Apply Environment Specific Config'
