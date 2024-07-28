@@ -43,7 +43,7 @@ jobs:
       - task: CopyFiles@2
         displayName: 'Copy Artifact to Staging Folder'
         inputs:
-          SourceFolder: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}/dist
+          SourceFolder: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}
           Contents: '**/publish.zip'
           TargetFolder: $(Build.ArtifactStagingDirectory)/PokedexAPI
           CleanTargetFolder: true
