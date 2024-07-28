@@ -15,8 +15,8 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish.zip' 
-    destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
+    archiveFilePatterns: '$(Pipeline.Workspace)/${{parameters.solutionName}}/publish.zip' 
+    destinationFolder: '$(Pipeline.Workspace)/${{parameters.solutionName}}/publish'
 
 # - task: FileTransform@1
 #   displayName: 'Apply Environment Specific Config'
