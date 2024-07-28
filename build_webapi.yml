@@ -15,14 +15,14 @@ jobs:
         inputs: 
           commands: restore
           nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-          projects: $(Build.SourcesDirectory)/$(solutionName).sln
+          projects: $(Build.SourcesDirectory)/$(parameters.solutionName).sln
           feedsToUse: config
 
       - task: DotNetCoreCLI@2
         displayName: 'Build PokedexAPI'
         inputs:
           command: build
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName}}/${{parameters.apiProjectName}}.csproj'
           arguments: '--configuration Release'
 
       - task: DotNetCoreCLI@2
@@ -31,7 +31,7 @@ jobs:
           command: publish
           publishWebProjects: false
           arguments: '--configuration release'
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
+          projects: '$(Build.SourcesDirectory)/${{parameters.solutionName}}/${{parameters.apiProjectName}}.csproj'
 
       # - task: DotNetCoreCLI@2
       #   displayName: 'Run Tests'
@@ -39,3 +39,18 @@ jobs:
       #     command: test
       #     projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
       #     arguments: '--no-restore'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Artifact to Staging Folder'
+        inputs:
+          SourceFolder: $(Build.SourcesDirectory)/${{parameters.solutionName}}/${{parameters.apiProjectName}}/
+          Contents: '**/publish.zip'
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: ${{parameters.apiProjectName}}'
+        inputs:
+          ArtifactName: ${{parameters.apiProjectName}}
