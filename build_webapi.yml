@@ -53,4 +53,5 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: ${{parameters.apiProjectName}}'
         inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{parameters.apiProjectName}}
