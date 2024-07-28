@@ -50,7 +50,7 @@ jobs:
           OverWrite: true
           flattenFolders: true
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact Pokedex Web Api'
-        inputs:
-          ArtifactName: ${{parameters.apiProjectName}}
+      # - task: PublishBuildArtifacts@1
+      #   displayName: 'Publish Artifact Pokedex Web Api'
+      #   inputs:
+      #     ArtifactName: ${{parameters.apiProjectName}}
