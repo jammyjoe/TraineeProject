@@ -11,7 +11,7 @@ steps:
   displayName: 'Download App Package'
   inputs:
     artifact: '${{parameters.solutionName}}'
-    path: '$(Pipeline.Workspace)/${{parameters.solutionName}}'
+    path: '$(Pipeline.Workspace)'
 
 - task: ExtractFiles@1
   inputs:

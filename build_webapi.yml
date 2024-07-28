@@ -51,7 +51,7 @@ jobs:
           flattenFolders: true
 
       - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: ${{parameters.apiProjectName}}'
+        displayName: 'Publish Artifact Pokedex Web Api'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{parameters.apiProjectName}}
