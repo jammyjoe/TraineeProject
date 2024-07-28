@@ -45,7 +45,7 @@ stages:
         steps:
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)/'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish.zip'
               ArtifactName: '${{variables.solutionName}}'
 
   - stage: Dev
