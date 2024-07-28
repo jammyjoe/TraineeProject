@@ -11,12 +11,12 @@ steps:
   displayName: 'Download App Package'
   inputs:
     artifact: '${{parameters.solutionName}}'
-    path: '$(Pipeline.Workspace)'
+    path: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}'
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/${{parameters.solutionName}}/publish.zip' 
-    destinationFolder: '$(Pipeline.Workspace)/${{parameters.solutionName}}/publish'
+    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish.zip' 
+    destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
 
 # - task: FileTransform@1
 #   displayName: 'Apply Environment Specific Config'
