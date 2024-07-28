@@ -37,20 +37,20 @@ stages:
         parameters:
           appProjectName: ${{variables.appProjectName}}
             
-  # - stage: PublishArtifacts
-  #   displayName: 'Publish Artifacts'
-  #   dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
-  #   jobs:
-  #     - job: 'Publish'
-  #       steps:
-  #         - task: PublishBuildArtifacts@1
-  #           inputs:
-  #             PathtoPublish: '$(Build.ArtifactStagingDirectory)/'
-  #             ArtifactName: '${{variables.apiProjectName}}'
+  - stage: PublishArtifacts
+    displayName: 'Publish Artifacts'
+    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
+    jobs:
+      - job: 'Publish'
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/'
+              ArtifactName: '${{variables.apiProjectName}}'
 
   - stage: Dev
     displayName: 'Deploy to Dev'
-  # dependsOn: [PublishArtifacts]
+    dependsOn: [PublishArtifacts]
     jobs:
       # - job: DeployInfrastructure
       #   variables:
