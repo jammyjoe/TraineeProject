@@ -6,16 +6,16 @@ parameters:
   - name: serviceConnectionName
     type: string
 
-      - job: DeployPokedexWebAPI
-        pool: 'Azure Pipelines'
-        displayName: 'Deploy Pokedex Web API'
-        #dependsOn: [DeployInfrastructure]
-        steps:
-          - template: deploy_webapi.yml
-            parameters:
-              serviceConnectionName: "Pokedex Service Connection"
-              solutionName: ${{variables.solutionName}}
-              apiProjectName: ${{variables.apiProjectName}}
+  - job: DeployPokedexWebAPI
+    pool: 'Azure Pipelines'
+    displayName: 'Deploy Pokedex Web API'
+    #dependsOn: [DeployInfrastructure]
+    steps:
+      - template: deploy_webapi.yml
+        parameters:
+          serviceConnectionName: "Pokedex Service Connection"
+          solutionName: ${{variables.solutionName}}
+          apiProjectName: ${{variables.apiProjectName}}
 
 
 # - task: FileTransform@1
