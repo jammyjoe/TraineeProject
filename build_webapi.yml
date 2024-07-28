@@ -15,7 +15,7 @@ jobs:
         inputs: 
           commands: restore
           nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-          projects: $(Build.SourcesDirectory)/$(parameters.apiProjectName).sln
+          projects: $(Build.SourcesDirectory)/$(solutionName).sln
           feedsToUse: config
 
       - task: DotNetCoreCLI@2
