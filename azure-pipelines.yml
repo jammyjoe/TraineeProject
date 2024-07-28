@@ -29,13 +29,13 @@ stages:
           buildConfiguration: ${{variables.buildConfiguration}}
           apiProjectName: ${{variables.apiProjectName}}
 
-  - stage: BuildPokedexWebApp
-    displayName: 'Check Web App Build'
-    dependsOn: []
-    jobs: 
-      - template: build_webapp.yml
-        parameters:
-          appProjectName: ${{variables.appProjectName}}
+  # - stage: BuildPokedexWebApp
+  #   displayName: 'Check Web App Build'
+  #   dependsOn: []
+  #   jobs: 
+  #     - template: build_webapp.yml
+  #       parameters:
+  #         appProjectName: ${{variables.appProjectName}}
             
   - stage: PublishArtifacts
     displayName: 'Publish Artifacts'
@@ -46,7 +46,7 @@ stages:
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)/'
-              ArtifactName: '${{variables.solutionName}}'
+              ArtifactName: '${{variables.apiProjectName}}'
 
   - stage: Dev
     displayName: 'Deploy to Dev'
