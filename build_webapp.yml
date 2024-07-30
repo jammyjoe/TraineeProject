@@ -21,8 +21,8 @@ jobs:
         SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         Contents: '**'
         TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
-        CleanTargetFolder: true
-        OverWrite: true
+        #CleanTargetFolder: true
+        #OverWrite: true
         flattenFolders: true
 
 
