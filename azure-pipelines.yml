@@ -37,21 +37,21 @@ stages:
         parameters:
           appProjectName: ${{variables.appProjectName}}
             
-  - stage: PublishArtifacts
-    displayName: 'Publish Artifacts'
-    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
-    jobs:
-      - job: 'Publish'
-        steps:
-          - script: |
-              echo "Listing staged files:"
-              ls -R $(Build.ArtifactStagingDirectory)
+  # - stage: PublishArtifacts
+  #   displayName: 'Publish Artifacts'
+  #   dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
+  #   jobs:
+  #     - job: 'Publish'
+  #       steps:
+  #         - script: |
+  #             echo "Listing staged files:"
+  #             ls -R $(Build.ArtifactStagingDirectory)
         
-          - task: PublishBuildArtifacts@1
-            displayName: 'Published Combined Artifacts'
-            inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-              ArtifactName: '${{variables.solutionName}}'
+  #         - task: PublishBuildArtifacts@1
+  #           displayName: 'Published Combined Artifacts'
+  #           inputs:
+  #             PathtoPublish: '$(Build.ArtifactStagingDirectory)/${{parameters.solutionName}}'
+  #             ArtifactName: '${{variables.solutionName}}'
 
   - stage: Dev
     displayName: 'Deploy to Dev'
