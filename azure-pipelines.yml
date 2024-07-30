@@ -43,7 +43,12 @@ stages:
     jobs:
       - job: 'Publish'
         steps:
+          - script: |
+              echo "Listing staged files:"
+              ls -R $(Build.ArtifactStagingDirectory)
+        
           - task: PublishBuildArtifacts@1
+            displayName: 'Published Combined Artifacts'
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: '${{variables.solutionName}}'
