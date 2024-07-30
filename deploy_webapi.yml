@@ -28,7 +28,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
+    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.apiProjectName}}/publish'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
@@ -38,4 +38,4 @@ steps:
     azureSubscription: ${{parameters.serviceConnectionName}}
     appType: 'webApp'
     appName: ${{parameters.apiProjectName}}
-    package: '$(Build.ArtifactStagingDirectory)/${{variables.solutionName}}/publish.zip'
+    package: '$(Build.ArtifactStagingDirectory)/${{variables.apiProjectName}}/publish.zip'
