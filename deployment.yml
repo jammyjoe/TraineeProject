@@ -37,5 +37,5 @@ steps:
   inputs:
     azureSubscription: ${{parameters.serviceConnectionName}}
     appType: 'webApp'
-    appName: ${{parameters.ProjectName}}
+    appName: ${{parameters.appName}}
     package: '$(Build.ArtifactStagingDirectory)/${{variables.ProjectName}}/publish.zip'
