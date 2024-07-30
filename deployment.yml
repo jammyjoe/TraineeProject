@@ -5,6 +5,8 @@ parameters:
     type: string
   - name: serviceConnectionName
     type: string
+  - name: appName
+    type: string
 
 steps:
 - task: DownloadPipelineArtifact@2
