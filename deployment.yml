@@ -1,7 +1,7 @@
 parameters:
   - name: solutionName
     type: string
-  - name: apiProjectName
+  - name: ProjectName
     type: string
   - name: serviceConnectionName
     type: string
@@ -10,13 +10,13 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: 'Download App Package'
   inputs:
-    artifact: '${{parameters.apiProjectName}}'
-    path: '$(Pipeline.Workspace)/artifacts/${{parameters.apiProjectName}}'
+    artifact: '${{parameters.ProjectName}}'
+    path: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}'
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.apiProjectName}}/publish.zip' 
-    destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.apiProjectName}}/publish'
+    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish.zip' 
+    destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
 
 # - task: FileTransform@1
 #   displayName: 'Apply Environment Specific Config'
@@ -28,7 +28,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.apiProjectName}}/publish'
+    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
@@ -37,5 +37,5 @@ steps:
   inputs:
     azureSubscription: ${{parameters.serviceConnectionName}}
     appType: 'webApp'
-    appName: ${{parameters.apiProjectName}}
-    package: '$(Build.ArtifactStagingDirectory)/${{variables.apiProjectName}}/publish.zip'
+    appName: ${{parameters.ProjectName}}
+    package: '$(Build.ArtifactStagingDirectory)/${{variables.ProjectName}}/publish.zip'
