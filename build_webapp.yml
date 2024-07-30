@@ -29,4 +29,4 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact Pokedex Web App'
       inputs:
-        ArtifactName: ${{parameters.appProjectName}}
+        ArtifactName: ${{parameters.appName}}

@@ -75,6 +75,7 @@ stages:
               serviceConnectionName: "Pokedex Service Connection"
               solutionName: ${{variables.solutionName}}
               ProjectName: ${{variables.apiProjectName}}
+              appName: "pokedex-dev-web-api"
       - job: DeployPokedexWebApp
         pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web App'
@@ -85,4 +86,6 @@ stages:
               serviceConnectionName: "Pokedex Service Connection"
               solutionName: ${{variables.solutionName}}
               ProjectName: ${{variables.appProjectName}}
+              appName: "pokedex-dev-web-app"
+
 
