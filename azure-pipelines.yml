@@ -55,7 +55,7 @@ stages:
 
   - stage: Dev
     displayName: 'Deploy to Dev'
-    dependsOn: [PublishArtifacts]
+    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
     jobs:
       # - job: DeployInfrastructure
       #   variables:
