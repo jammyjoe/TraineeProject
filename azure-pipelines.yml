@@ -35,23 +35,7 @@ stages:
     jobs: 
       - template: build_webapp.yml
         parameters:
-          appProjectName: ${{variables.appProjectName}}
-            
-  # - stage: PublishArtifacts
-  #   displayName: 'Publish Artifacts'
-  #   dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp]
-  #   jobs:
-  #     - job: 'Publish'
-  #       steps:
-  #         - script: |
-  #             echo "Listing staged files:"
-  #             ls -R $(Build.ArtifactStagingDirectory)
-        
-  #         - task: PublishBuildArtifacts@1
-  #           displayName: 'Published Combined Artifacts'
-  #           inputs:
-  #             PathtoPublish: '$(Build.ArtifactStagingDirectory)/${{parameters.solutionName}}'
-  #             ArtifactName: '${{variables.solutionName}}'
+          appProjectName: ${{variables.appProjectName}}       
 
   - stage: Dev
     displayName: 'Deploy to Dev'

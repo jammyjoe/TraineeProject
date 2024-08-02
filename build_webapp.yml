@@ -21,8 +21,8 @@ jobs:
         SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         Contents: '**'
         TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
-        #CleanTargetFolder: true
-        #OverWrite: true
+        CleanTargetFolder: true
+        OverWrite: true
         flattenFolders: true
 
 
@@ -30,3 +30,6 @@ jobs:
       displayName: 'Publish Artifact Pokedex Web App'
       inputs:
         ArtifactName: ${{parameters.appProjectName}}
+        parallel: true
+        parallelCount: 2
+        targetPath: $(System.DefaultWorkingDirectory)/bin/${{parameters.appProjectName}}
