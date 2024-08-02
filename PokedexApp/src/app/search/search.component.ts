@@ -5,6 +5,7 @@ import { Pokemon } from '../shared/models/pokemon.model';
 import { PokemonService } from '../../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ export class SearchComponent {
   pokemonResult$!: Observable<Pokemon | null>;
   errorMessage: string = '';
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(private pokemonService: PokemonService, private router: Router) {}
 
   searchPokemon(): void {
     if (this.searchQuery.trim()) {
@@ -31,5 +32,8 @@ export class SearchComponent {
         })
       );
     }
+  }
+    editPokemon(id: number): void {
+    this.router.navigate(['/edit'], { queryParams: { id } });
   }
 }
