@@ -25,9 +25,16 @@ jobs:
         OverWrite: true
         flattenFolders: true
 
+    - task: ArchiveFiles@2
+      displayName: 'Archive App Artifact'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}.zip'
 
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact Pokedex Web App'
+      displayName: 'Publish Artifact: Web App'
       inputs:
         ArtifactName: ${{parameters.appProjectName}}
         parallel: true

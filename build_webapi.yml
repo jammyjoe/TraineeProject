@@ -51,7 +51,7 @@ jobs:
           flattenFolders: true
 
       - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact Pokedex Web Api'
+        displayName: 'Publish Artifact: Web Api'
         inputs:
           ArtifactName: ${{parameters.apiProjectName}}
           parallel: true
