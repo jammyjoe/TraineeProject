@@ -109,7 +109,7 @@ namespace Pokedex.Controllers
             if (pokemonUpdate == null)
                 return BadRequest("This Id is invalid");
 
-            if (!(await _pokemonRepository.PokemonExists(id)))
+            if (!await _pokemonRepository.PokemonExists(id))
                 return NotFound("This pokemon does not exist");
 
             if (!ModelState.IsValid)
@@ -117,7 +117,7 @@ namespace Pokedex.Controllers
 
             var pokemonMap = _mapper.Map<PokemonDto>(pokemonUpdate);
 
-            if (!(await _pokemonRepository.UpdatePokemon(id, pokemonMap)))
+            if (!await _pokemonRepository.UpdatePokemon(id, pokemonMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
