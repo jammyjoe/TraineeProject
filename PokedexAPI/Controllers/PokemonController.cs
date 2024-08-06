@@ -43,10 +43,27 @@ namespace Pokedex.Controllers
 
         public async Task<ActionResult<Pokemon>> GetPokemon(string name)
         {
-            if (!(await _pokemonRepository.PokemonExists(name)))
+            if (!await _pokemonRepository.PokemonExists(name))
                 return NotFound("This pokemon does not exist");
 
             var pokemon = _mapper.Map<PokemonDto>(await _pokemonRepository.GetPokemon(name));
+
+            if (!ModelState.IsValid)
+                return NoContent();
+
+            return Ok(pokemon);
+        }
+        
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+
+        public async Task<ActionResult<Pokemon>> GetPokemon(int id)
+        {
+            if (!await _pokemonRepository.PokemonExists(id))
+                return NotFound("This pokemon does not exist");
+
+            var pokemon = _mapper.Map<PokemonDto>(await _pokemonRepository.GetPokemon(id));
 
             if (!ModelState.IsValid)
                 return NoContent();
