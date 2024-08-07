@@ -37,6 +37,11 @@ export class PokemonService {
     );
   }
 
+  getPokemonById(id: number): Observable<Pokemon> {
+    return this.http.get<Pokemon>(`${this.apiUrl}/${id}`).pipe
+    (catchError(this.handleHttpError));
+  }
+
   addPokemon(pokemon: Pokemon): Observable<Pokemon> {
     return this.http.post<Pokemon>(this.apiUrl, pokemon).pipe(
       catchError(this.handleHttpError)
@@ -48,5 +53,11 @@ export class PokemonService {
       catchError(this.handleHttpError)
     );
   }
+
+  updatePokemon(pokemonId: number, pokemon: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${pokemonId}`, pokemon).pipe
+    (catchError(this.handleHttpError));
+  }
+
 }
 

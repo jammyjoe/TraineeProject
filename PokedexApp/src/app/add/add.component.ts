@@ -56,7 +56,7 @@ pokemons: any;
         this.pokemonStrengths.push(this.fb.group({
           type: selectedType
         }));
-        //selectElement.selectedIndex = 0; // Reset the select element
+        selectElement.selectedIndex = 0; // Reset the select element
       }
     }
   }

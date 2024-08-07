@@ -33,7 +33,7 @@ export class SearchComponent {
       );
     }
   }
-    editPokemon(id: number): void {
-    this.router.navigate(['/edit'], { queryParams: { id } });
+  editPokemon(id: number): void {
+    this.router.navigate(['/edit', id]);
   }
 }
