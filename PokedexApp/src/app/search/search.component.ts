@@ -42,9 +42,8 @@ export class SearchComponent {
     if (confirm('Are you sure you want to delete this Pokémon?')) {
       this.pokemonService.deletePokemon(pokemonId).subscribe(
         () => {
-          this.successMessage = 'Successfully deleted Pokémon.';
+          alert('Pokemon successfully deleted!'); 
           this.router.navigate(['/']); 
-          setTimeout(() => this.successMessage = '', 3000); 
         },
         error => {
           console.error('Error deleting Pokémon', error);

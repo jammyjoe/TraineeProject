@@ -81,9 +81,15 @@ namespace Pokedex.Controllers
             {
                 return BadRequest("This Id is invalid");
             }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (!await _pokemonRepository.ValidateDistinctTypes(pokemonCreate))
+            {
+                return BadRequest("Type 1 and Type 2 can not be the same");
             }
 
             try

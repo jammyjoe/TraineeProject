@@ -111,7 +111,11 @@ pokemons: any;
           this.router.navigate(['/']);
         },
         error => {
-          console.error('Error adding Pokemon:', error);
+          if (error.status === 400) {
+            alert(error.error.Message);
+          } else {
+            console.error('Error updating Pokemon:', error);
+          }
         }
       );
     } else {

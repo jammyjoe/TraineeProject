@@ -251,7 +251,12 @@ namespace Pokedex.Repository
             }
         }
 
+        public Task<bool> ValidateDistinctTypes(PokemonDto pokemonDto)
+        {
+            bool areTypesDistinct = pokemonDto.Type1.TypeName != pokemonDto.Type2.TypeName;
 
+            return Task.FromResult(areTypesDistinct);
+        }
 
         public async Task<bool> PokemonExists(int id)
         {
