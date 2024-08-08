@@ -59,5 +59,10 @@ export class PokemonService {
     (catchError(this.handleHttpError));
   }
 
+  deletePokemon(pokemonId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${pokemonId}`).pipe
+      (catchError(this.handleHttpError));
+  }
+
 }
 

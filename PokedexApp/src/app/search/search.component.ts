@@ -18,6 +18,7 @@ export class SearchComponent {
   searchQuery: string = '';
   pokemonResult$!: Observable<Pokemon | null>;
   errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(private pokemonService: PokemonService, private router: Router) {}
 
@@ -36,4 +37,21 @@ export class SearchComponent {
   editPokemon(id: number): void {
     this.router.navigate(['/edit', id]);
   }
+
+  deletePokemon(pokemonId: number): void {
+    if (confirm('Are you sure you want to delete this Pokémon?')) {
+      this.pokemonService.deletePokemon(pokemonId).subscribe(
+        () => {
+          this.successMessage = 'Successfully deleted Pokémon.';
+          this.searchPokemon(); // Reload the search results
+          setTimeout(() => this.successMessage = '', 3000); // Hide the success message after 3 seconds
+        },
+        error => {
+          console.error('Error deleting Pokémon', error);
+          alert('There was an error deleting the Pokémon. Please try again later.');
+        }
+      );
+    }
+  }
 }
+

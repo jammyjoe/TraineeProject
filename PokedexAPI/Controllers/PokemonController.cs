@@ -146,5 +146,26 @@ namespace Pokedex.Controllers
             }
             return NoContent();
         }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Pokemon>> DeletePokemon(int id)
+        {
+            if (!(await _pokemonRepository.PokemonExists(id)))
+                return NotFound("This pokemon does not exist");
+
+            var pokemonToDelete = (await _pokemonRepository.GetPokemon(id));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!(await _pokemonRepository.DeletePokemon(pokemonToDelete)))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting pokemon");
+            }
+            return NoContent();
+        }
     }
 }
