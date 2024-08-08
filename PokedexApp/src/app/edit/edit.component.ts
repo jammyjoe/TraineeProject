@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { CommonModule } from '@angular/common';
@@ -23,7 +21,8 @@ export class EditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private pokemonService: PokemonService
+    private pokemonService: PokemonService,
+    private router: Router
   ) {
     this.editPokemonForm = this.fb.group({
       name: ['', Validators.required],
@@ -135,13 +134,16 @@ export class EditComponent implements OnInit {
           type: { typeName: strength.type.typeName }
         }))
       };
-  
+
       this.pokemonService.updatePokemon(pokemonDto.id, pokemonDto).subscribe(
         response => {
           console.log('Pokemon updated successfully:', response);
+          alert('Pokemon updated successfully!'); 
+          this.router.navigate(['/']);  
         },
         error => {
           console.error('Error updating Pokemon:', error);
+          alert('There was an error updating the Pokémon. Please try again later.');
         }
       );
     } else {

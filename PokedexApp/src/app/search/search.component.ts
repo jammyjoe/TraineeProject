@@ -43,8 +43,8 @@ export class SearchComponent {
       this.pokemonService.deletePokemon(pokemonId).subscribe(
         () => {
           this.successMessage = 'Successfully deleted Pokémon.';
-          this.searchPokemon(); // Reload the search results
-          setTimeout(() => this.successMessage = '', 3000); // Hide the success message after 3 seconds
+          this.router.navigate(['/']); 
+          setTimeout(() => this.successMessage = '', 3000); 
         },
         error => {
           console.error('Error deleting Pokémon', error);

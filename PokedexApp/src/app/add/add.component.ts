@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +19,9 @@ export class AddComponent implements OnInit {
   successMessage: string = '';
 pokemons: any;
 
-  constructor(private fb: FormBuilder, private pokemonService: PokemonService) {
+  constructor(private fb: FormBuilder,
+    private pokemonService: PokemonService,
+    private router : Router) {
     this.addPokemonForm = this.fb.group({
       name: ['', Validators.required],
       type1: ['', Validators.required],
@@ -56,7 +59,7 @@ pokemons: any;
         this.pokemonStrengths.push(this.fb.group({
           type: selectedType
         }));
-        selectElement.selectedIndex = 0; // Reset the select element
+        selectElement.selectedIndex = 0;
       }
     }
   }
@@ -102,12 +105,10 @@ pokemons: any;
       this.pokemonService.addPokemon(pokemon).subscribe(
         response => {
           console.log('Pokemon added successfully:', response);
+          alert('Pokemon added successfully!');  
           this.addPokemonForm.reset();
           this.successMessage = 'Pokemon successfully saved.';
-          this.addPokemonForm.patchValue({
-            strengths: [],
-            weaknesses: []
-          });
+          this.router.navigate(['/']);
         },
         error => {
           console.error('Error adding Pokemon:', error);
