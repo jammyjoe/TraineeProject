@@ -143,7 +143,6 @@ export class EditComponent implements OnInit {
         },
         error => {
           console.error('Error updating Pokemon:', error);
-          alert('There was an error updating the Pokémon. Please try again later.');
         }
       );
     } else {
