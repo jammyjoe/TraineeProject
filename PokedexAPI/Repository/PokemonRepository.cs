@@ -172,6 +172,9 @@ namespace Pokedex.Repository
             }
             catch (DbUpdateException ex)
             {
+                var exceptionMessage = ex.Message;
+                var stackTrace = ex.StackTrace;
+                var innerException = ex.InnerException?.Message;
                 return false;
             }
         }
@@ -241,6 +244,9 @@ namespace Pokedex.Repository
             }
             catch (DbUpdateException ex)
             {
+                var exceptionMessage = ex.Message;
+                var stackTrace = ex.StackTrace;
+                var innerException = ex.InnerException?.Message;
                 return false;
             }
         }
@@ -252,7 +258,7 @@ namespace Pokedex.Repository
             return Task.FromResult(areTypesDistinct);
         }
 
-        public async Task<bool> AreStrengthsAndWeaknessesDistinct(PokemonDto pokemonDto)
+        public Task<bool> AreStrengthsAndWeaknessesDistinct(PokemonDto pokemonDto)
         {
             var strengthTypes = pokemonDto.PokemonStrengths.Select(s => s.Type.TypeName).ToList();
             bool hasDuplicateStrengths = strengthTypes.Count != strengthTypes.Distinct().Count();
@@ -260,8 +266,11 @@ namespace Pokedex.Repository
             var weaknessTypes = pokemonDto.PokemonWeaknesses.Select(w => w.Type.TypeName).ToList();
             bool hasDuplicateWeaknesses = weaknessTypes.Count != weaknessTypes.Distinct().Count();
 
-            return !hasDuplicateStrengths && !hasDuplicateWeaknesses;
+            bool result = !hasDuplicateStrengths && !hasDuplicateWeaknesses;
+
+            return Task.FromResult(result);
         }
+
 
         public async Task<bool> PokemonTypeExists(string typeName)
         {
