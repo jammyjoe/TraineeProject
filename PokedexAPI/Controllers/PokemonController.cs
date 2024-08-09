@@ -87,6 +87,11 @@ namespace Pokedex.Controllers
                 return BadRequest(ModelState);
             }
 
+            if(await _pokemonRepository.PokemonExists(pokemonCreate.Name))
+            {
+                return BadRequest("This pokemon already exists");
+            }
+
             if (!await _pokemonRepository.ValidateDistinctTypes(pokemonCreate))
             {
                 return BadRequest("Type 1 and Type 2 can not be the same");
@@ -125,6 +130,16 @@ namespace Pokedex.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (!await _pokemonRepository.ValidateDistinctTypes(pokemonUpdate))
+            {
+                return BadRequest("Type 1 and Type 2 can not be the same");
+            }
+
+            if (!await _pokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonUpdate))
+            {
+                return BadRequest("Strengths and weaknesses cannot have duplicate types.");
+            }
 
             var pokemonMap = _mapper.Map<PokemonDto>(pokemonUpdate);
 

@@ -135,12 +135,6 @@ namespace Pokedex.Repository
             return pokemon;
         }
 
-
-        public async Task<bool> PokemonTypeExists(string typeName)
-        {
-            return await _context.PokemonTypes.AnyAsync(pt => pt.TypeName == typeName);
-        }
-
         public async Task<bool> DeletePokemon(Pokemon pokemon)
         {
             _context.Remove(pokemon);
@@ -253,7 +247,7 @@ namespace Pokedex.Repository
 
         public Task<bool> ValidateDistinctTypes(PokemonDto pokemonDto)
         {
-            bool areTypesDistinct = pokemonDto.Type1.TypeName != pokemonDto.Type2.TypeName;
+            bool areTypesDistinct = pokemonDto.Type2 == null || pokemonDto.Type1.TypeName != pokemonDto.Type2.TypeName;
 
             return Task.FromResult(areTypesDistinct);
         }
@@ -269,8 +263,10 @@ namespace Pokedex.Repository
             return !hasDuplicateStrengths && !hasDuplicateWeaknesses;
         }
 
-
-
+        public async Task<bool> PokemonTypeExists(string typeName)
+        {
+            return await _context.PokemonTypes.AnyAsync(pt => pt.TypeName == typeName);
+        }
 
         public async Task<bool> PokemonExists(int id)
         {
