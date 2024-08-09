@@ -258,6 +258,20 @@ namespace Pokedex.Repository
             return Task.FromResult(areTypesDistinct);
         }
 
+        public async Task<bool> AreStrengthsAndWeaknessesDistinct(PokemonDto pokemonDto)
+        {
+            var strengthTypes = pokemonDto.PokemonStrengths.Select(s => s.Type.TypeName).ToList();
+            bool hasDuplicateStrengths = strengthTypes.Count != strengthTypes.Distinct().Count();
+
+            var weaknessTypes = pokemonDto.PokemonWeaknesses.Select(w => w.Type.TypeName).ToList();
+            bool hasDuplicateWeaknesses = weaknessTypes.Count != weaknessTypes.Distinct().Count();
+
+            return !hasDuplicateStrengths && !hasDuplicateWeaknesses;
+        }
+
+
+
+
         public async Task<bool> PokemonExists(int id)
         {
             return await _context.Pokemons.AnyAsync(p => p.Id == id);

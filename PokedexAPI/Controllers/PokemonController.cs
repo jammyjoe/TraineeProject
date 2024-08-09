@@ -92,6 +92,11 @@ namespace Pokedex.Controllers
                 return BadRequest("Type 1 and Type 2 can not be the same");
             }
 
+            if (!await _pokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonCreate))
+            {
+                return BadRequest("Strengths and weaknesses cannot have duplicate types.");
+            }
+
             try
             {
                 var createdPokemon = await _pokemonRepository.CreatePokemon(pokemonCreate);

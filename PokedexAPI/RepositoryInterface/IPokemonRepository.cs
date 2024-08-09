@@ -17,6 +17,7 @@ namespace Pokedex.RepositoryInterface
         Task<bool> PokemonExists(int id);
         Task<bool> PokemonExists(string name);
         Task<bool> ValidateDistinctTypes(PokemonDto pokemonDto);
+        Task<bool> AreStrengthsAndWeaknessesDistinct(PokemonDto pokemonDto);
         Task<bool> DeletePokemon(Pokemon pokemon);
         Task<bool> SavePokemon();
     }
