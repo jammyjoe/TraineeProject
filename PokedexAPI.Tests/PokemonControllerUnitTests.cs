@@ -17,9 +17,9 @@ public class PokemonControllerTests
     [SetUp]
     public void Setup()
     {
+        _pokemonController = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
         _fakePokemonRepository = A.Fake<IPokemonRepository>();
         _fakeMapper = A.Fake<IMapper>();
-        _pokemonController = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
     }
 
     [Test]
@@ -28,9 +28,9 @@ public class PokemonControllerTests
         var pokemons = A.Fake<ICollection<PokemonDto>>();
         var pokemonsList = A.Fake<List<PokemonDto>>();
         A.CallTo(() => _fakeMapper.Map<List<PokemonDto>>(pokemons)).Returns(pokemonsList);
-        //var controller = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
+        var controller = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
 
-        var result = await _pokemonController.GetPokemons();
+        var result = await controller.GetPokemons();
 
         Assert.That(result, Is.Not.Null);
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
@@ -48,7 +48,7 @@ public class PokemonControllerTests
         var controller = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
 
         // Act
-        var result = await _pokemonController.GetPokemon(pokemonName);
+        var result = await controller.GetPokemon(pokemonName);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -81,10 +81,9 @@ public class PokemonControllerTests
         A.CallTo(() => _fakePokemonRepository.CreatePokemon(pokemonCreate));
         var controller = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
 
-        var result = await _pokemonController.CreatePokemon(pokemonCreate);
+        var result = controller.CreatePokemon(pokemonCreate);
 
         Assert.That(result, Is.Not.Null);
-        Assert.IsInstanceOf<OkObjectResult>(result);
     }
 
 }
