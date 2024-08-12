@@ -82,11 +82,6 @@ namespace Pokedex.Controllers
                 return BadRequest("This Id is invalid");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if(await _pokemonRepository.PokemonExists(pokemonCreate.Name))
             {
                 return BadRequest("This pokemon already exists");
@@ -100,6 +95,12 @@ namespace Pokedex.Controllers
             if (!await _pokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonCreate))
             {
                 return BadRequest("Strengths and weaknesses cannot have duplicate types.");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             try
@@ -128,9 +129,6 @@ namespace Pokedex.Controllers
             if (!await _pokemonRepository.PokemonExists(id))
                 return NotFound("This pokemon does not exist");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             if (!await _pokemonRepository.ValidateDistinctTypes(pokemonUpdate))
             {
                 return BadRequest("Type 1 and Type 2 can not be the same");
@@ -140,6 +138,9 @@ namespace Pokedex.Controllers
             {
                 return BadRequest("Strengths and weaknesses cannot have duplicate types.");
             }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var pokemonMap = _mapper.Map<PokemonDto>(pokemonUpdate);
 

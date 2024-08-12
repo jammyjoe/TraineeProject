@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using PokedexAPI.DTOs;
-using PokedexAPI.Models;
 
 namespace Pokedex.DTOs
 {
     public record PokemonDto
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public PokemonTypeDto Type1 { get; set; }
         public PokemonTypeDto Type2 { get; set; }
         public ICollection<PokemonWeaknessDto> PokemonWeaknesses { get; set; }
