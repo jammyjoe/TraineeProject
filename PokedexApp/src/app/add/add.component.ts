@@ -23,7 +23,7 @@ pokemons: any;
     private pokemonService: PokemonService,
     private router : Router) {
     this.addPokemonForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
       type1: ['', Validators.required],
       type2: [''],
       pokemonStrengths: this.fb.array([]),
@@ -119,6 +119,7 @@ pokemons: any;
         }
       );
     } else {
+      alert("This form is invalid");
       console.error('Form is invalid. Cannot submit.');
     }
   }

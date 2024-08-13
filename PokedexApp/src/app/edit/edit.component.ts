@@ -25,9 +25,9 @@ export class EditComponent implements OnInit {
     private router: Router
   ) {
     this.editPokemonForm = this.fb.group({
-      name: ['', Validators.required],
-      type1: ['', Validators.required],
-      type2: [''],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      type1: [null, Validators.required],
+      type2: [null, Validators.required],
       pokemonStrengths: this.fb.array([]),
       pokemonWeaknesses: this.fb.array([])
     });

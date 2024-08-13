@@ -6,9 +6,10 @@ namespace Pokedex.DTOs
     public record PokemonDto
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Name is required.")]
+        [MaxLength(50, ErrorMessage = "Name cannot be longer than 50 characters.")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Type1 is required.")]
         public PokemonTypeDto Type1 { get; set; }
         public PokemonTypeDto Type2 { get; set; }
         public ICollection<PokemonWeaknessDto> PokemonWeaknesses { get; set; }

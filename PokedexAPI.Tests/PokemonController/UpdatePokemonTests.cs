@@ -39,7 +39,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Should().BeOfType<NoContentResult>();
+        result.Result.Should().BeOfType<NoContentResult>();
     }
 
     [Test]
@@ -49,7 +49,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, null);
 
         // Assert
-        result.Should().BeOfType<BadRequestObjectResult>().Which
+        result.Result.Should().BeOfType<BadRequestObjectResult>().Which
             .Value.Should().Be("This Id is invalid");
     }
 
@@ -64,7 +64,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Should().BeOfType<NotFoundObjectResult>().Which
+        result.Result.Should().BeOfType<NotFoundObjectResult>().Which
             .Value.Should().Be("This pokemon does not exist");
     }
 
@@ -79,7 +79,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Should().BeOfType<BadRequestObjectResult>().Which
+        result.Result.Should().BeOfType<BadRequestObjectResult>().Which
             .Value.Should().Be(_fakePokemonController.ModelState);
     }
 
@@ -95,7 +95,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Should().BeOfType<BadRequestObjectResult>().Which
+        result.Result.Should().BeOfType<BadRequestObjectResult>().Which
             .Value.Should().Be("Type 1 and Type 2 can not be the same");
     }
 
@@ -112,7 +112,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Should().BeOfType<BadRequestObjectResult>().Which
+        result.Result.Should().BeOfType<BadRequestObjectResult>().Which
             .Value.Should().Be("Strengths and weaknesses cannot have duplicate types.");
     }
 
@@ -130,7 +130,7 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Should().BeOfType<ObjectResult>().Which.StatusCode.Should().Be(500);
+        result.Result.Should().BeOfType<ObjectResult>().Which.StatusCode.Should().Be(500);
         ((ObjectResult)result.Result).Value.Should().BeEquivalentTo(_fakePokemonController.ModelState);
     }
 

@@ -76,12 +76,6 @@ namespace Pokedex.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<PokemonDto>> CreatePokemon([FromBody] PokemonDto pokemonCreate)
         {
-
-            if (pokemonCreate == null)
-            {
-                return BadRequest("This Id is invalid");
-            }
-
             if(await _pokemonRepository.PokemonExists(pokemonCreate.Name))
             {
                 return BadRequest("This pokemon already exists");
@@ -96,7 +90,6 @@ namespace Pokedex.Controllers
             {
                 return BadRequest("Strengths and weaknesses cannot have duplicate types.");
             }
-
 
             if (!ModelState.IsValid)
             {
