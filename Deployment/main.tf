@@ -23,15 +23,17 @@ resource "azurerm_mssql_database" "pokedex_db" {
   name                =  "${local.resource_name}-${local.env_name}-${local.mssql_db_name}"
   server_id           = azurerm_mssql_server.pokedex_mssqlserver.id
   collation           = "Latin1_General_CI_AS"
-}
+  sku_name            = "Basic" 
+  max_size_gb         = 2
+  }
 
 resource "azurerm_service_plan" "appserviceplan" {
   name                = "${local.resource_name}-${local.env_name}-asp"
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   os_type             = "Windows"
-  sku_name            = "B1"
-  #worker_count        = "2" 
+  sku_name            = "F1"
+  worker_count        = "1" 
 
   tags = local.tags
 }
