@@ -62,6 +62,4 @@ jobs:
         displayName: 'Publish Artifact: Web Api'
         inputs:
           ArtifactName: ${{parameters.apiProjectName}}
-          parallel: true
-          parallelCount: 2
           targetPath: $(System.DefaultWorkingDirectory)/bin/${{parameters.apiProjectName}}

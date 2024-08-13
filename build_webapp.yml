@@ -20,7 +20,7 @@ jobs:
       inputs:
         SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         Contents: '**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
+        TargetFolder: $(Build.ArtifactStagingDirectory)
         CleanTargetFolder: true
         OverWrite: true
         flattenFolders: true
@@ -37,6 +37,4 @@ jobs:
       displayName: 'Publish Artifact: Web App'
       inputs:
         ArtifactName: ${{parameters.appProjectName}}
-        parallel: true
-        parallelCount: 2
         targetPath: $(System.DefaultWorkingDirectory)/bin/${{parameters.appProjectName}}
