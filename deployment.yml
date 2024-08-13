@@ -21,21 +21,12 @@ steps:
     destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
   condition: succeeded()
 
-
-# - task: FileTransform@1
-#   displayName: 'Apply Environment Specific Config'
+# - task: ArchiveFiles@2
 #   inputs:
-#     folderPath: '$(Pipeline.Workspace)/artifacts/${{parameters.solutionName}}/publish'
-#     enableXmlTransform: false
-#     fileType: json
-#     targetFiles: 'appsettings.json'
-
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
+#     rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+#     includeRootFolder: false
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
 
 - task: AzureWebApp@1
   inputs:
