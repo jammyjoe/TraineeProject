@@ -19,6 +19,8 @@ steps:
   inputs:
     archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish.zip' 
     destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+  condition: succeeded()
+
 
 # - task: FileTransform@1
 #   displayName: 'Apply Environment Specific Config'

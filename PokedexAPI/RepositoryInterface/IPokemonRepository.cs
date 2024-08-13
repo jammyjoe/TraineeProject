@@ -11,14 +11,14 @@ namespace Pokedex.RepositoryInterface
         Task<Pokemon> GetPokemon(int id);
         Task<Pokemon> GetPokemon(string name);
         Task<Pokemon> CreatePokemon(PokemonDto pokemon);
-        Task<bool> PokemonTypeExists(string typeName);
         Task<bool> UpdatePokemon(int id, PokemonDto updatedPokemonDto);
         Task<bool> UpdateType(PokemonDto updatePokemonDto, Pokemon existingPokemon);
-        Task<bool> PokemonExists(int id);
-        Task<bool> PokemonExists(string name);
-        Task<bool> ValidateDistinctTypes(PokemonDto pokemonDto);
-        Task<bool> AreStrengthsAndWeaknessesDistinct(PokemonDto pokemonDto);
         Task<bool> DeletePokemon(Pokemon pokemon);
         Task<bool> SavePokemon();
+        Task<bool> PokemonExists(int id);
+        Task<bool> PokemonExists(string name);
+        Task<bool> PokemonTypeExists(string typeName);
+        Task<bool> ValidateDistinctTypes(PokemonDto pokemonDto);
+        Task<bool> AreStrengthsAndWeaknessesDistinct(PokemonDto pokemonDto);
     }
 }
