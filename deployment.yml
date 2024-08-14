@@ -25,11 +25,11 @@ steps:
 #     rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
 #     includeRootFolder: false
 #     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
+#     archiveFile: '$(Pipeline.Workspace)/${{parameters.ProjectName}}/publish.zip'
 
 - task: AzureWebApp@1
   inputs:
     azureSubscription: ${{parameters.serviceConnectionName}}
     appType: 'webApp'
     appName: ${{parameters.appName}}
-    package: '$(Build.ArtifactStagingDirectory)/${{parameters.ProjectName}}/publish.zip'
+    package: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
