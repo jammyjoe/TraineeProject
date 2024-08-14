@@ -13,17 +13,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: BuildPokedexWebApi
-    displayName: 'Check Web API Build'
-    dependsOn: []
-    jobs: 
-      - template: build_webapi.yml
-        parameters:
-          solution: ${{variables.solution}}
-          solutionName: ${{variables.solutionName}}
-          buildPlatform: ${{variables.buildPlatform}}
-          buildConfiguration: ${{variables.buildConfiguration}}
-          apiProjectName: ${{variables.apiProjectName}}
+  # - stage: BuildPokedexWebApi
+  #   displayName: 'Check Web API Build'
+  #   dependsOn: []
+  #   jobs: 
+  #     - template: build_webapi.yml
+  #       parameters:
+  #         solution: ${{variables.solution}}
+  #         solutionName: ${{variables.solutionName}}
+  #         buildPlatform: ${{variables.buildPlatform}}
+  #         buildConfiguration: ${{variables.buildConfiguration}}
+  #         apiProjectName: ${{variables.apiProjectName}}
 
   - stage: BuildPokedexWebApp
     displayName: 'Check Web App Build'
@@ -37,25 +37,25 @@ stages:
     displayName: 'Deploy to Dev'
     dependsOn: [BuildPokedexWebApi]
     jobs:
-      # - job: DeployInfrastructure
-      #   variables:
-      #     - group: PokedexDev
-      #   displayName: 'Deploy Infrastructure'
-      #   steps:
-      #   - template: deploy_infrastructure.yml
-      #     parameters:
-      #       Environment: $(Environment)
-      - job: DeployPokedexWebAPI
-        pool: 'Azure Pipelines'
-        displayName: 'Deploy Pokedex Web API'
-        #dependsOn: [DeployInfrastructure]
+      - job: DeployInfrastructure
+        variables:
+          - group: PokedexDev
+        displayName: 'Deploy Infrastructure'
         steps:
-          - template: deployment.yml
-            parameters:
-              serviceConnectionName: "Pokedex Service Connection"
-              solutionName: ${{variables.solutionName}}
-              ProjectName: ${{variables.apiProjectName}}
-              appName: "pokedex-dev-web-api"
+        - template: deploy_infrastructure.yml
+          parameters:
+            Environment: $(Environment)
+      # - job: DeployPokedexWebAPI
+      #   pool: 'Azure Pipelines'
+      #   displayName: 'Deploy Pokedex Web API'
+      #   #dependsOn: [DeployInfrastructure]
+      #   steps:
+      #     - template: deployment.yml
+      #       parameters:
+      #         serviceConnectionName: "Pokedex Service Connection"
+      #         solutionName: ${{variables.solutionName}}
+      #         ProjectName: ${{variables.apiProjectName}}
+      #         appName: "pokedex-dev-web-api"
       - job: DeployPokedexWebApp
         pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web App'
