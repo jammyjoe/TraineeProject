@@ -13,11 +13,11 @@ steps:
   displayName: 'Download App Package'
   inputs:
     artifact: '${{parameters.ProjectName}}'
-    path: '$(Pipeline.Workspace))/artifacts/${{parameters.ProjectName}}'
+    path: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}'
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}' 
+    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/${{parameters.ProjectName}}.zip'
     destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
 
 # - task: ArchiveFiles@2
