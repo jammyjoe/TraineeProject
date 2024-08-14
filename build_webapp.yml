@@ -20,9 +20,9 @@ jobs:
       inputs:
         SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         Contents: '**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
-        CleanTargetFolder: true
-        OverWrite: true
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+        # CleanTargetFolder: true
+        # OverWrite: true
         flattenFolders: true
 
     - task: ArchiveFiles@2
@@ -37,4 +37,4 @@ jobs:
       displayName: 'Publish Artifact: Web App'
       inputs:
         ArtifactName: ${{parameters.appProjectName}}
-        targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}/${{parameters.appProjectName}}.zip'
+        targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}.zip'
