@@ -62,4 +62,4 @@ jobs:
         displayName: 'Publish Artifact: Web Api'
         inputs:
           ArtifactName: ${{parameters.apiProjectName}}
-          targetPath: '$(System.DefaultWorkingDirectory)/bin/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.zip'
+          targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}.zip'
