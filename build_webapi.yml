@@ -45,7 +45,7 @@ jobs:
         inputs:
           SourceFolder: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}
           Contents: '**'
-          TargetFolder: $(Build.ArtifactStagingDirectory)
+          TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}
           CleanTargetFolder: true
           OverWrite: true
           flattenFolders: true
@@ -56,10 +56,10 @@ jobs:
           rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}'
           includeRootFolder: false
           archiveType: 'zip'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}.zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}/${{parameters.apiProjectName}}.zip'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: Web Api'
         inputs:
           ArtifactName: ${{parameters.apiProjectName}}
-          targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}.zip'
+          targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.zip'
