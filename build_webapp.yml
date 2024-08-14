@@ -31,10 +31,10 @@ jobs:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: Web App'
       inputs:
         ArtifactName: ${{parameters.appProjectName}}
-        targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}.zip'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
