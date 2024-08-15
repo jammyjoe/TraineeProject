@@ -8,17 +8,18 @@ terraform {
 
   backend "azurerm" {
     resource_group_name   = "spokeconnect-rg"
-    storage_account_name  = "pokedexdevsa"
+    storage_account_name  = "tfstate-sa"
     container_name        = "tfstate"
     key                   = "terraform.tfstate"
   }
 }
 
 provider "azurerm" {
-    subscription_id = var.SUBSCRIPTION_ID
-    client_id       = var.CLIENT_ID
-    client_secret   = var.CLIENT_SECRET
-    tenant_id       = var.TENANT_ID
+  subscription_id = var.SUBSCRIPTION_ID
+  client_id       = var.CLIENT_ID
+  client_secret   = var.CLIENT_SECRET
+  tenant_id       = var.TENANT_ID
+
   features {
     key_vault {
       purge_soft_delete_on_destroy            = true
@@ -28,4 +29,3 @@ provider "azurerm" {
     }
   }
 }
-
