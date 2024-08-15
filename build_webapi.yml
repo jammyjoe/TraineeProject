@@ -1,6 +1,6 @@
 jobs:
   - job: Build
-    displayName: 'Build and Publish'
+    displayName: 'Build and Publish API'
     steps:
       - task: UseDotNet@2
         displayName: "Use .NET 8.0.x SDK"
