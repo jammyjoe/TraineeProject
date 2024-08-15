@@ -14,6 +14,13 @@ variable "TENANT_ID" {
   type = string
 }
 
+variable "RESOURCEGROUPNAME" {
+  type = string
+}
+
+variable "STORAGEACCOUNTNAME" {
+  type = string
+}
 
 
 locals { 

@@ -7,8 +7,10 @@ terraform {
   }
 
   backend "azurerm" {
-    container_name = "tfstate"
-    key            = "terraform.tfstate"
+    resource_group_name   = "spokeconnect-rg"
+    storage_account_name  = "pokedexdevsa"
+    container_name        = "tfstate"
+    key                   = "terraform.tfstate"
   }
 }
 
