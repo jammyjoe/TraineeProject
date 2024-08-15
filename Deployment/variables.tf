@@ -29,8 +29,8 @@ locals {
   admin_password    = "Password01."
   env_name          = lower(terraform.workspace)
   resource_group    = "rg"
-  mssql_db_name     = "db"
-  mssql_server_name = "mssqlserver"
+  sql_db_name     = "db"
+  sql_server_name = "sqlserver"
   web_app           = "web-app"
   web_api           = "web-api"
 

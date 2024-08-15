@@ -15,7 +15,11 @@ if(!$?) { echo "Unable to select workspace"; throw "Workspace Error"}
 
 terraform validate
 if(!$?) { echo "Invalid terraform"; throw "Validation Error"}
- 
+
+terraform import azurerm_resource_group.example /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg
+terraform import azurerm_sql_server.example /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver
+terraform import azurerm_sql_database.example /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver/databases/pokedex-dev-db
+
 terraform plan -out "terraform.deployment.tfplan" | tee terraform_plan_output.txt
 if(!$?) { echo "Terraform plan failed"; throw "Plan Error"}
 

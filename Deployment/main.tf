@@ -10,8 +10,8 @@ resource "azurerm_resource_group" "resource_group" {
   }
 }
 
-resource "azurerm_mssql_server" "pokedex_mssqlserver" {
-  name                         = "${local.resource_name}-${local.env_name}-${local.mssql_server_name}"
+resource "azurerm_mssql_server" "pokedex_sqlserver" {
+  name                         = "${local.resource_name}-${local.env_name}-${local.sql_server_name}"
   resource_group_name          = azurerm_resource_group.resource_group.name
   location                     = azurerm_resource_group.resource_group.location
   administrator_login          = "${local.admin_username}"
@@ -19,12 +19,19 @@ resource "azurerm_mssql_server" "pokedex_mssqlserver" {
   version                      = "12.0"
 }
 
+resource "azurerm_sql_firewall_rule" "allow_client_ip" {
+  name                = "allow-client-ip"
+  resource_group_name = azurerm_mssql_server.pokedex_sqlserver.resource_group_name
+  server_name         = azurerm_mssql_server.pokedex_sqlserver.name
+  start_ip_address    = "62.172.108.16" 
+  end_ip_address      = "62.172.108.16"
+}
+
 resource "azurerm_mssql_database" "pokedex_db" {
-  name                =  "${local.resource_name}-${local.env_name}-${local.mssql_db_name}"
-  server_id           = azurerm_mssql_server.pokedex_mssqlserver.id
+  name                =  "${local.resource_name}-${local.env_name}-${local.sql_db_name}"
+  server_id           = azurerm_mssql_server.pokedex_sqlserver.id
   collation           = "Latin1_General_CI_AS"
   sku_name            = "Basic" 
-  max_size_gb         = 2
   }
 
 resource "azurerm_service_plan" "appserviceplan" {
@@ -54,7 +61,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   app_settings = {
     default_site_hostname                = "pokedexapi"
     #"AzureVault__Uri"                   = azurerm_key_vault.key_vault.vault_uri
-    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_mssql_server.pokedex_mssqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=sqladmin;Password=P@ssword1234;Encrypt=true;Connection Timeout=30;"
+    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"   = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"          = "1"
   }
