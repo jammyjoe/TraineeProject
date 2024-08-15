@@ -1,5 +1,5 @@
-resource "azurerm_resource_group" "tfstate_rg" {
-  name                      = "spokeconnect-rg"
+resource "azurerm_resource_group" "tfstate" {
+  name                      = "tfstate"
   location                  = "UK South"
   tags = local.tags
   lifecycle {
@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "tfstate_rg" {
 }
 
 resource "azurerm_storage_account" "tfstate_sa" {
-  name                     = "tfstatesa"
+  name                     = "tfstate-storage-account"
   resource_group_name      = azurerm_resource_group.tfstate_rg.name
   location                 = azurerm_resource_group.tfstate_rg.location
   account_tier             = "Standard"
