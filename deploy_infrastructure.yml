@@ -14,6 +14,7 @@ steps:
     targetType: filePath
     filePath: '$(Build.SourcesDirectory)/Deployment/terraform_deploy.ps1'
     arguments: '-resourceGroupName ${{parameters.SpokeResourceGroupName}} -storageAccountName ${{parameters.StorageAccountName}} -deploymentEnvironment ${{parameters.Environment}}'  env:
+  env:
     TF_VAR_SUBSCRIPTION_ID: $(SubscriptionId)
     TF_VAR_CLIENT_ID: $(ClientId)
     TF_VAR_TENANT_ID: $(TenantId)
