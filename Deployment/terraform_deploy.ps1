@@ -17,8 +17,9 @@ terraform validate
 if(!$?) { echo "Invalid terraform"; throw "Validation Error"}
 
 terraform import azurerm_resource_group.pokedex-dev-rg /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg
-terraform import azurerm_sql_server.pokedex-dev-sqlserver /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver
-terraform import azurerm_sql_database.pokedex-dev-db /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver/databases/pokedex-dev-db
+terraform import azurerm_mssql_server.pokedex-dev-sqlserver /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver
+terraform import azurerm_mssql_database.pokedex-dev-db /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver/databases/pokedex-dev-db
+terraform import azurerm_mssql_firewall_rule.allow_client_id /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/firewallRules/allow_client_id
 
 terraform plan -out "terraform.deployment.tfplan" | tee terraform_plan_output.txt
 if(!$?) { echo "Terraform plan failed"; throw "Plan Error"}
