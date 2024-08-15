@@ -17,7 +17,6 @@ terraform validate
 if(!$?) { echo "Invalid terraform"; throw "Validation Error"}
 
 terraform import azurerm_resource_group.resource_group /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg
-terraform import azurerm_service_plan.appserviceplan /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Web/serverFarms/pokedex-dev-asp
 terraform import azurerm_mssql_server.pokedex_sqlserver /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver
 terraform import azurerm_mssql_database.pokedex_db /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver/databases/pokedex-dev-db
 terraform import azurerm_mssql_firewall_rule.allow_client_ip /subscriptions/975435ff-d720-4311-8ffc-536ad43592e4/resourceGroups/pokedex-dev-rg/providers/Microsoft.Sql/servers/pokedex-dev-sqlserver/firewallRules/allow-client-ip
