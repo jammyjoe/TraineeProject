@@ -19,7 +19,7 @@ steps:
     TF_VAR_CLIENT_ID: $(ClientId)
     TF_VAR_TENANT_ID: $(TenantId)
     TF_VAR_CLIENT_SECRET: $(ClientSecret)
-    TF_VAR_RESOURCEGROUPNAME: $(ResourceGroupName)
-    TF_VAR_STORAGEACCOUNTNAME: $(StorageAccountName)
+    #TF_VAR_RESOURCEGROUPNAME: $(ResourceGroupName)
+    #TF_VAR_STORAGEACCOUNTNAME: $(StorageAccountName)
 
 

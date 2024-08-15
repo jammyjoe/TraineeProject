@@ -44,8 +44,8 @@ stages:
         steps:
         - template: deploy_infrastructure.yml
           parameters:
-           SpokeResourceGroupName: $(SpokeResourceGroupName)
-           StorageAccountName: $(StorageAccountName)
+           #SpokeResourceGroupName: $(SpokeResourceGroupName)
+           #StorageAccountName: $(StorageAccountName)
            Environment: $(Environment)
       - job: DeployPokedexWebAPI
         pool: 'Azure Pipelines'
