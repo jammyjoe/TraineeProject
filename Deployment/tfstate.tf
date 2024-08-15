@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "tfstate" {
 }
 
 resource "azurerm_storage_account" "tfstate_sa" {
-  name                     = "tfstate-storage-account"
+  name                     = "tfstatestorageaccount"
   resource_group_name      = azurerm_resource_group.tfstate.name
   location                 = azurerm_resource_group.tfstate.location
   account_tier             = "Standard"
