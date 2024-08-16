@@ -21,9 +21,9 @@ jobs:
         SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
         Contents: '**'
         TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
-        # CleanTargetFolder: true
+        CleanTargetFolder: true
         # OverWrite: true
-        flattenFolders: true
+        flattenFolders: false
 
     - task: ArchiveFiles@2
       displayName: 'Archive App Artifact'
