@@ -56,7 +56,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
       dotnet_version = "v8.0"
     }
     cors {
-      allowed_origins = "https://pokedex-dev-web-api.azurewebsites.net"
+      allowed_origins = ["https://pokedex-dev-web-api.azurewebsites.net",]    
     }
   }
   
