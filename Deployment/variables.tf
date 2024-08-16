@@ -26,7 +26,7 @@ variable "TENANT_ID" {
 locals { 
   resource_name     = "pokedex"
   admin_username    = "jamil"
-  admin_password    = "Password01."
+  admin_password    = "Password01!"
   env_name          = lower(terraform.workspace)
   resource_group    = "rg"
   sql_db_name     = "db"
