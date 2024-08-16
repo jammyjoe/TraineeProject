@@ -56,13 +56,13 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
       dotnet_version = "v8.0"
     }
     cors {
-      allowed_origins = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
+      allowed_origins = "https://pokedex-dev-web-api.azurewebsites.net"
     }
   }
   
   connection_string {
-    name = connection_string
-    type = SQLServer
+    name = "connection_string"
+    type = "SQLServer"
     value = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
   }
   
