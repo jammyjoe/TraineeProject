@@ -19,10 +19,10 @@ jobs:
       displayName: 'Copy Artifact to Staging Folder'
       inputs:
         SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
-        Contents: '**'
+        Contents: 'dist/**'
         TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
         CleanTargetFolder: true
-        # OverWrite: true
+        OverWrite: true
         flattenFolders: false
 
     - task: ArchiveFiles@2

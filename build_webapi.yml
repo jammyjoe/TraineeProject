@@ -45,10 +45,10 @@ jobs:
         inputs:
           SourceFolder: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}
           Contents: '**'
-          TargetFolder: $(Build.ArtifactStagingDirectory)
-          # CleanTargetFolder: true
-          # OverWrite: true
-          flattenFolders: true
+          TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}
+          CleanTargetFolder: true
+          OverWrite: true
+          flattenFolders: false
 
       - task: ArchiveFiles@2
         displayName: 'Archive App Artifact'

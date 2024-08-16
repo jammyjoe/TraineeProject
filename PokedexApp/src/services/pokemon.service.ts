@@ -7,8 +7,8 @@ import { Pokemon, PokemonType } from '../app/shared/models/pokemon.model';
   providedIn: 'root'
 })
 export class PokemonService {
-  private apiUrl = 'https://your-api.azurewebsites.net/api/Pokemon'; 
-  private typeApiUrl = 'https://your-api.azurewebsites.net/api/Type'; 
+  private apiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Pokemon'; 
+  private typeApiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Type'; 
 
   constructor(private http: HttpClient) {}
 
