@@ -17,7 +17,7 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish.zip'
+    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/${{parameters.ProjectName}}.zip'
     destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
 
 # - task: ArchiveFiles@2
