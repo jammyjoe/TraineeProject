@@ -38,17 +38,17 @@ stages:
     dependsOn: [BuildPokedexWebApi] 
     jobs:
       - job: DeployInfrastructure
-        variables:
-          - group: PokedexDev
-        displayName: 'Deploy Infrastructure'
-        steps:
-        - template: deploy_infrastructure.yml
-          parameters:
+        # variables:
+        #   - group: PokedexDev
+        # displayName: 'Deploy Infrastructure'
+        # steps:
+        # - template: deploy_infrastructure.yml
+        #   parameters:
            #SpokeResourceGroupName: $(SpokeResourceGroupName)
            #StorageAccountName: $(StorageAccountName)
-           Environment: $(Environment)
+          #  Environment: $(Environment)
       - job: DeployPokedexWebAPI
-        pool: 'Azure Pipelines'
+        pool: 'ubuntu-latest'
         displayName: 'Deploy Pokedex Web API'
         dependsOn: [DeployInfrastructure]
         steps:
@@ -59,7 +59,7 @@ stages:
               ProjectName: ${{variables.apiProjectName}}
               appName: "pokedex-dev-web-api"
       - job: DeployPokedexWebApp
-        pool: 'Azure Pipelines'
+        pool: 'ubuntu-latest'
         displayName: 'Deploy Pokedex Web App'
         dependsOn: [DeployPokedexWebAPI]
         steps:

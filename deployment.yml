@@ -20,12 +20,12 @@ steps:
     archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish.zip'
     destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
 
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
-#     includeRootFolder: false
-#     archiveType: 'zip'
-#     archiveFile: '$(Pipeline.Workspace)/${{parameters.ProjectName}}/publish.zip'
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Pipeline.Workspace)/${{parameters.ProjectName}}/publish.zip'
 
 - task: AzureWebApp@1
   inputs:
