@@ -44,7 +44,7 @@ jobs:
         displayName: 'Copy Artifact to Staging Folder'
         inputs:
           SourceFolder: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}
-          Contents: '**/publish.zip'
+          Contents: '**'
           TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}
           CleanTargetFolder: true
           OverWrite: true
