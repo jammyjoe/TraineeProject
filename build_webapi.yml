@@ -56,7 +56,7 @@ jobs:
           rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}'
           includeRootFolder: false
           archiveType: 'zip'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}.zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: Web Api'
