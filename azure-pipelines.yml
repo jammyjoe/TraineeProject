@@ -37,10 +37,10 @@ stages:
     displayName: 'Deploy to Dev'
     dependsOn: [BuildPokedexWebApi] 
     jobs:
-      # - job: DeployInfrastructure
-      #   variables:
-      #     - group: PokedexDev
-      #   displayName: 'Deploy Infrastructure'
+      - job: DeployInfrastructure
+        variables:
+          - group: PokedexDev
+        displayName: 'Deploy Infrastructure'
       #   steps:
       #   - template: deploy_infrastructure.yml
       #     parameters:
