@@ -36,5 +36,5 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: Web App'
       inputs:
-        ArtifactName: ${{parameters.appProjectName}}
+        ArtifactName: 'publish'
         targetPath: '$(Build.ArtifactStagingDirectory)'
