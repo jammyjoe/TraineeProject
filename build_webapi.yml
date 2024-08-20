@@ -16,7 +16,7 @@ jobs:
         displayName: 'Build'
       - task: NuGetToolInstaller@1
 
-      - script: dotnet test ${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj --no-build
+      - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
         displayName: 'Test'
 
       - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}
