@@ -42,10 +42,10 @@ jobs:
       - script: dotnet restore ${{parameters.apiProjectName}}
         displayName: 'Nuget Restore'
 
-      - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameter.buildConfiguration}} --no-restore
+      - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
         displayName: 'Build'
 
-      - script: dotnet build ${{parameters.apiProjectName}}.Tests --configuration ${{parameter.buildConfiguration}} --no-restore
+      - script: dotnet build ${{parameters.apiProjectName}}.Tests --configuration ${{parameters.buildConfiguration}} --no-restore
         displayName: 'Build Test Project'
 
       - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
