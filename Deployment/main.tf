@@ -53,7 +53,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   
   site_config { 
     application_stack {
-      dotnet_version = "v8.0"
+      dotnet_version  = "v8.0"
     }
     cors {
       allowed_origins = ["https://pokedex-dev-web-app.azurewebsites.net",]    
@@ -61,16 +61,20 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   }
   
   connection_string {
-    name = "connection_string"
-    type = "SQLServer"
+    name  = "connection_string"
+    type  = "SQLServer"
     value = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
   }
   
   app_settings = {
-    default_site_hostname                = "pokedexapi"
-    #"CORS_ALLOWED_ORIGINS"              = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
-    #"AzureVault__Uri"                   = azurerm_key_vault.key_vault.vault_uri
-    "SQL_CONNECTION_STRING" = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
+    application_stack = {
+      current_stack = "dotnet"
+      dotnet_version = "v8.0"
+    }
+    default_site_hostname               = "pokedexapi"
+    #"CORS_ALLOWED_ORIGINS"             = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
+    #"AzureVault__Uri"                  = azurerm_key_vault.key_vault.vault_uri
+    "SQL_CONNECTION_STRING"             = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"   = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"          = "0"
   }
@@ -82,12 +86,15 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
   location                      = azurerm_resource_group.resource_group.location
   resource_group_name           = azurerm_resource_group.resource_group.name
 
-  site_config {
-    app_command_line = "npm start"
-  }
+   site_config {
+  #   app_command_line = "npm start"
+   }
   
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+    application_stack = {
+      current_stack = "node"
+    }
+    "WEBSITE_RUN_FROM_PACKAGE" = "0"
     "API_URL"                  = "https://${azurerm_windows_web_app.pokedex_webapi.default_hostname}"
   }
 }
