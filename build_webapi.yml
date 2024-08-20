@@ -46,7 +46,7 @@ jobs:
         displayName: 'Build'
 
       - script: dotnet build ${{parameters.apiProjectName}}.Tests --configuration ${{parameter.buildConfiguration}} --no-restore
-          displayName: 'Build Test Project'
+        displayName: 'Build Test Project'
 
       - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
         displayName: 'Test'
