@@ -66,6 +66,8 @@ jobs:
         buildType: 'specific'
         artifactName: 'webapp'
         downloadPath: ${{parameters.apiProjectName}}/publish
+        definition: 'jammyjoe.TraineeProject'
+
 
     - task: AzureWebApp@1
       inputs:
