@@ -9,52 +9,55 @@ jobs:
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-      - task: NuGetToolInstaller@1
+      # - task: NuGetToolInstaller@1
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Nuget Restore'
-        inputs: 
-          commands: restore
-          nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-          projects: $(Build.SourcesDirectory)/$(solutionName).sln
-          feedsToUse: config
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Build PokedexAPI'
-        inputs:
-          command: build
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
-          arguments: '--configuration Release'
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Run Tests'
-        inputs:
-          command: test
-          projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
-          arguments: '--no-restore'
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Publish PokedexAPI'
-        inputs:
-          targetPath: '${{parameters.apiProjectName}}/publish'
-          ArtifactName: 'webapi'
-
-      # - script: dotnet restore ${{parameters.apiProjectName}}
+      # - task: DotNetCoreCLI@2
       #   displayName: 'Nuget Restore'
+      #   inputs: 
+      #     commands: restore
+      #     nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
+      #     projects: $(Build.SourcesDirectory)/$(solutionName).sln
+      #     feedsToUse: config
 
-      # - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameter.buildConfiguration}} --no-restore
-      #   displayName: 'Build'
-
-      # - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
-      #   displayName: 'Test'
-
-      # - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}
-      #   displayName: 'Publish'
-
-      # - task: PublishBuildArtifacts@1
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Build PokedexAPI'
       #   inputs:
-      #     PathtoPublish: '${{parameters.apiProjectName}}/publish'
-      #     ArtifactName: webapp
+      #     command: build
+      #     projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
+      #     arguments: '--configuration Release'
+
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Run Tests'
+      #   inputs:
+      #     command: test
+      #     projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
+      #     arguments: '--no-restore'
+
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Publish PokedexAPI'
+      #   inputs:
+      #     targetPath: '${{parameters.apiProjectName}}/publish'
+      #     ArtifactName: 'webapi'
+
+      - script: dotnet restore ${{parameters.apiProjectName}}
+        displayName: 'Nuget Restore'
+
+      - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameter.buildConfiguration}} --no-restore
+        displayName: 'Build'
+
+      - script: dotnet build ${{parameters.apiProjectName}}.Tests --configuration ${{parameter.buildConfiguration}} --no-restore
+          displayName: 'Build Test Project'
+
+      - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
+        displayName: 'Test'
+
+      - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}
+        displayName: 'Publish'
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '${{parameters.apiProjectName}}/publish'
+          ArtifactName: webapp
 
   - job: Deploy
     dependsOn: Build
