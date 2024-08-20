@@ -36,8 +36,8 @@ jobs:
       - task: DotNetCoreCLI@2
         displayName: 'Publish PokedexAPI'
         inputs:
-          PathtoPublish: '${{parameters.apiProjectName}}/publish'
-          ArtifactName: webapp
+          targetPath: '${{parameters.apiProjectName}}/publish'
+          ArtifactName: 'webapi'
 
       # - script: dotnet restore ${{parameters.apiProjectName}}
       #   displayName: 'Nuget Restore'
@@ -64,7 +64,7 @@ jobs:
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: 'specific'
-        artifactName: 'webapp'
+        artifactName: 'webapi'
         downloadPath: ${{parameters.apiProjectName}}/publish
         definition: 'jammyjoe.TraineeProject'
         project: 'TraineeProject'
