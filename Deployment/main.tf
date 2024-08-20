@@ -54,6 +54,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   site_config { 
     application_stack {
       dotnet_version  = "v8.0"
+      current_stack = "dotnet"
     }
     cors {
       allowed_origins = ["https://pokedex-dev-web-app.azurewebsites.net",]    
@@ -67,10 +68,6 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   }
   
   app_settings = {
-    application_stack = {
-      current_stack = "dotnet"
-      dotnet_version = "v8.0"
-    }
     default_site_hostname               = "pokedexapi"
     #"CORS_ALLOWED_ORIGINS"             = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
     #"AzureVault__Uri"                  = azurerm_key_vault.key_vault.vault_uri
@@ -87,13 +84,13 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
   resource_group_name           = azurerm_resource_group.resource_group.name
 
    site_config {
-  #   app_command_line = "npm start"
+  #  app_command_line = "npm start"
+    application_stack {
+       current_stack = "node"
+    }
    }
   
   app_settings = {
-    application_stack = {
-      current_stack = "node"
-    }
     "WEBSITE_RUN_FROM_PACKAGE" = "0"
     "API_URL"                  = "https://${azurerm_windows_web_app.pokedex_webapi.default_hostname}"
   }
