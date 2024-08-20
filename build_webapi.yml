@@ -27,22 +27,22 @@ jobs:
           PathtoPublish: '${{parameters.apiProjectName}}/publish'
           ArtifactName: webapp
 
-      - job: Deploy
-        dependsOn: Build
-        pool:
-          vmImage: 'windows-latest'
-        steps:
-        - task: DownloadBuildArtifacts@0
-          inputs:
-            buildType: 'specific'
-            artifactName: 'webapp'
-            downloadPath: ${{parameters.apiProjectName}}/publish
+  - job: Deploy
+    dependsOn: Build
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'specific'
+        artifactName: 'webapp'
+        downloadPath: ${{parameters.apiProjectName}}/publish
 
-        - task: AzureWebApp@1
-          inputs:
-            azureSubscription: 'Pokedex Service Connection' # Azure service connection name
-            appName: ${{parameters.apiProjectName}}
-            package: ${{parameters.apiProjectName}}/publish
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: 'Pokedex Service Connection' # Azure service connection name
+        appName: ${{parameters.apiProjectName}}
+        package: ${{parameters.apiProjectName}}/publish
 
 
 # jobs:
