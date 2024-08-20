@@ -51,7 +51,7 @@ jobs:
       - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
         displayName: 'Test'
 
-      - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}
+      - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}/publish
         displayName: 'Publish'
 
       - task: PublishBuildArtifacts@1
