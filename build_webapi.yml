@@ -9,23 +9,52 @@ jobs:
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-      - script: dotnet restore ${{parameters.apiProjectName}}
-        displayName: 'Nuget Restore'
-
-      - script: dotnet build ${{parameters.apiProjectName}} --configuration Release --no-restore
-        displayName: 'Build'
       - task: NuGetToolInstaller@1
 
-      - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
-        displayName: 'Test'
+      - task: DotNetCoreCLI@2
+        displayName: 'Nuget Restore'
+        inputs: 
+          commands: restore
+          nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
+          projects: $(Build.SourcesDirectory)/$(solutionName).sln
+          feedsToUse: config
 
-      - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}
-        displayName: 'Publish'
+      - task: DotNetCoreCLI@2
+        displayName: 'Build PokedexAPI'
+        inputs:
+          command: build
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
+          arguments: '--configuration Release'
 
-      - task: PublishBuildArtifacts@1
+      - task: DotNetCoreCLI@2
+        displayName: 'Run Tests'
+        inputs:
+          command: test
+          projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
+          arguments: '--no-restore'
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish PokedexAPI'
         inputs:
           PathtoPublish: '${{parameters.apiProjectName}}/publish'
           ArtifactName: webapp
+
+      # - script: dotnet restore ${{parameters.apiProjectName}}
+      #   displayName: 'Nuget Restore'
+
+      # - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameter.buildConfiguration}} --no-restore
+      #   displayName: 'Build'
+
+      # - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
+      #   displayName: 'Test'
+
+      # - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}
+      #   displayName: 'Publish'
+
+      # - task: PublishBuildArtifacts@1
+      #   inputs:
+      #     PathtoPublish: '${{parameters.apiProjectName}}/publish'
+      #     ArtifactName: webapp
 
   - job: Deploy
     dependsOn: Build
@@ -56,11 +85,6 @@ jobs:
 #           version: 8.0.x
 #           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-#       - script: dotnet restore $(WORKING_DIRECTORY)
-#         displayName: 'Nuget Restore'
-
-#       - script: dotnet build $(WORKING_DIRECTORY) --configuration $(CONFIGURATION) --no-restore
-#         displayName: 'Build'
 #       - task: NuGetToolInstaller@1
 
 #       # - task: DotNetCoreCLI@2
