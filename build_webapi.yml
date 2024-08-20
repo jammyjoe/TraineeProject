@@ -82,6 +82,8 @@
 
 jobs:
   - job: Build
+    pool:
+    vmImage: 'windows-latest'    
     displayName: 'Build and Publish API'
     steps:
       - task: UseDotNet@2
