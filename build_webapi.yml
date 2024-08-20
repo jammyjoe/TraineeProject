@@ -57,7 +57,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '${{parameters.apiProjectName}}/publish'
-          ArtifactName: webapp
+          ArtifactName: webapi
 
   - job: Deploy
     dependsOn: Build
