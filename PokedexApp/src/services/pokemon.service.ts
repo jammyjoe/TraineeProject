@@ -7,8 +7,8 @@ import { Pokemon, PokemonType } from '../app/shared/models/pokemon.model';
   providedIn: 'root'
 })
 export class PokemonService {
-  private apiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Pokemon'; 
-  private typeApiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Type'; 
+  private apiUrl = 'https://pokedexapi20240820140804.azurewebsites.net/api/Pokemon'; 
+  private typeApiUrl = 'https://pokedexapi20240820140804.azurewebsites.net//api/Type'; 
 
   // private apiUrl = 'http://localhost:5019/api/Pokemon'; 
   // private typeApiUrl = 'http://localhost:5019/api/Type'; 
