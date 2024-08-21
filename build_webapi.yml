@@ -10,7 +10,7 @@ jobs:
           installationPath: $(Agent.ToolsDirectory)/dotnet
           workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
 
-        - script: dotnet restore ${{parameters.apiProjectName}}
+      - script: dotnet restore ${{parameters.apiProjectName}}
         displayName: 'Nuget Restore'
 
       - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
