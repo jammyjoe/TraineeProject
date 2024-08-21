@@ -17,9 +17,9 @@ steps:
 - task: DownloadBuildArtifacts@2
   displayName: 'Download App Package'
   inputs:
-  buildType: 'current'
-  artifactName: 'webapi'
-  downloadPath: ${{parameters.apiProjectName}}/publish
+    buildType: 'current'
+    artifactName: 'webapi'
+    downloadPath: ${{parameters.apiProjectName}}/publish
 
 - task: AzureWebApp@1
   inputs:
