@@ -61,18 +61,18 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
     }
   }
   
-  connection_string {
-    name  = "DefaultConnection"
-    type  = "SQLServer"
-    value = local.connection_string
-  }
+  # connection_string {
+  #   name  = "DefaultConnection"
+  #   type  = "SQLServer"
+  #   value = local.connection_string
+  # }
   
   app_settings = {
     WEBSITE_NODE_DEFAULT_VERSION        = "6.9.1"
-    default_site_hostname               = "pokedexapi"
+    #default_site_hostname               = "pokedexapi"
     #"CORS_ALLOWED_ORIGINS"             = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
     #"AzureVault__Uri"                  = azurerm_key_vault.key_vault.vault_uri
-    "AZURE_SQL_CONNECTIONSTRING"        = local.connection_string
+    #"AZURE_SQL_CONNECTIONSTRING"        = local.connection_string
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"  = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"         = "0"
   }
@@ -97,7 +97,7 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
   resource_group_name           = azurerm_resource_group.resource_group.name
 
    site_config {
-  #  app_command_line = "npm start"
+    app_command_line = "npm start"
     application_stack {
        current_stack = "node"
        node_version = "~20"
