@@ -15,9 +15,14 @@ jobs:
         inputs: 
           commands: restore
           projects: $(Build.SourcesDirectory)/$(solutionName).sln
-
-      - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
+     
+      - task: UseDotNet@2
         displayName: 'Build'
+        inputs: 
+          command: build
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
+          arguments: '--configuration Release --no-restore'
+        #- script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
 
       - script: dotnet build ${{parameters.apiProjectName}}.Tests
         displayName: 'Build Test Project'
