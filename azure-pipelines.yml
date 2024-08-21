@@ -48,7 +48,7 @@ stages:
         #   #  StorageAccountName: $(StorageAccountName)
         #    Environment: $(Environment)
 
-  - stage: 'Deploy Applications'
+  - stage: 'DeployApplications'
     displayName: 'Deploy Web App and Web API'
     #dependsOn: [Deploy Infrastructure]
     jobs:
