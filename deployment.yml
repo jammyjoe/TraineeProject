@@ -23,7 +23,7 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Pokedex Service Connection' # Azure service connection name
+    azureSubscription: 'Pokedex Service Connection' 
     appName: 'pokedex-dev-web-api'
     package: ${{parameters.ProjectName}}/publish
 
