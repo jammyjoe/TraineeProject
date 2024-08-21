@@ -13,19 +13,19 @@ parameters:
   #   pool:
   #     vmImage: 'windows-latest'
 
-  steps:
-  - task: DownloadBuildArtifacts@2
-    displayName: 'Download App Package'
-    inputs:
-      buildType: 'current'
-      artifactName: 'webapi'
-      downloadPath: ${{parameters.apiProjectName}}/publish
+steps:
+- task: DownloadBuildArtifacts@2
+  displayName: 'Download App Package'
+  inputs:
+  buildType: 'current'
+  artifactName: 'webapi'
+  downloadPath: ${{parameters.apiProjectName}}/publish
 
-  - task: AzureWebApp@1
-    inputs:
-      azureSubscription: 'Pokedex Service Connection' # Azure service connection name
-      appName: 'pokedex-dev-web-api'
-      package: ${{parameters.apiProjectName}}/publish
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Pokedex Service Connection' # Azure service connection name
+    appName: 'pokedex-dev-web-api'
+    package: ${{parameters.apiProjectName}}/publish
 
 # steps:
 # - task: DownloadPipelineArtifact@2
