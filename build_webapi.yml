@@ -30,25 +30,25 @@ jobs:
           PathtoPublish: '${{parameters.apiProjectName}}/publish'
           ArtifactName: webapi
 
-  - job: Deploy
-    dependsOn: Build
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        artifactName: 'webapi'
-        downloadPath: ${{parameters.apiProjectName}}/publish
-        definition: 'jammyjoe.TraineeProject'
-        project: 'TraineeProject'
+  # - job: Deploy
+  #   dependsOn: Build
+  #   pool:
+  #     vmImage: 'windows-latest'
+  #   steps:
+  #   - task: DownloadBuildArtifacts@0
+  #     inputs:
+  #       buildType: 'current'
+  #       artifactName: 'webapi'
+  #       downloadPath: ${{parameters.apiProjectName}}/publish
+  #       definition: 'jammyjoe.TraineeProject'
+  #       project: 'TraineeProject'
 
 
-    - task: AzureWebApp@1
-      inputs:
-        azureSubscription: 'Pokedex Service Connection' # Azure service connection name
-        appName: ${{parameters.apiProjectName}}
-        package: ${{parameters.apiProjectName}}/publish
+  #   - task: AzureWebApp@1
+  #     inputs:
+  #       azureSubscription: 'Pokedex Service Connection' # Azure service connection name
+  #       appName: ${{parameters.apiProjectName}}
+  #       package: ${{parameters.apiProjectName}}/publish
 
 
 # jobs:
