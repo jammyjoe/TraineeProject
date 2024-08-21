@@ -29,7 +29,7 @@ jobs:
         inputs:
           command: test
           projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
-          arguments: '--no-restore --no-build'
+          arguments: '--no-build'
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish PokedexAPI'
