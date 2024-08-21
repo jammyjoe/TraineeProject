@@ -100,7 +100,7 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
   #  app_command_line = "npm start"
     application_stack {
        current_stack = "node"
-       node_version = "20.10.0"
+       node_version = "~20"
     }
    }
   
