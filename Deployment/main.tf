@@ -79,7 +79,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
 }
 
 resource "azurerm_app_service_connection" "pokedex_api_service_connection" {
-  name               = "api-to-db-serviceconnector"
+  name               = "serviceconnector"
   app_service_id     = azurerm_windows_web_app.pokedex_webapi.id
   target_resource_id = azurerm_mssql_database.pokedex_db.id
   authentication {
