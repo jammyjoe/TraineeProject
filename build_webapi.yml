@@ -24,14 +24,23 @@ jobs:
           arguments: '--configuration Release --no-restore'
         #- script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
 
-      - script: dotnet build ${{parameters.apiProjectName}}.Tests
-        displayName: 'Build Test Project'
+      - task: DotNetCoreCLI@2
+        displayName: 'Run Tests'
+        inputs:
+          command: test
+          projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
+          arguments: '--no-restore --no-build'
 
-      - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
-        displayName: 'Test'
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish PokedexAPI'
+        inputs:
+          command: publish
+          #publishWebProjects: false
+          arguments: '--configuration Release --no-build --output ${{parameters.apiProjectName}}/publish'
+          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
 
-      - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}/publish
-        displayName: 'Publish'
+      # - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}/publish
+      #   displayName: 'Publish'
 
       - task: PublishBuildArtifacts@1
         inputs:
