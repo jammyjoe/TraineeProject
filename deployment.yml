@@ -19,13 +19,13 @@ steps:
   inputs:
     buildType: 'current'
     artifactName: 'webapi'
-    downloadPath: ${{parameters.apiProjectName}}/publish
+    downloadPath: ${{parameters.ProjectName}}/publish
 
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'Pokedex Service Connection' # Azure service connection name
     appName: 'pokedex-dev-web-api'
-    package: ${{parameters.apiProjectName}}/publish
+    package: ${{parameters.ProjectName}}/publish
 
 # steps:
 # - task: DownloadPipelineArtifact@2
