@@ -8,28 +8,47 @@ parameters:
   - name: appName
     type: string
 
-steps:
-- task: DownloadPipelineArtifact@2
-  displayName: 'Download App Package'
-  inputs:
-    artifact: '${{parameters.ProjectName}}'
-    path: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}'
+  # - job: Deploy
+  #   dependsOn: Build
+  #   pool:
+  #     vmImage: 'windows-latest'
+  steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: 'current'
+      artifactName: 'webapi'
+      downloadPath: ${{parameters.apiProjectName}}/publish
+      definition: 'jammyjoe.TraineeProject'
+      project: 'TraineeProject'
 
-- task: ExtractFiles@1
-  inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish.zip'
-    destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'Pokedex Service Connection' # Azure service connection name
+      appName: 'pokedex-dev-web-api'
+      package: ${{parameters.apiProjectName}}/publish
 
-# - task: ArchiveFiles@2
+# steps:
+# - task: DownloadPipelineArtifact@2
+#   displayName: 'Download App Package'
 #   inputs:
-#     rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
-#     includeRootFolder: false
-#     archiveType: 'zip'
-#     archiveFile: '$(Pipeline.Workspace)/${{parameters.ProjectName}}/publish.zip'
+#     artifact: '${{parameters.ProjectName}}'
+#     path: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}'
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: ${{parameters.serviceConnectionName}}
-    appType: 'webApp'
-    appName: ${{parameters.appName}}
-    package: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+# - task: ExtractFiles@1
+#   inputs:
+#     archiveFilePatterns: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish.zip'
+#     destinationFolder: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+
+# # - task: ArchiveFiles@2
+# #   inputs:
+# #     rootFolderOrFile: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
+# #     includeRootFolder: false
+# #     archiveType: 'zip'
+# #     archiveFile: '$(Pipeline.Workspace)/${{parameters.ProjectName}}/publish.zip'
+
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: ${{parameters.serviceConnectionName}}
+#     appType: 'webApp'
+#     appName: ${{parameters.appName}}
+#     package: '$(Pipeline.Workspace)/artifacts/${{parameters.ProjectName}}/publish'
