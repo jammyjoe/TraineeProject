@@ -10,37 +10,20 @@ jobs:
           installationPath: $(Agent.ToolsDirectory)/dotnet
           workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
 
-      - task: UseDotNet@2
+        - script: dotnet restore ${{parameters.apiProjectName}}
         displayName: 'Nuget Restore'
-        inputs: 
-          commands: restore
-          projects: $(Build.SourcesDirectory)/$(solutionName).sln
-     
-      - task: UseDotNet@2
+
+      - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
         displayName: 'Build'
-        inputs: 
-          command: build
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
-          arguments: '--configuration Release --no-restore'
-        #- script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Run Tests'
-        inputs:
-          command: test
-          projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
-          arguments: '--no-build'
+      - script: dotnet build ${{parameters.apiProjectName}}.Tests
+        displayName: 'Build Test Project'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Publish PokedexAPI'
-        inputs:
-          command: publish
-          #publishWebProjects: false
-          arguments: '--configuration Release --no-build --output ${{parameters.apiProjectName}}/publish'
-          projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
+      - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
+        displayName: 'Test'
 
-      # - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}/publish
-      #   displayName: 'Publish'
+      - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}/publish
+        displayName: 'Publish'
 
       - task: PublishBuildArtifacts@1
         inputs:
@@ -52,17 +35,20 @@ jobs:
     pool:
       vmImage: 'windows-latest'
     steps:
-    - download: current
-      artifact: webapi
-        # downloadPath: ${{parameters.apiProjectName}}/publish
-        # definition: 'jammyjoe.TraineeProject'
-        # project: 'TraineeProject'
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'specific'
+        artifactName: 'webapi'
+        downloadPath: ${{parameters.apiProjectName}}/publish
+        definition: 'jammyjoe.TraineeProject'
+        project: 'TraineeProject'
+
 
     - task: AzureWebApp@1
       inputs:
         azureSubscription: 'Pokedex Service Connection' # Azure service connection name
         appName: ${{parameters.apiProjectName}}
-        package: $(System.DefaultWorkingDirectory)/webapi/**/*.zip
+        package: ${{parameters.apiProjectName}}/publish
 
 
 # jobs:
