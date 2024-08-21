@@ -33,8 +33,8 @@ stages:
         parameters:
           appProjectName: ${{variables.appProjectName}}       
 
-  - stage: Dev
-    displayName: 'Deploy to Dev'
+  - stage: Deploy Infrastructure
+    displayName: 'Deploy Terraform Resources'
     dependsOn: [BuildPokedexWebApi] 
     jobs:
       - job: DeployInfrastructure
@@ -47,17 +47,23 @@ stages:
         #   #  SpokeResourceGroupName: $(SpokeResourceGroupName)
         #   #  StorageAccountName: $(StorageAccountName)
         #    Environment: $(Environment)
-      - job: DeployPokedexWebAPI
-        pool: 'Azure Pipelines'
-        displayName: 'Deploy Pokedex Web API'
-        dependsOn: [DeployInfrastructure]
-        steps:
-          - template: deployment.yml
-            parameters:
-              serviceConnectionName: "Pokedex Service Connection"
-              solutionName: ${{variables.solutionName}}
-              ProjectName: ${{variables.apiProjectName}}
-              appName: "pokedex-dev-web-api"
+
+  - stage: 'Deploy Applications'
+    displayName: 'Deploy Web App and Web API'
+    #dependsOn: [Deploy Infrastructure]
+    jobs:
+      # - job: DeployPokedexWebAPI
+      #   pool: 'Azure Pipelines'
+      #   displayName: 'Deploy Pokedex Web API'
+      #   dependsOn: [DeployInfrastructure]
+      #   steps:
+      #     - template: deployment.yml
+      #       parameters:
+      #         serviceConnectionName: "Pokedex Service Connection"
+      #         solutionName: ${{variables.solutionName}}
+      #         ProjectName: ${{variables.apiProjectName}}
+      #         appName: "pokedex-dev-web-api"
+
       - job: DeployPokedexWebApp
         pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web App'
