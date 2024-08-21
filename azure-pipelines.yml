@@ -55,7 +55,6 @@ stages:
       - job: DeployPokedexWebAPI
         pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web API'
-        dependsOn: [DeployInfrastructure]
         steps:
           - template: deployment.yml
             parameters:
