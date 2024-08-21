@@ -10,11 +10,12 @@ jobs:
           installationPath: $(Agent.ToolsDirectory)/dotnet
           workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
 
+      - task: UseDotNet@2
         displayName: 'Nuget Restore'
         inputs: 
           commands: restore
           projects: $(Build.SourcesDirectory)/$(solutionName).sln
-          
+
       - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
         displayName: 'Build'
 
