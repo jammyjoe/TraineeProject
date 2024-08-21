@@ -64,7 +64,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   connection_string {
     name  = "DefaultConnection"
     type  = "SQLServer"
-    value = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
+    value = local.connection_string
   }
   
   app_settings = {
@@ -72,9 +72,9 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
     default_site_hostname               = "pokedexapi"
     #"CORS_ALLOWED_ORIGINS"             = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
     #"AzureVault__Uri"                  = azurerm_key_vault.key_vault.vault_uri
-    "SQL_CONNECTION_STRING"             = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net;Database=${azurerm_mssql_database.pokedex_db.name};User ID=jamil;Password=Password01!;Encrypt=true;Connection Timeout=30;"
-    #"WEBSITE_ENABLE_SYNC_UPDATE_SITE"   = "true" 
-    #"WEBSITE_RUN_FROM_PACKAGE"          = "0"
+    "AZURE_SQL_CONNECTIONSTRING"        = local.connection_string
+    #"WEBSITE_ENABLE_SYNC_UPDATE_SITE"  = "true" 
+    #"WEBSITE_RUN_FROM_PACKAGE"         = "0"
   }
 }
 

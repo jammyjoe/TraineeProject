@@ -33,6 +33,7 @@ locals {
   sql_server_name   = "sqlserver"
   web_app           = "web-app"
   web_api           = "web-api"
+  connection_string = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net,1433;Initial Catalog=${azurerm_mssql_database.pokedex_db.name}Persist Security Info=False;User ID=jamil;Password=Password01!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
   tags = {
     SERVICE          = "TraineeProject"

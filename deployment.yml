@@ -18,7 +18,7 @@ steps:
   displayName: 'Download App Package'
   inputs:
     buildType: 'current'
-    artifactName: 'webapi'
+    #artifactName: 'pokedex-api'
     downloadPath: ${{parameters.ProjectName}}/publish
 
 - task: AzureWebApp@1
