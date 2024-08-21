@@ -35,18 +35,18 @@ stages:
 
   - stage: DeployInfrastructure
     displayName: 'Deploy Terraform Resources'
-    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp] 
-    jobs:
-      - job: DeployInfrastructure
-        variables:
-          - group: PokedexDev
-        displayName: 'Deploy Infrastructure'
-        steps:
-        - template: deploy_infrastructure.yml
-          parameters:
-          #  SpokeResourceGroupName: $(SpokeResourceGroupName)
-          #  StorageAccountName: $(StorageAccountName)
-           Environment: $(Environment)
+    # dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp] 
+    # jobs:
+    #   - job: DeployInfrastructure
+    #     variables:
+    #       - group: PokedexDev
+    #     displayName: 'Deploy Infrastructure'
+    #     steps:
+    #     - template: deploy_infrastructure.yml
+    #       parameters:
+    #       #  SpokeResourceGroupName: $(SpokeResourceGroupName)
+    #       #  StorageAccountName: $(StorageAccountName)
+    #        Environment: $(Environment)
 
   - stage: 'DeployApplications'
     displayName: 'Deploy Web App and Web API'
