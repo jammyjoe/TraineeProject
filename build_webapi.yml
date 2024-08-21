@@ -9,111 +9,22 @@ jobs:
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
           workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
+#       - task: NuGetToolInstaller@1
 
       - script: dotnet restore ${{parameters.apiProjectName}}
         displayName: 'Nuget Restore'
 
       - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
-        displayName: 'Build'
+        displayName: 'Build API'
 
       - script: dotnet build ${{parameters.apiProjectName}}.Tests
-        displayName: 'Build Test Project'
-
       - script: dotnet test ${{parameters.apiProjectName}}.Tests --no-build
-        displayName: 'Test'
+        displayName: 'Run Tests'
 
       - script: dotnet publish ${{parameters.apiProjectName}} --configuration Release --no-build --output ${{parameters.apiProjectName}}/publish
-        displayName: 'Publish'
+        displayName: 'Publish API'
 
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '${{parameters.apiProjectName}}/publish'
           ArtifactName: ${{parameters.apiProjectName}}
-
-  # - job: Deploy
-  #   dependsOn: Build
-  #   pool:
-  #     vmImage: 'windows-latest'
-  #   steps:
-  #   - task: DownloadBuildArtifacts@0
-  #     inputs:
-  #       buildType: 'current'
-  #       artifactName: 'webapi'
-  #       downloadPath: ${{parameters.apiProjectName}}/publish
-  #       definition: 'jammyjoe.TraineeProject'
-  #       project: 'TraineeProject'
-
-
-  #   - task: AzureWebApp@1
-  #     inputs:
-  #       azureSubscription: 'Pokedex Service Connection' # Azure service connection name
-  #       appName: ${{parameters.apiProjectName}}
-  #       package: ${{parameters.apiProjectName}}/publish
-
-
-# jobs:
-#   - job: Build
-#     displayName: 'Build and Publish API'
-#     steps:
-#       - task: UseDotNet@2
-#         displayName: "Use .NET 8.0.x SDK"
-#         inputs:
-#           packageType : sdk
-#           version: 8.0.x
-#           installationPath: $(Agent.ToolsDirectory)/dotnet
-
-#       - task: NuGetToolInstaller@1
-
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Nuget Restore'
-#         inputs: 
-#           commands: restore
-#           nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config ##Check this is correct
-#           projects: $(Build.SourcesDirectory)/$(solutionName).sln
-#           feedsToUse: config
-
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Build PokedexAPI'
-#         inputs:
-#           command: build
-#           projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
-#           arguments: '--configuration Release'
-
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Run Tests'
-#         inputs:
-#           command: test
-#           projects: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}.Tests/${{parameters.apiProjectName}}.Tests.csproj
-#           arguments: '--no-restore'
-
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Publish PokedexAPI'
-#         inputs:
-#           command: publish
-#           publishWebProjects: false
-#           arguments: '--configuration release'
-#           projects: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}/${{parameters.apiProjectName}}.csproj'
-
-#       - task: CopyFiles@2
-#         displayName: 'Copy Artifact to Staging Folder'
-#         inputs:
-#           SourceFolder: $(Build.SourcesDirectory)/${{parameters.apiProjectName}}
-#           Contents: '**'
-#           TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}
-#           CleanTargetFolder: true
-#           OverWrite: true
-#           flattenFolders: false
-
-#       - task: ArchiveFiles@2
-#         displayName: 'Archive App Artifact'
-#         inputs:
-#           rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.apiProjectName}}'
-#           includeRootFolder: false
-#           archiveType: 'zip'
-#           archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
-
-#       - task: PublishBuildArtifacts@1
-#         displayName: 'Publish Artifact: Web Api'
-#         inputs:
-#           ArtifactName: ${{parameters.apiProjectName}}
-#           targetPath: '$(Build.ArtifactStagingDirectory)'
