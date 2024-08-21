@@ -52,22 +52,22 @@ stages:
     displayName: 'Deploy Web App and Web API'
     #dependsOn: [Deploy Infrastructure]
     jobs:
-      # - job: DeployPokedexWebAPI
-      #   pool: 'Azure Pipelines'
-      #   displayName: 'Deploy Pokedex Web API'
-      #   dependsOn: [DeployInfrastructure]
-      #   steps:
-      #     - template: deployment.yml
-      #       parameters:
-      #         serviceConnectionName: "Pokedex Service Connection"
-      #         solutionName: ${{variables.solutionName}}
-      #         ProjectName: ${{variables.apiProjectName}}
-      #         appName: "pokedex-dev-web-api"
+      - job: DeployPokedexWebAPI
+        pool: 'Azure Pipelines'
+        displayName: 'Deploy Pokedex Web API'
+        dependsOn: [DeployInfrastructure]
+        steps:
+          - template: deployment.yml
+            parameters:
+              serviceConnectionName: "Pokedex Service Connection"
+              solutionName: ${{variables.solutionName}}
+              ProjectName: ${{variables.apiProjectName}}
+              appName: "pokedex-dev-web-api"
 
       - job: DeployPokedexWebApp
         pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web App'
-        #dependsOn: [DeployPokedexWebAPI]
+        dependsOn: [DeployPokedexWebAPI]
         steps:
           - template: deployment.yml
             parameters:
