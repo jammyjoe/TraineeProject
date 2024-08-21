@@ -37,4 +37,4 @@ jobs:
       displayName: 'Publish Artifact: Web App'
       inputs:
         ArtifactName: '${{parameters.appProjectName}}'
-        PathtoPublish: '${{parameters.appProjectName}}/publish'
+        PathtoPublish: '$(Build.SourcesDirectory)//${{parameters.appProjectName}}/publish'
