@@ -28,7 +28,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '${{parameters.apiProjectName}}/publish'
-          #ArtifactName: pokedex-api
+          ArtifactName: pokedex-api
 
   # - job: Deploy
   #   dependsOn: Build
