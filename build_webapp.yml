@@ -15,23 +15,23 @@ jobs:
         npm run build --prod
       displayName: 'Build Angular App'
 
-    - task: CopyFiles@2
-      displayName: 'Copy Artifact to Staging Folder'
-      inputs:
-        SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
-        Contents: '**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
-        CleanTargetFolder: true
-        OverWrite: true
-        flattenFolders: false
+    # - task: CopyFiles@2
+    #   displayName: 'Copy Artifact to Staging Folder'
+    #   inputs:
+    #     SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
+    #     Contents: '**'
+    #     TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
+    #     CleanTargetFolder: true
+    #     OverWrite: true
+    #     flattenFolders: false
 
-    - task: ArchiveFiles@2
-      displayName: 'Archive App Artifact'
-      inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
+    # - task: ArchiveFiles@2
+    #   displayName: 'Archive App Artifact'
+    #   inputs:
+    #     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}'
+    #     includeRootFolder: false
+    #     archiveType: 'zip'
+    #     archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: Web App'
