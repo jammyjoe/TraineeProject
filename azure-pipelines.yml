@@ -33,7 +33,7 @@ stages:
         parameters:
           appProjectName: ${{variables.appProjectName}}       
 
-  - stage: Deploy Infrastructure
+  - stage: DeployInfrastructure
     displayName: 'Deploy Terraform Resources'
     dependsOn: [BuildPokedexWebApi] 
     jobs:
