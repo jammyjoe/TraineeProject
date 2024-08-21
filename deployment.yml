@@ -14,7 +14,7 @@ parameters:
   #     vmImage: 'windows-latest'
 
 steps:
-- task: DownloadBuildArtifacts@2
+- task: DownloadBuildArtifacts@0
   displayName: 'Download App Package'
   inputs:
     buildType: 'current'
