@@ -48,9 +48,8 @@ stages:
           #  StorageAccountName: $(StorageAccountName)
            Environment: $(Environment)
 
-  - stage: 'DeployApplications'
-    displayName: 'Deploy Web App and Web API'
-    #dependsOn: [DeployInfrastructure]
+  - stage: 'DeployApi'
+    displayName: 'Deploy Web Api'
     jobs:
       - job: DeployPokedexWebAPI
         pool: 'Azure Pipelines'
@@ -63,6 +62,9 @@ stages:
               ProjectName: ${{variables.apiProjectName}}
               appName: "pokedex-dev-web-api"
 
+  - stage: 'DeployApp'
+    displayName: 'Deploy Web App'
+    jobs:
       - job: DeployPokedexWebApp
         pool: 'Azure Pipelines'
         displayName: 'Deploy Pokedex Web App'
