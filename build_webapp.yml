@@ -18,23 +18,15 @@ jobs:
     - task: CopyFiles@2
       displayName: 'Copy Artifact to Staging Folder'
       inputs:
-        SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}
+        SourceFolder: $(Build.SourcesDirectory)/${{parameters.appProjectName}}/dist/pokedex-app/browser
         Contents: '**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}
-        # CleanTargetFolder: true
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+        CleanTargetFolder: true
         # OverWrite: true
-        flattenFolders: true
-
-    - task: ArchiveFiles@2
-      displayName: 'Archive App Artifact'
-      inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/${{parameters.appProjectName}}'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'
+        # flattenFolders: false
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: Web App'
       inputs:
-        ArtifactName: ${{parameters.appProjectName}}
-        targetPath: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: '${{parameters.appProjectName}}'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'

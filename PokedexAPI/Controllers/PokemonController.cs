@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Pokedex.DTOs;
 using Pokedex.RepositoryInterface;
@@ -11,7 +12,8 @@ namespace Pokedex.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+    [EnableCors("AllowedOriginsPolicy")]
+    //[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
     public class PokemonController : ControllerBase
     {
         private readonly PokedexContext _context;

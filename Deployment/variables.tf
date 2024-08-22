@@ -26,13 +26,14 @@ variable "TENANT_ID" {
 locals { 
   resource_name     = "pokedex"
   admin_username    = "jamil"
-  admin_password    = "Password01."
+  admin_password    = "Password01!"
   env_name          = lower(terraform.workspace)
   resource_group    = "rg"
-  mssql_db_name     = "db"
-  mssql_server_name = "mssqlserver"
+  sql_db_name       = "db"
+  sql_server_name   = "sqlserver"
   web_app           = "web-app"
   web_api           = "web-api"
+  connection_string = "Server=tcp:${azurerm_mssql_server.pokedex_sqlserver.name}.database.windows.net,1433;Initial Catalog=${azurerm_mssql_database.pokedex_db.name}Persist Security Info=False;User ID=jamil;Password=Password01!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
   tags = {
     SERVICE          = "TraineeProject"
