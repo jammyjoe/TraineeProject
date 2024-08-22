@@ -5,6 +5,8 @@ using PokedexAPI.Models;
 using PokedexAPI.Repository;
 using PokedexAPI.RepositoryInterface;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -25,10 +27,17 @@ builder.Services.AddCors(options =>
                 builder.AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials()
-                       .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-api.azurewebsites.net/api");
+                       .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-app.azurewebsites.net/api");
             });
         });
- var app = builder.Build();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.Authority = "https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df";
+		options.Audience = "api://76792183-f318-4ab5-9eab-da4315d62dc3";
+        options.RequireHttpsMetadata = true;
+	});
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -42,6 +51,8 @@ app.UseCors("AllowedOriginsPolicy");
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler("/Error");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
