@@ -9,7 +9,7 @@ using AutoMapper;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
-//builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
+builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
