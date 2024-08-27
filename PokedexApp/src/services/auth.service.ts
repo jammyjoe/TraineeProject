@@ -1,55 +1,46 @@
-import { Injectable } from '@angular/core';
-import { PublicClientApplication, AuthenticationResult, RedirectRequest } from '@azure/msal-browser';
+// src/app/auth-config.ts
+import { PublicClientApplication, InteractionType, LogLevel } from '@azure/msal-browser';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthService {
-  private msalInstance: PublicClientApplication;
-
-  constructor() {
-    this.msalInstance = new PublicClientApplication({
-      auth: {
-        clientId: '76792183-f318-4ab5-9eab-da4315d62dc3', // Replace with your client ID
-        authority: 'https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df', // Replace with your tenant ID
-        redirectUri: 'https://pokedex-dev-web-app.azurewebsites.net/', // Replace with your redirect URI
+export const msalConfig = {
+  auth: {
+    clientId: 'your-client-id', // Replace with your application's client ID
+    authority: 'https://login.microsoftonline.com/your-tenant-id', // Replace with your tenant ID
+    redirectUri: 'http://localhost:4200', // Replace with your application's redirect URI
+  },
+  cache: {
+    cacheLocation: 'localStorage', // This can be 'localStorage' or 'sessionStorage'
+    storeAuthStateInCookie: false, // Set to true if you want to store auth state in cookies
+  },
+  system: {
+    loggerOptions: {
+      loggerCallback: (level: number, message: string, containsPii: boolean) => {
+        if (containsPii) return;
+        switch (level) {
+          case LogLevel.Error:
+            console.error(message);
+            return;
+          case LogLevel.Info:
+            console.info(message);
+            return;
+          case LogLevel.Verbose:
+            console.debug(message);
+            return;
+          case LogLevel.Warning:
+            console.warn(message);
+            return;
+        }
       },
-      cache: {
-        cacheLocation: 'localStorage',
-        storeAuthStateInCookie: true
-      }
-    });
-  }
+      piiLoggingEnabled: false,
+      logLevel: LogLevel.Info,
+    },
+  },
+};
 
-  login(): void {
-    const loginRequest: RedirectRequest = {
-      scopes: ['api://76792183-f318-4ab5-9eab-da4315d62dc3/.default'] // Replace with your API scopes
-    };
-    this.msalInstance.loginRedirect(loginRequest);
+export const protectedResources = {
+  api: {
+    endpoint: 'https://pokedex-dev-web-api.azurewebsites.net/api', // Your Web API URL
+    scopes: ['api://76792183-f318-4ab5-9eab-da4315d62dc3/expose-api-scope'] // Your API scope
   }
+};
 
-  logout(): void {
-    this.msalInstance.logoutRedirect();
-  }
-
-  async getToken(): Promise<string | null> {
-    const accounts = this.msalInstance.getAllAccounts();
-    if (accounts.length > 0) {
-      const silentRequest = {
-        account: accounts[0],
-        scopes: ['api://76792183-f318-4ab5-9eab-da4315d62dc3/expose-api-scope'] // Replace with your API scopes
-      };
-      try {
-        const response: AuthenticationResult = await this.msalInstance.acquireTokenSilent(silentRequest);
-        return response.accessToken;
-      } catch (error) {
-        console.error('Error acquiring token silently', error);
-        await this.msalInstance.acquireTokenRedirect(silentRequest);
-        return null;
-      }
-    } else {
-      this.login();
-      return null;
-    }
-  }
-}
+export const msalInstance = new PublicClientApplication(msalConfig);

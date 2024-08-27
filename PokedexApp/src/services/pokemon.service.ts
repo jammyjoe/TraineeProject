@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, from, map, switchMap, throwError } from 'rxjs';
 import { Pokemon, PokemonType } from '../app/shared/models/pokemon.model';
-import { AuthService } from './auth.service';
+import { protectedResources } from './auth.service';
+import { MsalService } from '@azure/msal-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class PokemonService {
   // private apiUrl = 'http://localhost:5019/api/Pokemon'; 
   // private typeApiUrl = 'http://localhost:5019/api/Type'; 
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private msalService: MsalService) {}
 
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
@@ -28,59 +29,89 @@ export class PokemonService {
     return throwError(() => new Error(errorMessage));
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    if (token) {
-      headers = headers.append('Authorization', `Bearer ${token}`);
-    }
-
-    return headers;
+  private getAuthHeaders(): Observable<HttpHeaders> {
+    return from(this.msalService.instance.acquireTokenSilent({
+      scopes: [protectedResources.api.scopes[0]]
+    })).pipe(
+      switchMap(tokenResponse => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenResponse.accessToken}`);
+        return [headers];
+      }),
+      catchError(error => {
+        console.error('Token acquisition failed:', error);
+        return throwError(() => new Error('Token acquisition failed'));
+      })
+    );
   }
 
   getPokemons(): Observable<Pokemon[]> {
-    return this.http.get<Pokemon[]>(this.apiUrl, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.get<Pokemon[]>(this.apiUrl, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 
   getPokemon(name: string): Observable<Pokemon> {
     const url = `${this.apiUrl}/${name}`;
-    return this.http.get<Pokemon>(url, { headers: this.getAuthHeaders() }).pipe(
-        catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.get<Pokemon>(url, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 
   getPokemonById(id: number): Observable<Pokemon> {
-    return this.http.get<Pokemon>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.get<Pokemon>(`${this.apiUrl}/${id}`, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 
   addPokemon(pokemon: Pokemon): Observable<Pokemon> {
-    return this.http.post<Pokemon>(this.apiUrl, pokemon, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.post<Pokemon>(this.apiUrl, pokemon, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 
   getTypes(): Observable<PokemonType[]> {
-    return this.http.get<PokemonType[]>(this.typeApiUrl, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.get<PokemonType[]>(this.typeApiUrl, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 
   updatePokemon(pokemonId: number, pokemon: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${pokemonId}`, pokemon, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.put(`${this.apiUrl}/${pokemonId}`, pokemon, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 
   deletePokemon(pokemonId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${pokemonId}`, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleHttpError)
+    return this.getAuthHeaders().pipe(
+      switchMap(headers =>
+        this.http.delete(`${this.apiUrl}/${pokemonId}`, { headers }).pipe(
+          catchError(this.handleHttpError)
+        )
+      )
     );
   }
 }
