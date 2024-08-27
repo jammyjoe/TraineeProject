@@ -12,7 +12,7 @@ export class AuthService {
       auth: {
         clientId: '76792183-f318-4ab5-9eab-da4315d62dc3', // Replace with your client ID
         authority: 'https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df', // Replace with your tenant ID
-        redirectUri: 'http://localhost:4200/', // Replace with your redirect URI
+        redirectUri: 'https://pokedex-dev-web-app.azurewebsites.net/', // Replace with your redirect URI
       },
       cache: {
         cacheLocation: 'localStorage',
@@ -37,7 +37,7 @@ export class AuthService {
     if (accounts.length > 0) {
       const silentRequest = {
         account: accounts[0],
-        scopes: ['api://76792183-f318-4ab5-9eab-da4315d62dc3.default'] // Replace with your API scopes
+        scopes: ['api://76792183-f318-4ab5-9eab-da4315d62dc3/expose-api-scope'] // Replace with your API scopes
       };
       try {
         const response: AuthenticationResult = await this.msalInstance.acquireTokenSilent(silentRequest);
