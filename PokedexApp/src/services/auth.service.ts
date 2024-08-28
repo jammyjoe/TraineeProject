@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { environment } from "../environments/environment";
-import { Pokemon } from '../app/shared/models/pokemon.model';
+import { MsalService } from '@azure/msal-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-isAuthenticated: boolean = false;
+  constructor(private msalService: MsalService) {}
 
-  isLoggedIn(): boolean {
-    return this.isAuthenticated;
-  }  
-  
-  constructor() { }
+  isAuthenticated(): boolean {
+    return this.msalService.instance.getActiveAccount() !== null;
+  }
 }
 
