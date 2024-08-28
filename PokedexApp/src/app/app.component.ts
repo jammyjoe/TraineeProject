@@ -5,7 +5,7 @@ import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationComponent } from "./navigation/navigation.component";
-import { HomeComponent } from './explore/explore.component';
+import { ExploreComponent } from './explore/explore.component';
 
 @Component({
     selector: 'app-root',
@@ -13,7 +13,7 @@ import { HomeComponent } from './explore/explore.component';
     providers: [PokemonService],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, HomeComponent]
+    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, ExploreComponent]
 })
 export class AppComponent implements OnInit {
   title = "PokemonApp";
