@@ -1,46 +1,19 @@
-// src/app/auth-config.ts
-import { PublicClientApplication, InteractionType, LogLevel } from '@azure/msal-browser';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { environment } from "../environments/environment";
+import { Pokemon } from '../app/shared/models/pokemon.model';
 
-export const msalConfig = {
-  auth: {
-    clientId: 'your-client-id', // Replace with your application's client ID
-    authority: 'https://login.microsoftonline.com/your-tenant-id', // Replace with your tenant ID
-    redirectUri: 'http://localhost:4200', // Replace with your application's redirect URI
-  },
-  cache: {
-    cacheLocation: 'localStorage', // This can be 'localStorage' or 'sessionStorage'
-    storeAuthStateInCookie: false, // Set to true if you want to store auth state in cookies
-  },
-  system: {
-    loggerOptions: {
-      loggerCallback: (level: number, message: string, containsPii: boolean) => {
-        if (containsPii) return;
-        switch (level) {
-          case LogLevel.Error:
-            console.error(message);
-            return;
-          case LogLevel.Info:
-            console.info(message);
-            return;
-          case LogLevel.Verbose:
-            console.debug(message);
-            return;
-          case LogLevel.Warning:
-            console.warn(message);
-            return;
-        }
-      },
-      piiLoggingEnabled: false,
-      logLevel: LogLevel.Info,
-    },
-  },
-};
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+isAuthenticated: boolean = false;
 
-export const protectedResources = {
-  api: {
-    endpoint: 'https://pokedex-dev-web-api.azurewebsites.net/api', // Your Web API URL
-    scopes: ['api://76792183-f318-4ab5-9eab-da4315d62dc3/expose-api-scope'] // Your API scope
-  }
-};
+  isLoggedIn(): boolean {
+    return this.isAuthenticated;
+  }  
+  
+  constructor() { }
+}
 
-export const msalInstance = new PublicClientApplication(msalConfig);
