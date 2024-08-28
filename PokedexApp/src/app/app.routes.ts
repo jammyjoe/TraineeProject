@@ -3,14 +3,14 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
-import { HomeComponent } from './explore/explore.component';
+import { ExploreComponent } from './explore/explore.component';
 import { MsalGuard, MsalRedirectComponent } from '@azure/msal-angular';
-import { LoginComponent } from './home/home.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
     //{ path: '', component: AppComponent },
-    { path: '', component: LoginComponent }, 
-    { path: 'home', component: HomeComponent, canActivate: [MsalGuard] }, 
+    { path: '', component: HomeComponent }, 
+    { path: 'explore', component: ExploreComponent, canActivate: [MsalGuard] }, 
     { path: 'search', component: SearchComponent, canActivate: [MsalGuard] },
     { path: 'add', component: AddComponent, canActivate: [MsalGuard]  },
     { path: 'edit/:id', component: EditComponent, canActivate: [MsalGuard] },

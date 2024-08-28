@@ -72,6 +72,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Login error:', error);
+        alert('Login failed. Please try again.');
         this.isInteractionInProgress = false;
         this.cdr.detectChanges();
       }
