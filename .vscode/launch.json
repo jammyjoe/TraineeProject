@@ -8,9 +8,21 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "API Launch Chrome against localhost",
             "url": "http://localhost:5019/swagger/index.html",
             "webRoot": "${workspaceFolder}/PokedexApi",
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Angular Launch Chrome against localhost",
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}/PokedexApp",
+            "sourceMaps": true,
+            "trace": true,
+            "sourceMapPathOverrides": {
+              "webpack:///src/*": "${webRoot}/src/*"
+            }
         }
     ]
 }
