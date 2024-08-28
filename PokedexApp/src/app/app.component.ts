@@ -5,7 +5,7 @@ import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationComponent } from "./navigation/navigation.component";
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './explore/explore.component';
 
 @Component({
     selector: 'app-root',

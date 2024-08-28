@@ -3,9 +3,9 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './explore/explore.component';
 import { MsalGuard, MsalRedirectComponent } from '@azure/msal-angular';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './home/home.component';
 
 export const routes: Routes = [
     //{ path: '', component: AppComponent },
