@@ -4,11 +4,14 @@ using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
 using PokedexAPI.Repository;
 using PokedexAPI.RepositoryInterface;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Identity.Web;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
@@ -30,13 +33,30 @@ builder.Services.AddCors(options =>
                        .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-app.azurewebsites.net/api");
             });
         });
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+// 	.AddJwtBearer(options =>
+// 	{
+// 		options.Authority = "https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df";
+// 		options.Audience = "api://76792183-f318-4ab5-9eab-da4315d62dc3";
+//         options.RequireHttpsMetadata = true;
+// 	});
+
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//		.AddMicrosoftIdentityWebApi(options =>
+//		{
+//			configuration.Bind("AzureAd", options);
+//		});
+
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//        .AddMicrosoftIdentityWebApi(options =>
+//         {
+// 			configuration.GetSection("AzureAd").Bind(options);
+//         });
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(options =>
-	{
-		options.Authority = "https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df";
-		options.Audience = "api://76792183-f318-4ab5-9eab-da4315d62dc3";
-        options.RequireHttpsMetadata = true;
-	});
+       .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
