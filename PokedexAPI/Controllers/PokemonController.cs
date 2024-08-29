@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using Pokedex.DTOs;
 using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
 
 namespace Pokedex.Controllers
 {
+    [Authorize(Roles ="Manager")]
     [ApiController]
+    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     [Route("api/[controller]")]
     [EnableCors("AllowedOriginsPolicy")]
     public class PokemonController : ControllerBase
@@ -26,7 +27,7 @@ namespace Pokedex.Controllers
             _pokemonRepository = pokemonRepository;
             _mapper = mapper;
         }
-
+        
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<PokemonDto>> GetPokemons()
@@ -40,7 +41,6 @@ namespace Pokedex.Controllers
         }
 
         [HttpGet("{name}")]
-        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
 
@@ -58,7 +58,6 @@ namespace Pokedex.Controllers
         }
         
         [HttpGet("{id:int}")]
-        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
 
@@ -76,7 +75,6 @@ namespace Pokedex.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<PokemonDto>> CreatePokemon([FromBody] PokemonDto pokemonCreate)
@@ -115,7 +113,6 @@ namespace Pokedex.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -153,7 +150,6 @@ namespace Pokedex.Controllers
 
 
         [HttpDelete("{name}")]
-        [Authorize]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -175,7 +171,6 @@ namespace Pokedex.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
