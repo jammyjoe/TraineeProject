@@ -30,7 +30,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       if (res && res.account) {
         this.msalService.instance.setActiveAccount(res.account);
         this.isAuthenticated = true;
-        this.router.navigate(['/']); 
+        this.router.navigate(['/explore']); 
       } else {
         this.isAuthenticated = !!this.msalService.instance.getActiveAccount();
       }
