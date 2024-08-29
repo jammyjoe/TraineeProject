@@ -4,7 +4,6 @@ import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
 import { Pokemon, PokemonType } from '../app/shared/models/pokemon.model';
 import { environment } from '../environments/environment';
 import { MsalService } from '@azure/msal-angular';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class PokemonService {
   private apiUrl = `${environment.baseUrl}/api/Pokemon`;
   private typeApiUrl = `${environment.baseUrl}api/Type`;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private msalService: MsalService) {}
 
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
@@ -36,22 +35,8 @@ export class PokemonService {
     throw error;
   }
 
-  // getPokemons(): Observable<Pokemon[]> {
-  //   return this.msalService.acquireTokenSilent({ scopes: environment.scopeUri }).pipe(
-  //     switchMap(tokenResponse => {
-  //       const headers = new HttpHeaders({
-  //         'Authorization': `Bearer ${tokenResponse.accessToken}` // Include the access token
-  //       });
-  //       return this.http.get<Pokemon[]>(this.apiUrl, { headers }).pipe(
-  //         catchError(this.handleHttpError) // Handle HTTP errors
-  //       );
-  //     }),
-  //     catchError(this.handleTokenError) // Handle token acquisition errors
-  //   );
-  // }
-
   getPokemons(): Observable<Pokemon[]> {
-    return this.authService.acquireTokenSilent(['api://76792183-f318-4ab5-9eab-da4315d62dc3/.default']).pipe(
+    return this.msalService.acquireTokenSilent({ scopes: environment.scopeUri }).pipe(
       switchMap(tokenResponse => {
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${tokenResponse.accessToken}` // Include the access token

@@ -1,16 +1,14 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, inject } from '@angular/core';
 import { Observable, Subject, filter, switchMap, takeUntil } from 'rxjs';
 import { Pokemon } from './shared/models/pokemon.model';
 import { PokemonService } from '../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { NavigationComponent } from "./navigation/navigation.component";
 import { ExploreComponent } from './explore/explore.component';
 import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalRedirectComponent, MsalService } from '@azure/msal-angular';
 import { environment } from '../environments/environment';
 import { AuthenticationResult, EventType, InteractionStatus } from '@azure/msal-browser';
-import { AuthService } from '../services/auth.service';
-import { NavigationComponent } from './navigation/navigation.component';
-import { HomeComponent } from './home/home.component';
 
 @Component({
     selector: 'app-root',
@@ -18,7 +16,7 @@ import { HomeComponent } from './home/home.component';
     providers: [PokemonService],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    imports: [AsyncPipe, CommonModule, RouterModule, ExploreComponent, NavigationComponent, HomeComponent ]
+    imports: [AsyncPipe, CommonModule, RouterModule, NavigationComponent, ExploreComponent]
 })
 
 export class AppComponent implements OnInit, OnDestroy {
@@ -30,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private msalService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
     private router: Router
-  ) {}
+  ) {}  
 
   ngOnInit(): void {
     // Initialize MSAL and handle redirects
@@ -46,17 +44,24 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Subscribe to authentication state changes
-    this.msalBroadcastService.inProgress$.pipe(
-      filter((status: InteractionStatus) => status === InteractionStatus.None),
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      // You can also update the state here if needed
-    });
+        // Subscribe to authentication state changes
+        this.msalBroadcastService.inProgress$.pipe(
+          filter((status: InteractionStatus) => status === InteractionStatus.None),
+          takeUntil(this.destroy$)
+        ).subscribe(() => {
+          // You can also update the state here if needed
+        });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  // pokemons$!: Observable<Pokemon[]>;
+  // pokemonService = inject(PokemonService);
+
+  // trackById(index: number, pokemon: Pokemon): number {
+  //   return pokemon.id;
+  // }
 }

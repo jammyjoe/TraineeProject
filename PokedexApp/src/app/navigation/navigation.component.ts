@@ -14,20 +14,21 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-
 export class NavigationComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   isAuthenticated: boolean = false;
   isInteractionInProgress: boolean = false;
 
-  constructor(
-    private msalService: MsalService,
-    private authService: AuthService, // Inject AuthService
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private msalService: MsalService,
+              private msalBroadCastService: MsalBroadcastService,
+              private router: Router,
+              private cdr: ChangeDetectorRef, 
+              private authService: AuthService,
+              ) // Inject AuthService
+              {   
+              }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.cdr.detectChanges(); 
   }
@@ -46,8 +47,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
       return;
     }
     this.isInteractionInProgress = true;
-    this.authService.loginPopup().subscribe({
+    this.msalService.loginPopup().subscribe({
       next: (response: AuthenticationResult) => {
+        this.msalService.instance.setActiveAccount(response.account);
         this.isAuthenticated = true;
         this.isInteractionInProgress = false;
         this.cdr.detectChanges();
@@ -60,10 +62,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   logout() {
-    this.authService.logout();
-    this.isAuthenticated = false;
-    this.router.navigate(['/']);
+    this.msalService.logoutPopup({ postLogoutRedirectUri: environment.redirectUrl });
+    this.router.navigate(['/']); 
   }
 }
