@@ -10,7 +10,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
         auth: {
             clientId: environment.uiClientId,
             redirectUri: environment.redirectUrl,
-            authority: 'https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df',
+            authority: `https://login.microsoftonline.com/${environment.uitenantId}`,
             postLogoutRedirectUri: '/'
         },
         cache: {
@@ -18,7 +18,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             storeAuthStateInCookie: isIE,
         },
             system: {
-            allowNativeBroker: false, // Disables native brokering support
+            allowNativeBroker: false, 
         }
     });
 }
@@ -27,7 +27,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     return {
         interactionType: InteractionType.Redirect,
         authRequest: {
-            scopes: ['PokemonAPI.Read'],
+            scopes: ['pokemonapi-read'],
         },
     };
 }
@@ -35,7 +35,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     const protectedResourceMap = new Map<string, string[]>([
         ['https://graph.microsoft.com/v1.0/me', ['user.read']],
-        ['localhost', environment.scopeUri],
+        ['https://localhost:5019/api/Pokemon', ["api://76792183-f318-4ab5-9eab-da4315d62dc3/pokedex-read"]],
     ]);
 
     return {
