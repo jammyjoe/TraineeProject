@@ -154,14 +154,14 @@ namespace Pokedex.Repository
 
             if (existingPokemon == null)
             {
-                return false; 
+                return false;
             }
 
             existingPokemon.Name = updatedPokemonDto.Name;
             var updateTypeResult = await UpdateType(updatedPokemonDto, existingPokemon);
             if (!updateTypeResult)
             {
-                return false; 
+                return false;
             }
 
             try
@@ -198,7 +198,7 @@ namespace Pokedex.Repository
                 var type2 = await _context.PokemonTypes.FirstOrDefaultAsync(pt => pt.TypeName == updatePokemonDto.Type2.TypeName);
                 if (type2 == null)
                 {
-                    return false; 
+                    return false;
                 }
                 existingPokemon.Type2Id = type2.Id;
             }

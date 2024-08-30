@@ -48,7 +48,7 @@ public class TypeController : ControllerBase
         {
             return NotFound();
         }
-        
+
         var pokemonDtos = _mapper.Map<List<PokemonDto>>(pokemons);
 
         return Ok(pokemonDtos);
