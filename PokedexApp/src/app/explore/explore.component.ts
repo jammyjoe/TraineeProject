@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
-import { Pokemon } from '../shared/models/pokemon.model';
+import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
@@ -13,6 +13,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 
 export class ExploreComponent implements OnInit {
   pokemons: Pokemon[] = [];
+  types: PokemonType[] = [];
 
   constructor(private pokemonService: PokemonService) {}
 

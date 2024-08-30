@@ -5,22 +5,24 @@ import { Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-add',
   standalone: true,
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, AppComponent]
 })
-export class AddComponent implements OnInit {
+export class AddComponent implements OnInit{
   addPokemonForm: FormGroup;
   types: PokemonType[] = [];
   successMessage: string = '';
-pokemons: any;
+  pokemons: any;
 
-  constructor(private fb: FormBuilder,
+  constructor(
     private pokemonService: PokemonService,
+    private fb: FormBuilder,
     private router : Router) {
     this.addPokemonForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -32,12 +34,17 @@ pokemons: any;
   }
 
   ngOnInit(): void {
+    this.fetchTypes();
+  }
+
+  fetchTypes(): void {
     this.pokemonService.getTypes().subscribe(
       types => {
         this.types = types;
       },
       error => {
-        console.error('Error fetching types', error);
+        console.error('Error fetching types:', error);
+        alert('Failed to fetch types. Please check the console for details.');
       }
     );
   }

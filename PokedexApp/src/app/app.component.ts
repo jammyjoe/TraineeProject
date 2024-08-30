@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, inject } from '@angular/core';
 import { Observable, Subject, filter, switchMap, takeUntil } from 'rxjs';
-import { Pokemon } from './shared/models/pokemon.model';
-import { PokemonService } from '../services/pokemon.service';
+import { Pokemon, PokemonType } from './shared/models/pokemon.model';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavigationComponent } from "./navigation/navigation.component";
@@ -9,6 +8,7 @@ import { ExploreComponent } from './explore/explore.component';
 import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalRedirectComponent, MsalService } from '@azure/msal-angular';
 import { environment } from '../environments/environment';
 import { AuthenticationResult, EventType, InteractionStatus } from '@azure/msal-browser';
+import { PokemonService } from '../services/pokemon.service';
 
 @Component({
     selector: 'app-root',
@@ -59,6 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // pokemons$!: Observable<Pokemon[]>;
+  // pokemonType$!: Observable<PokemonType[]>;
+
   // pokemonService = inject(PokemonService);
 
   // trackById(index: number, pokemon: Pokemon): number {

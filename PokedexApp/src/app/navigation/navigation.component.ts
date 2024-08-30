@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { AuthenticationResult, InteractionStatus } from '@azure/msal-browser';
-import { Subject, filter, takeUntil } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { Subject } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { AuthenticationResult } from '@azure/msal-browser';
 
 @Component({
   selector: 'app-navigation',
@@ -19,16 +17,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
   isInteractionInProgress: boolean = false;
 
-  constructor(private msalService: MsalService,
-              private msalBroadCastService: MsalBroadcastService,
-              private router: Router,
-              private cdr: ChangeDetectorRef, 
-              private authService: AuthService,
-              ) // Inject AuthService
-              {   
-              }
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef, 
+    private authService: AuthService,
+  ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.cdr.detectChanges(); 
   }
@@ -47,14 +42,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
       return;
     }
     this.isInteractionInProgress = true;
-    this.msalService.loginPopup().subscribe({
+    this.authService.loginPopup().subscribe({
       next: (response: AuthenticationResult) => {
-        this.msalService.instance.setActiveAccount(response.account);
         this.isAuthenticated = true;
         this.isInteractionInProgress = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Login error:', error);
         alert('Login failed. Please try again.');
         this.isInteractionInProgress = false;
@@ -62,8 +56,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   logout() {
-    this.msalService.logoutPopup({ postLogoutRedirectUri: environment.redirectUrl });
-    this.router.navigate(['/']); 
+    this.authService.logout();
+    this.isAuthenticated = false;
+    this.router.navigate(['/']);
   }
 }

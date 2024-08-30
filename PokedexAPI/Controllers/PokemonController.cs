@@ -10,7 +10,7 @@ using PokedexAPI.Models;
 
 namespace Pokedex.Controllers
 {
-    [Authorize(Roles ="Manager")]
+    [Authorize]
     [ApiController]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     [Route("api/[controller]")]
@@ -34,9 +34,6 @@ namespace Pokedex.Controllers
         {
             var pokemons = _mapper.Map<List<PokemonDto>>(await _pokemonRepository.GetPokemons());
 
-            if (!ModelState.IsValid)
-                return NoContent();
-
             return Ok(pokemons);
         }
 
@@ -51,9 +48,6 @@ namespace Pokedex.Controllers
 
             var pokemon = _mapper.Map<PokemonDto>(await _pokemonRepository.GetPokemon(name));
 
-            if (!ModelState.IsValid)
-                return NoContent();
-
             return Ok(pokemon);
         }
         
@@ -67,9 +61,6 @@ namespace Pokedex.Controllers
                 return NotFound("This pokemon does not exist");
 
             var pokemon = _mapper.Map<PokemonDto>(await _pokemonRepository.GetPokemon(id));
-
-            if (!ModelState.IsValid)
-                return NoContent();
 
             return Ok(pokemon);
         }

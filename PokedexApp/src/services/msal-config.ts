@@ -1,5 +1,5 @@
 // msal-config.ts
-import { PublicClientApplication, InteractionType, IPublicClientApplication } from '@azure/msal-browser';
+import { PublicClientApplication, InteractionType, IPublicClientApplication, LogLevel } from '@azure/msal-browser';
 import { MsalGuardConfiguration, MsalInterceptorConfiguration } from '@azure/msal-angular';
 import { environment } from '../environments/environment';
 
@@ -18,8 +18,12 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             storeAuthStateInCookie: isIE,
         },
             system: {
+            loggerOptions: {
+                logLevel: LogLevel.Info,
+                },
             allowNativeBroker: false, 
-        }
+        },
+        
     });
 }
 
@@ -27,16 +31,17 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     return {
         interactionType: InteractionType.Redirect,
         authRequest: {
-            scopes: ['pokemonapi-read'],
+            scopes: ['User.Read'],
         },
     };
 }
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     const protectedResourceMap = new Map<string, string[]>([
-        ['https://graph.microsoft.com/v1.0/me', ['user.read']],
-        ['https://localhost:5019/api/Pokemon', ["api://76792183-f318-4ab5-9eab-da4315d62dc3/pokedex-read"]],
+        ['https://graph.microsoft.com/v1.0/me', ['User.Read']],
+        ['https://localhost:5019/api/', ['api://76792183-f318-4ab5-9eab-da4315d62dc3/pokemonapi-read']],
     ]);
+
 
     return {
         interactionType: InteractionType.Redirect,
