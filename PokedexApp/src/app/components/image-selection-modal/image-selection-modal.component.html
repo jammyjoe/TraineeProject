@@ -1,0 +1,15 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50" *ngIf="isOpen">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+      <h2 class="text-lg font-bold mb-4">Select an Image</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div *ngFor="let image of images" class="relative">
+          <img [src]="image.url" alt="Pokemon Image" class="w-full h-32 object-cover rounded-lg cursor-pointer" (click)="selectImage(image.url)">
+          <span class="absolute top-0 left-0 bg-black text-white p-1 text-xs rounded-br-lg">{{ image.name }}</span>
+        </div>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2" (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

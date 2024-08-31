@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImageSelectionModalComponent } from '../components/image-selection-modal/image-selection-modal.component';
 
 @Component({
   selector: 'app-add',
   standalone: true,
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, ImageSelectionModalComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]  // Add this line to suppress the error
 })
 export class AddComponent implements OnInit {
+  @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
+  selectedImageUrl: string = '';
   addPokemonForm: FormGroup;
   types: PokemonType[] = [];
   successMessage: string = '';
@@ -84,6 +88,14 @@ pokemons: any;
 
   removeWeakness(index: number): void {
     this.pokemonWeaknesses.removeAt(index);
+  }
+
+  openImagePicker(): void {
+    this.imagePickerModal.open();
+  }
+
+  onImageSelected(imageUrl: string): void {
+    this.selectedImageUrl = imageUrl;
   }
 
   onSubmit(): void {
