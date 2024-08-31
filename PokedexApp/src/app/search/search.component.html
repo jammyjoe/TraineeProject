@@ -41,6 +41,17 @@
               <div>{{ weakness.type.typeName }}</div>
             </div>
           </div>
+          <ng-template #noWeaknesses>
+            <div>None</div>
+          </ng-template>
+
+          <div class="flex items-center justify-center">
+            <img *ngIf="pokemonResult.imageUrl"
+                 [src]="pokemonResult.imageUrl"
+                 alt="{{ pokemonResult.name }}"
+                 class="w-32 h-32 object-contain rounded-lg">
+          </div>
+
           <div class="flex justify-end items-start space-x-4 mt-4">
             <button class="bg-blue-500 p-4 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     (click)="editPokemon(pokemonResult.id)">
