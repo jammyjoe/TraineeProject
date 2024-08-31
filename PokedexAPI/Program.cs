@@ -38,6 +38,10 @@ app.UseCors("AllowedOriginsPolicy");
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles(); 
+
+app.UseDirectoryBrowser();
+
 app.UseExceptionHandler("/Error");
 
 app.UseAuthorization();
