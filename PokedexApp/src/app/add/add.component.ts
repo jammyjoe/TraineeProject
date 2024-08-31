@@ -91,7 +91,11 @@ pokemons: any;
   }
 
   openImagePicker(): void {
-    this.imagePickerModal.open();
+    if (this.imagePickerModal) {
+      this.imagePickerModal.open();  // Call open() to display the modal
+    } else {
+      console.error('ImagePickerModalComponent is not available.');
+    }
   }
 
   onImageSelected(imageUrl: string): void {
@@ -111,7 +115,8 @@ pokemons: any;
         })),
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
           type: weakness.type
-        }))
+        })),
+        imageUrl: this.selectedImageUrl 
       };
 
       this.pokemonService.addPokemon(pokemon).subscribe(

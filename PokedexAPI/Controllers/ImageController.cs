@@ -11,46 +11,41 @@ namespace Pokedex.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
-public class ImagerController : ControllerBase
+public class ImageController : ControllerBase
 {
     private readonly PokedexContext _context;
     private readonly ITypeRepository _typeRepository;
     private readonly IMapper _mapper;
 
-    public ImagerController(PokedexContext context, ITypeRepository typeRepository, IMapper mapper)
+    public ImageController(PokedexContext context, ITypeRepository typeRepository, IMapper mapper)
     {
         _context = context;
         _typeRepository = typeRepository;
         _mapper = mapper;
     }
 
-    [HttpGet]
-    [ProducesResponseType(200)]
-    public async Task<ActionResult<PokemonTypeDto>> GetTypes()
+    [HttpGet("pokemon")]
+    public IActionResult GetPokemonImages()
     {
-        var types = _mapper.Map<List<PokemonTypeDto>>(await _typeRepository.GetTypes());
-
-        if (!ModelState.IsValid)
-            return NoContent();
-
-        return Ok(types);
-    }
-
-    [HttpGet("{typeName}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-
-    public async Task<ActionResult<Type>> GetPokemonsByType(string typeName)
-    {
-        var pokemons = await _typeRepository.GetPokemonsByType(typeName);
-
-        if (pokemons == null || pokemons.Count == 0)
+        // Path to your images directory
+        var imageFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/pokemon");
+        
+        // Ensure the directory exists
+        if (!Directory.Exists(imageFolder))
         {
-            return NotFound();
+            return NotFound("Image directory not found.");
         }
 
-        var pokemonDtos = _mapper.Map<List<PokemonDto>>(pokemons);
+        // Get all image files
+        var imageFiles = Directory.GetFiles(imageFolder);
 
-        return Ok(pokemonDtos);
+        // Map image file paths to URL and name
+        var images = imageFiles.Select(file => new 
+        { 
+            url = $"/images/pokemon/{Path.GetFileName(file)}", 
+            name = Path.GetFileNameWithoutExtension(file) 
+        }).ToList();
+
+        return Ok(images);
     }
 }

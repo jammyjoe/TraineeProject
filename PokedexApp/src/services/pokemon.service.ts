@@ -10,8 +10,9 @@ export class PokemonService {
   // private apiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Pokemon'; 
   // private typeApiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Type'; 
 
-  private apiUrl = 'http://localhost:5019/api/Pokemon'; 
-  private typeApiUrl = 'http://localhost:5019/api/Type'; 
+  private apiUrl = 'http://localhost:5019/api/pokemon'; 
+  private typeApiUrl = 'http://localhost:5019/api/type'; 
+  private imageApiUrl = 'http://localhost:5019/api/image/pokemon';
 
   constructor(private http: HttpClient) {}
 
@@ -65,6 +66,10 @@ export class PokemonService {
   deletePokemon(pokemonId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${pokemonId}`).pipe
       (catchError(this.handleHttpError));
+  }
+
+  getPokemonImages(): Observable<{ url: string, name: string }[]> {
+    return this.http.get<{ url: string, name: string }[]>(this.imageApiUrl);
   }
 
 }

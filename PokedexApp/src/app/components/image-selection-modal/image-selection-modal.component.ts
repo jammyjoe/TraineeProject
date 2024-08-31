@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { PokemonService } from '../../../services/pokemon.service';
 
 @Component({
   selector: 'app-image-selection-modal',
@@ -10,21 +11,33 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 
 export class ImageSelectionModalComponent {
-@Output() imageSelected = new EventEmitter<string>();
-isOpen = false;
-images: { url: string, name: string }[] = [];
+  @Output() imageSelected = new EventEmitter<string>();
+  isOpen = false;
+  images: { url: string, name: string }[] = [];
 
-open(): void {
-  this.isOpen = true;
-  // Load images if needed (we will implement this later)
-}
+  constructor(private pokemonService: PokemonService) {}
 
-close(): void {
-  this.isOpen = false;
-}
+  open(): void {
+    this.isOpen = true;
+    this.loadImages(); 
+  }
 
-selectImage(imageUrl: string): void {
-  this.imageSelected.emit(imageUrl);
-  this.close();
-}
+  close(): void {
+    this.isOpen = false;
+  }
+
+  selectImage(imageUrl: string): void {
+    this.imageSelected.emit(imageUrl);
+    this.close();
+  }
+
+  loadImages(): void {
+    this.pokemonService.getPokemonImages().subscribe(
+      images => {
+        console.log('Images loaded:', images); // Debugging line
+        this.images = images;
+      },
+      error => console.error('Error loading images:', error)
+    );
+  }
 }
