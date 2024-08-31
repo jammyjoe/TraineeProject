@@ -31,7 +31,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseSwaggerUI();
 }
 
 app.UseCors("AllowedOriginsPolicy");
@@ -40,7 +40,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles(); 
 
-app.UseDirectoryBrowser();
+//app.UseDirectoryBrowser();
 
 app.UseExceptionHandler("/Error");
 

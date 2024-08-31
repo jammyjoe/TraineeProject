@@ -33,8 +33,8 @@
 
           <!-- Image Section -->
           <div class="flex-shrink-0">
-              <img *ngIf="pokemon.imageData" [src]="'data:image/png;base64,' + pokemon.imageData" alt="{{ pokemon.name }}" class="w-40 h-32 object-contain rounded-lg">
-          </div>
+            <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="w-40 h-32 object-contain rounded-lg">
+        </div>
       </div>
   </div>
 </div>

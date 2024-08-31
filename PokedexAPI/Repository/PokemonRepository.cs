@@ -7,16 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PokedexAPI.DTOs;
+using Microsoft.Extensions.Hosting;
 
 namespace Pokedex.Repository
 {
     public class PokemonRepository : IPokemonRepository
     {
         private readonly PokedexContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public PokemonRepository(PokedexContext context)
+
+        public PokemonRepository(PokedexContext context, IWebHostEnvironment environment )
         {
             _context = context;
+            _environment = environment;
         }
 
         public async Task<ICollection<Pokemon>> GetPokemons()
@@ -57,9 +61,31 @@ namespace Pokedex.Repository
 
         public async Task<Pokemon> CreatePokemon(PokemonDto pokemonDto)
         {
+
+            //  string imageUrl = null;
+            //     if (pokemonDto.ImageFile != null && pokemonDto.ImageFile.Length > 0)
+            //     {
+            //         string uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "pokemon");
+            //         Directory.CreateDirectory(uploadsFolder); // Ensure the directory exists
+
+            //         string fileName = Path.GetFileName(pokemonDto.ImageFile.FileName);
+            //         string filePath = Path.Combine(uploadsFolder, fileName);
+
+            //         // Save the file
+            //         using (var stream = new FileStream(filePath, FileMode.Create))
+            //         {
+            //             await pokemonDto.ImageFile.CopyToAsync(stream);
+            //         }
+
+            //         // Set image URL
+            //         imageUrl = $"/images/pokemon/{fileName}";
+            //     }
+        
             var pokemon = new Pokemon
             {
                 Name = pokemonDto.Name,
+                ImageUrl = pokemonDto.ImageUrl,                
+                //ImageData = pokemonDto.ImageData // For base64 image data
             };
 
             async Task<PokemonType> GetValidatedPokemonType(string typeName)

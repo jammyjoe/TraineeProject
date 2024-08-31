@@ -55,9 +55,9 @@ namespace PokedexAPI.Models
 					.IsUnicode(false)
 					.HasColumnName("image_url");
 
-				entity.Property(e => e.ImageData)
-					.HasColumnName("image_data")
-					.HasColumnType("varbinary(max)");
+				// entity.Property(e => e.ImageData)
+				// 	.HasColumnName("image_data")
+				// 	.HasColumnType("varbinary(max)");
 
 				entity.Property(e => e.Type1Id).HasColumnName("type1_id");
 

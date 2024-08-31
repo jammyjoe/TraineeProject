@@ -14,8 +14,9 @@ namespace PokedexAPI.Models
 		public string Name { get; set; } = null!;
 		public int Type1Id { get; set; }
 		public int? Type2Id { get; set; }
-		public string? ImageUrl { get; set; } 
-   		public byte[]? ImageData { get; set; } // Nullable byte array for image data
+		//public IFormFile ImageFile { get; set; }
+		public string ImageUrl { get; set; } 
+   		//public byte[] ImageData { get; set; } // Nullable byte array for image data
 		public virtual PokemonType Type1 { get; set; } = null!;
 		public virtual PokemonType Type2 { get; set; }
 

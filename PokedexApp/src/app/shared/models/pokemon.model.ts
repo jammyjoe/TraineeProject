@@ -1,11 +1,11 @@
 export interface Pokemon {
   id: number;
   name: string;
+  imageUrl?: string;
   type1: PokemonType;
   type2?: PokemonType;
   pokemonStrengths: PokemonStrength[];
   pokemonWeaknesses: PokemonWeakness[];
-  imageData?: string; // Base64 string of the image
 }
 
 export interface PokemonType {
