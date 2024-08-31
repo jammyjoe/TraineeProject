@@ -5,6 +5,7 @@ export interface Pokemon {
   type2?: PokemonType;
   pokemonStrengths: PokemonStrength[];
   pokemonWeaknesses: PokemonWeakness[];
+  imageData?: string; // Base64 string of the image
 }
 
 export interface PokemonType {

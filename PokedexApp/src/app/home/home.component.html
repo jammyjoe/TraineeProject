@@ -1,5 +1,10 @@
 <div *ngIf="pokemons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 p-12">
     <div *ngFor="let pokemon of pokemons" class="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200">
+
+      <div class="text-center mb-4">
+        <img *ngIf="pokemon.imageData" [src]="'data:image/png;base64,' + pokemon.imageData" alt="{{ pokemon.name }}" class="w-full h-auto rounded-lg">
+      </div>
+      
       <h2 class="text-xl font-bold mb-4 text-center">{{ pokemon.name }}</h2>
   
       <!-- Basic Info -->
@@ -27,5 +32,6 @@
     </div>
   </div>
   
+
   <div *ngIf="pokemons.length === 0" class="text-center text-gray-500">No Pokemons Found...</div>
   
