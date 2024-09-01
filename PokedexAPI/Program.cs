@@ -7,9 +7,6 @@ using PokedexAPI.RepositoryInterface;
 using AutoMapper;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
-using System.Configuration;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +33,7 @@ builder.Services.AddCors(options =>
                        .AllowAnyMethod()
                        .AllowCredentials()
                        .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-app.azurewebsites.net");
-            })
+            });
         });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -52,7 +49,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true
         };
 	});
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

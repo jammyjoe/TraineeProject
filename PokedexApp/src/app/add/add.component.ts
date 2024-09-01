@@ -5,24 +5,21 @@ import { Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ImageSelectionModalComponent } from '../components/image-selection-modal/image-selection-modal.component';
 import { AppComponent } from '../app.component';
+import { ImageSelectionModalComponent } from '../components/image-selection-modal/image-selection-modal.component';
 
 @Component({
   selector: 'app-add',
   standalone: true,
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, ImageSelectionModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, AppComponent, ImageSelectionModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]  
 })
-export class AddComponent implements OnInit {
+
+export class AddComponent implements OnInit{
   @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
   selectedImageUrl: string = '';
-  addPokemonForm: FormGroup;
-  imports: [CommonModule, ReactiveFormsModule, AppComponent]
-})
-export class AddComponent implements OnInit{
   types: PokemonType[] = [];
   addPokemonForm: FormGroup;
   successMessage: string = '';
@@ -131,7 +128,7 @@ export class AddComponent implements OnInit{
           alert('Pokemon added successfully!');  
           this.addPokemonForm.reset();
           this.successMessage = 'Pokemon successfully saved.';
-          this.router.navigate(['/']);
+          this.router.navigate(['/explore']);
         },
         error => {
           if (error.status === 400) {

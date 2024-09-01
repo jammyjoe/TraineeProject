@@ -161,7 +161,7 @@ export class EditComponent implements OnInit {
         response => {
           console.log('Pokemon updated successfully:', response);
           alert('Pokemon updated successfully!'); 
-          this.router.navigate(['/']);  
+          this.router.navigate(['/explore']);  
         },
         error => {
           console.error('Error updating Pokemon:', error);
