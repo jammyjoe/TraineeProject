@@ -13,7 +13,7 @@ builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
-builder.Services.AddSingleton(x => new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=pokedeximgstorage;AccountKey=dX9/MnnU3QQYzkyIkgyi8yvrXbW4Xl5tEza/36P8Oy+1vrtAOo3ssCzy6mJo9AhILuBlmjnT6aas+AStGnf1hQ==;EndpointSuffix=core.windows.net"));
+builder.Services.AddSingleton(x => new BlobServiceClient("StorageConnection"));
 builder.Services.AddDbContext<PokedexContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
 builder.Services.AddEndpointsApiExplorer();
