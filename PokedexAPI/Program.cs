@@ -49,7 +49,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true
         };
 	});
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
