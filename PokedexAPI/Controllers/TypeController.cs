@@ -1,6 +1,8 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using Pokedex.DTOs;
 using PokedexAPI.DTOs;
 using PokedexAPI.Models;
@@ -8,9 +10,10 @@ using PokedexAPI.RepositoryInterface;
 
 namespace Pokedex.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
-[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+[EnableCors("AllowedOriginsPolicy")]
 public class TypeController : ControllerBase
 {
     private readonly PokedexContext _context;
@@ -29,9 +32,6 @@ public class TypeController : ControllerBase
     public async Task<ActionResult<PokemonTypeDto>> GetTypes()
     {
         var types = _mapper.Map<List<PokemonTypeDto>>(await _typeRepository.GetTypes());
-
-        if (!ModelState.IsValid)
-            return NoContent();
 
         return Ok(types);
     }
