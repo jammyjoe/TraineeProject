@@ -4,7 +4,7 @@
       <!-- Flex container for name and image -->
       <div class="flex items-start p-6">
           <!-- Text Section -->
-          <div class="flex-1">
+          <div class="flex-3-1-0">
               <h2 class="text-xl font-bold mb-4">{{ pokemon.name }}</h2>
               
               <!-- Basic Info -->
@@ -32,8 +32,8 @@
           </div>
 
           <!-- Image Section -->
-          <div class="flex-shrink-0">
-            <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="w-40 h-32 object-contain rounded-lg">
+          <div class="flex-1">
+            <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="w-full h-auto object-contain rounded-lg">
         </div>
       </div>
   </div>
