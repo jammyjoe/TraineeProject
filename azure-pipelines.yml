@@ -35,20 +35,20 @@ stages:
         parameters:
           appProjectName: ${{variables.appProjectName}}       
 
-  # - stage: DeployInfrastructure
-  #   displayName: 'Deploy Terraform Resources'
-  #   dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp] 
-  #   jobs:
-  #     - job: DeployInfrastructure
-  #       variables:
-  #         - group: PokedexDev
-  #       displayName: 'Deploy Infrastructure'
-  #       steps:
-  #       - template: deploy_infrastructure.yml
-  #         parameters:
-  #         #  SpokeResourceGroupName: $(SpokeResourceGroupName)
-  #         #  StorageAccountName: $(StorageAccountName)
-  #          Environment: $(Environment)
+  - stage: DeployInfrastructure
+    displayName: 'Deploy Terraform Resources'
+    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp] 
+    jobs:
+      - job: DeployInfrastructure
+        variables:
+          - group: PokedexDev
+        displayName: 'Deploy Infrastructure'
+        steps:
+        - template: deploy_infrastructure.yml
+          parameters:
+          #  SpokeResourceGroupName: $(SpokeResourceGroupName)
+          #  StorageAccountName: $(StorageAccountName)
+           Environment: $(Environment)
 
   - stage: 'DeployApi'
     displayName: 'Deploy Web Api'
