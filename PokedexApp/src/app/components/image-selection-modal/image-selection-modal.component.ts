@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PokemonService } from '../../../services/pokemon.service';
 
 @Component({
@@ -10,13 +10,18 @@ import { PokemonService } from '../../../services/pokemon.service';
   styleUrl: './image-selection-modal.component.css'
 })
 
-export class ImageSelectionModalComponent {
+export class ImageSelectionModalComponent implements OnInit {
   @Output() imageSelected = new EventEmitter<string>();
   @Output() closed = new EventEmitter<void>();
   isOpen = false;
   images: { url: string, name: string }[] = [];
 
   constructor(private pokemonService: PokemonService) { }
+  
+  ngOnInit(): void {
+    this.loadImages();
+  }
+
 
   open(): void {
     this.isOpen = true;

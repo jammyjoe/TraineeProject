@@ -1,20 +1,12 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50" *ngIf="isOpen">
   <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full">
     <h2 class="text-lg font-bold mb-4">Select an Image</h2>
-    
-    <!-- Scrollable image grid -->
-    <div class="grid grid-cols-5 gap-4 max-h-96 overflow-y-auto">
+    <div class="grid grid-cols-5 gap-4 overflow-y-auto max-h-[80vh]"> <!-- Adjust the max height and enable scrolling -->
       <div *ngFor="let image of images" class="relative">
-        <img 
-          [src]="image.url" 
-          alt="Pokemon Image" 
-          class="w-32 h-32 object-cover rounded-lg cursor-pointer" 
-          (click)="selectImage(image.url)">
-        <span class="absolute top-0 left-0 bg-black text-white p-1 text-xs rounded-br-lg">{{ image.name }}</span>
+        <img [src]="image.url" alt="Pokemon Image" class="w-32 h-32 object-cover rounded-lg cursor-pointer" (click)="selectImage(image.url)">
+        <!-- <span class="absolute top-0 left-0 bg-black text-white p-1 text-xs rounded-br-lg">{{ image.name }}</span> -->
       </div>
     </div>
-
-    <!-- Modal buttons -->
     <div class="flex justify-end mt-4">
       <button class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2" (click)="close()">Cancel</button>
     </div>
