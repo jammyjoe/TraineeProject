@@ -15,8 +15,8 @@ import { AppComponent } from '../app.component';
   imports: [CommonModule, ReactiveFormsModule, AppComponent]
 })
 export class AddComponent implements OnInit{
-  addPokemonForm: FormGroup;
   types: PokemonType[] = [];
+  addPokemonForm: FormGroup;
   successMessage: string = '';
   pokemons: any;
 
@@ -34,10 +34,6 @@ export class AddComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.fetchTypes();
-  }
-
-  fetchTypes(): void {
     this.pokemonService.getTypes().subscribe(
       types => {
         this.types = types;
@@ -46,8 +42,7 @@ export class AddComponent implements OnInit{
         console.error('Error fetching types:', error);
         alert('Failed to fetch types. Please check the console for details.');
       }
-    );
-  }
+    );  }
 
   get pokemonStrengths(): FormArray {
     return this.addPokemonForm.get('pokemonStrengths') as FormArray;

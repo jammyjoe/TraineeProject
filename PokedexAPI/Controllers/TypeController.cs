@@ -1,9 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Web.Resource;
 using Pokedex.DTOs;
 using PokedexAPI.DTOs;
 using PokedexAPI.Models;
@@ -55,4 +53,9 @@ public class TypeController : ControllerBase
 
         return Ok(pokemonDtos);
     }
+}
+
+internal class RequiredScopeAttribute : Attribute
+{
+    public string RequiredScopesConfigurationKey { get; set; }
 }

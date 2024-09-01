@@ -1,9 +1,8 @@
-// msal-config.ts
 import { PublicClientApplication, InteractionType, IPublicClientApplication, LogLevel } from '@azure/msal-browser';
 import { MsalGuardConfiguration, MsalInterceptorConfiguration } from '@azure/msal-angular';
 import { environment } from '../environments/environment';
 
-const isIE = window.navigator.userAgent.indexOf('MSIE') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+const isIE = window.navigator.userAgent.includes('MSIE') || window.navigator.userAgent.includes('Trident/');
 
 export function MSALInstanceFactory(): IPublicClientApplication {
     return new PublicClientApplication({
@@ -17,13 +16,12 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             cacheLocation: 'localStorage',
             storeAuthStateInCookie: isIE,
         },
-            system: {
+        system: {
             loggerOptions: {
                 logLevel: LogLevel.Info,
-                },
+            },
             allowNativeBroker: false, 
         },
-        
     });
 }
 
@@ -36,11 +34,15 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     };
 }
 
+// export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+//     const protectedResourceMap = new Map<string, string[]>([
+//         [environment.baseUrl, environment.scopeUri],
+//         ['https://graph.microsoft.com/v1.0/me', ['User.Read']],
+//     ]);
+
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-    const protectedResourceMap = new Map<string, string[]>([
-        ['https://graph.microsoft.com/v1.0/me', ['User.Read']],
-        ['https://localhost:5019/api/', ['api://76792183-f318-4ab5-9eab-da4315d62dc3/pokemonapi-read']],
-    ]);
+    const protectedResourceMap = new Map<string, Array<string>>();
+    protectedResourceMap.set(environment.baseUrl, environment.scopeUri);
 
 
     return {
