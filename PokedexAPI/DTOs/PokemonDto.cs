@@ -10,7 +10,7 @@ namespace Pokedex.DTOs
         [MaxLength(50, ErrorMessage = "Name cannot be longer than 50 characters.")]
         public string Name { get; set; }
 
-        public IFormFile ImageFile { get; set; }
+        //public IFormFile ImageFile { get; set; }
         public string ImageUrl { get; set; }
         //public byte[] ImageData { get; set; } // Nullable byte array for image data
 

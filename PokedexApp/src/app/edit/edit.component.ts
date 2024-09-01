@@ -1,22 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { CommonModule } from '@angular/common';
+import { ImageSelectionModalComponent } from '../components/image-selection-modal/image-selection-modal.component';
 
 @Component({
   selector: 'app-edit',
   standalone: true,
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, ImageSelectionModalComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]  
 })
 export class EditComponent implements OnInit {
+  @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
   editPokemonForm: FormGroup;
   types: PokemonType[] = [];
   successMessage: string = '';
   pokemonId!: number;
+  selectedImageUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,9 +31,10 @@ export class EditComponent implements OnInit {
     this.editPokemonForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type1: [null, Validators.required],
-      type2: [null, Validators.required],
+      type2: [null],
       pokemonStrengths: this.fb.array([]),
-      pokemonWeaknesses: this.fb.array([])
+      pokemonWeaknesses: this.fb.array([]),
+      imageUrl: ['']
     });
   }
 
@@ -53,12 +58,14 @@ export class EditComponent implements OnInit {
             this.editPokemonForm.patchValue({
               name: pokemon.name,
               type1: pokemon.type1.typeName,
-              type2: pokemon.type2 ? pokemon.type2.typeName : ''
+              type2: pokemon.type2 ? pokemon.type2.typeName : null,
+              imageUrl: pokemon.imageUrl 
             });
 
             // Populate strengths and weaknesses
             this.setFormArray('pokemonStrengths', pokemon.pokemonStrengths);
             this.setFormArray('pokemonWeaknesses', pokemon.pokemonWeaknesses);
+            this.selectedImageUrl = pokemon.imageUrl ?? '';
           },
           error => {
             console.error('Error fetching Pokémon data', error);
@@ -119,6 +126,20 @@ export class EditComponent implements OnInit {
     return this.editPokemonForm.get('pokemonWeaknesses') as FormArray;
   }
 
+  openImageModal(): void {
+    if (this.imagePickerModal) {
+      this.imagePickerModal.open();
+    }
+  }
+
+  onImageSelected(imageUrl: string): void {
+    this.selectedImageUrl = imageUrl;
+    this.editPokemonForm.patchValue({ imageUrl });    
+  }
+
+  onModalClosed(): void {
+  }
+
   onSubmit(): void {
     if (this.editPokemonForm.valid) {
       const formData = this.editPokemonForm.value;
@@ -126,13 +147,14 @@ export class EditComponent implements OnInit {
         id: +this.route.snapshot.paramMap.get('id')!,
         name: formData.name,
         type1: { typeName: formData.type1 },
-        type2: { typeName: formData.type2 || null },
+        type2: { typeName: formData.type2 ?? null },
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
           type: { typeName: weakness.type.typeName }
         })),
         pokemonStrengths: formData.pokemonStrengths.map((strength: any) => ({
           type: { typeName: strength.type.typeName }
-        }))
+        })),
+        imageUrl: formData.imageUrl,
       };
 
       this.pokemonService.updatePokemon(pokemonDto.id, pokemonDto).subscribe(

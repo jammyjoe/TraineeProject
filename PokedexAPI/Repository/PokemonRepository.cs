@@ -62,25 +62,6 @@ namespace Pokedex.Repository
         public async Task<Pokemon> CreatePokemon(PokemonDto pokemonDto)
         {
 
-            //  string imageUrl = null;
-            //     if (pokemonDto.ImageFile != null && pokemonDto.ImageFile.Length > 0)
-            //     {
-            //         string uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "pokemon");
-            //         Directory.CreateDirectory(uploadsFolder); // Ensure the directory exists
-
-            //         string fileName = Path.GetFileName(pokemonDto.ImageFile.FileName);
-            //         string filePath = Path.Combine(uploadsFolder, fileName);
-
-            //         // Save the file
-            //         using (var stream = new FileStream(filePath, FileMode.Create))
-            //         {
-            //             await pokemonDto.ImageFile.CopyToAsync(stream);
-            //         }
-
-            //         // Set image URL
-            //         imageUrl = $"/images/pokemon/{fileName}";
-            //     }
-        
             var pokemon = new Pokemon
             {
                 Name = pokemonDto.Name,
@@ -184,6 +165,11 @@ namespace Pokedex.Repository
             }
 
             existingPokemon.Name = updatedPokemonDto.Name;
+            if (!string.IsNullOrEmpty(updatedPokemonDto.ImageUrl))
+            {
+                existingPokemon.ImageUrl = updatedPokemonDto.ImageUrl;
+            }
+            
             var updateTypeResult = await UpdateType(updatedPokemonDto, existingPokemon);
             if (!updateTypeResult)
             {

@@ -13,7 +13,7 @@ import { ImageSelectionModalComponent } from '../components/image-selection-moda
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css'],
   imports: [CommonModule, ReactiveFormsModule, ImageSelectionModalComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]  // Add this line to suppress the error
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]  
 })
 export class AddComponent implements OnInit {
   @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
@@ -21,7 +21,7 @@ export class AddComponent implements OnInit {
   addPokemonForm: FormGroup;
   types: PokemonType[] = [];
   successMessage: string = '';
-pokemons: any;
+  pokemons: any;
 
   constructor(private fb: FormBuilder,
     private pokemonService: PokemonService,

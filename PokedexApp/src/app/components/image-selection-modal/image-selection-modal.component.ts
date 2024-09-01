@@ -12,10 +12,11 @@ import { PokemonService } from '../../../services/pokemon.service';
 
 export class ImageSelectionModalComponent {
   @Output() imageSelected = new EventEmitter<string>();
+  @Output() closed = new EventEmitter<void>();
   isOpen = false;
   images: { url: string, name: string }[] = [];
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(private pokemonService: PokemonService) { }
 
   open(): void {
     this.isOpen = true;
@@ -24,6 +25,7 @@ export class ImageSelectionModalComponent {
 
   close(): void {
     this.isOpen = false;
+    this.closed.emit(); // Emit event when the modal is closed
   }
 
   selectImage(imageUrl: string): void {
@@ -33,10 +35,7 @@ export class ImageSelectionModalComponent {
 
   loadImages(): void {
     this.pokemonService.getPokemonImages().subscribe(
-      images => {
-        console.log('Images loaded:', images); // Debugging line
-        this.images = images;
-      },
+      images => this.images = images,
       error => console.error('Error loading images:', error)
     );
   }
