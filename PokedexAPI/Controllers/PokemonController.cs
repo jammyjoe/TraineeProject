@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using Pokedex.DTOs;
 using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
@@ -10,7 +11,6 @@ namespace Pokedex.Controllers
 {
     [Authorize]
     [ApiController]
-    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     [Route("api/[controller]")]
     [EnableCors("AllowedOriginsPolicy")]
     public class PokemonController : ControllerBase

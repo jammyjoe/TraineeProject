@@ -39,7 +39,6 @@ export class PokemonService {
   //   );
   // }
 
-
   // getPokemons(): Observable<Pokemon[]> {
   //   return this.getAuthHeaders().pipe(
   //     switchMap(headers => this.http.get<Pokemon[]>(this.apiUrl, { headers })),
