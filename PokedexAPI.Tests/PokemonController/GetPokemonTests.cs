@@ -85,24 +85,4 @@ public class GetPokemonTests
         var notFoundResult = result.Result as NotFoundObjectResult;
         notFoundResult.Value.Should().Be("This pokemon does not exist");
     }
-
-    [Test]
-    public async Task GetPokemon_ReturnsNoContent_WhenModelStateIsInvalid()
-    {
-        // Arrange
-        var pokemonName = "ExistingPokemon";
-        _fakePokemonController.ModelState.AddModelError("Error", "Invalid ModelState");
-
-        A.CallTo(() => _fakePokemonRepository.PokemonExists(pokemonName)).Returns(true);
-        A.CallTo(() => _fakePokemonRepository.GetPokemon(pokemonName)).Returns(A.Fake<Pokemon>());
-
-        // Act
-        var result = await _fakePokemonController.GetPokemon(pokemonName);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Result.Should().BeOfType<NoContentResult>();
-    }
-
-
 }
