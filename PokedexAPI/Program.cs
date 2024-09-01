@@ -11,12 +11,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
-// builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-//     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
-
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -39,8 +34,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
-		options.Authority = "https://login.microsoftonline.com/e712b66c-2cb8-430e-848f-dbab4beb16df";
-		options.Audience = "api://76792183-f318-4ab5-9eab-da4315d62dc3";
+		options.Authority = builder.Configuration["AzureAd:Authority"];
+		options.Audience = builder.Configuration["AzureAd:Audience"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -49,21 +44,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true
         };
 	});
-
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-// 		.AddMicrosoftIdentityWebApi(options =>
-// 		{
-// 			configuration.Bind("AzureAd", options);
-// 		});
-
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//        .AddMicrosoftIdentityWebApi(options =>
-//         {
-// 			configuration.GetSection("AzureAd").Bind(options);
-//         });
-
-
-
 
 var app = builder.Build();
 
