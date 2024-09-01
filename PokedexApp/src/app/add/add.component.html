@@ -1,67 +1,67 @@
 <!-- <h2 class="text-2xl font-bold mb-4 px-10 p-8">Add a Pokemon</h2> -->
 <div class="add-container p-9">
   
-<form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()" class="space-y-6">
-  <div class="form-group">
-    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-    <input id="name" formControlName="name" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+  <form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="form-group">
+      <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+      <input id="name" formControlName="name" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+    </div>
+  
+    <div class="form-group py-4">
+      <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
+      <select id="type1" formControlName="type1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option value="" disabled selected hidden></option>
+        <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group py-4">
+      <label for="type2" class="block text-sm font-medium text-gray-700">Type 2</label>
+      <select id="type2" formControlName="type2" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option value="" selected>None</option>
+        <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group py-4">
+      <label class="block text-sm font-medium text-gray-700">Strengths</label>
+      <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addStrength($event)">
+        <option value="" disabled selected hidden></option>
+        <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+      </select>
+      <ul class="mt-2 space-y-2">
+        <li class="flex items-center justify-around size-fit p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let strength of pokemonStrengths.controls; let i = index">
+          {{ strength.value.type.typeName }}
+          <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeStrength(i)"><i class="fa-solid fa-xmark"></i></button>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="form-group py-4">
+      <label class="block text-sm font-medium text-gray-700">Weaknesses</label>
+      <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addWeakness($event)">
+        <option value="" disabled selected hidden></option>
+        <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+      </select>
+      <ul class="mt-2 space-y-2">
+        <li class="flex items-center justify-between size-fit p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
+          {{ weakness.value.type.typeName }}
+          <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeWeakness(i)"><i class="fa-solid fa-xmark"></i></button>
+        </li>
+      </ul>
+    </div>
+  
+    <button class="block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 py-2 px-4 rounded-md shadow-sm" type="button" (click)="openImagePicker()">Select Image</button>
+    <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Selected Pokemon Image" class="w-32 h-32 object-cover mt-4" />
+  
+    <!-- Ensure this is using the correct selector -->
+    <app-image-selection-modal (imageSelected)="onImageSelected($event)"></app-image-selection-modal>
+  
+  
+    <div class="flex justify-start py-4">
+      <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+    </div>
+  </form>
+  
+  <div *ngIf="successMessage" class="text-green-600 mt-4">{{ successMessage }}</div>
   </div>
-
-  <div class="form-group py-4">
-    <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
-    <select id="type1" formControlName="type1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      <option value="" disabled selected hidden></option>
-      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-    </select>
-  </div>
-
-  <div class="form-group py-4">
-    <label for="type2" class="block text-sm font-medium text-gray-700">Type 2</label>
-    <select id="type2" formControlName="type2" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      <option value="" selected>None</option>
-      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-    </select>
-  </div>
-
-  <div class="form-group py-4">
-    <label class="block text-sm font-medium text-gray-700">Strengths</label>
-    <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addStrength($event)">
-      <option value="" disabled selected hidden></option>
-      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-    </select>
-    <ul class="mt-2 space-y-2">
-      <li class="flex items-center justify-around size-fit p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let strength of pokemonStrengths.controls; let i = index">
-        {{ strength.value.type.typeName }}
-        <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeStrength(i)"><i class="fa-solid fa-xmark"></i></button>
-      </li>
-    </ul>
-  </div>
-
-  <div class="form-group py-4">
-    <label class="block text-sm font-medium text-gray-700">Weaknesses</label>
-    <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addWeakness($event)">
-      <option value="" disabled selected hidden></option>
-      <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-    </select>
-    <ul class="mt-2 space-y-2">
-      <li class="flex items-center justify-between size-fit p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
-        {{ weakness.value.type.typeName }}
-        <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeWeakness(i)"><i class="fa-solid fa-xmark"></i></button>
-      </li>
-    </ul>
-  </div>
-
-  <button class="block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 py-2 px-4 rounded-md shadow-sm" type="button" (click)="openImagePicker()">Select Image</button>
-  <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Selected Pokemon Image" class="w-32 h-32 object-cover mt-4" />
-
-  <!-- Ensure this is using the correct selector -->
-  <app-image-selection-modal (imageSelected)="onImageSelected($event)"></app-image-selection-modal>
-
-
-  <div class="flex justify-start py-4">
-    <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
-  </div>
-</form>
-
-<div *ngIf="successMessage" class="text-green-600 mt-4">{{ successMessage }}</div>
-</div>
