@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using Pokedex.DTOs;
 using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
 
 namespace Pokedex.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AllowedOriginsPolicy")]
-    //[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
     public class PokemonController : ControllerBase
     {
         private readonly PokedexContext _context;
@@ -26,15 +25,12 @@ namespace Pokedex.Controllers
             _pokemonRepository = pokemonRepository;
             _mapper = mapper;
         }
-
+        
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<PokemonDto>> GetPokemons()
         {
             var pokemons = _mapper.Map<List<PokemonDto>>(await _pokemonRepository.GetPokemons());
-
-            if (!ModelState.IsValid)
-                return NoContent();
 
             return Ok(pokemons);
         }
@@ -50,9 +46,6 @@ namespace Pokedex.Controllers
 
             var pokemon = _mapper.Map<PokemonDto>(await _pokemonRepository.GetPokemon(name));
 
-            if (!ModelState.IsValid)
-                return NoContent();
-
             return Ok(pokemon);
         }
 
@@ -66,9 +59,6 @@ namespace Pokedex.Controllers
                 return NotFound("This pokemon does not exist");
 
             var pokemon = _mapper.Map<PokemonDto>(await _pokemonRepository.GetPokemon(id));
-
-            if (!ModelState.IsValid)
-                return NoContent();
 
             return Ok(pokemon);
         }

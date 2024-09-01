@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
 import { Pokemon, PokemonType } from '../app/shared/models/pokemon.model';
+import { environment } from '../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,12 @@ export class PokemonService {
   private apiUrl = 'http://localhost:5019/api/pokemon'; 
   private typeApiUrl = 'http://localhost:5019/api/type'; 
   private imageApiUrl = 'http://localhost:5019/api/image/pokemon';
+  private apiUrl = `${environment.baseUrl}/api/pokemon`;
+  private typeApiUrl = `${environment.baseUrl}/api/type`;
+  private imageApiUrl = `${environment.baseUrl}/api/image/pokemon`;
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
@@ -23,10 +29,27 @@ export class PokemonService {
     } else {
       errorMessage = `Server Error: ${error.error}`;
     }
-    alert(errorMessage); 
     console.error(errorMessage); 
     return throwError(() => new Error(errorMessage));
   }
+
+  // getPokemons(): Observable<Pokemon[]> {
+  //   return this.authService.acquireToken().pipe(
+  //     switchMap(token => {
+  //       const headers = this.getHeaders(token);
+  //       return this.http.get<Pokemon[]>(this.apiUrl, { headers }).pipe(
+  //         catchError(this.handleHttpError)
+  //       );
+  //     })
+  //   );
+  // }
+
+  // getPokemons(): Observable<Pokemon[]> {
+  //   return this.getAuthHeaders().pipe(
+  //     switchMap(headers => this.http.get<Pokemon[]>(this.apiUrl, { headers })),
+  //     catchError(this.handleHttpError)
+  //   );
+  // }
 
   getPokemons(): Observable<Pokemon[]> {
     return this.http.get<Pokemon[]>(this.apiUrl).pipe(
@@ -46,11 +69,13 @@ export class PokemonService {
     (catchError(this.handleHttpError));
   }
 
+
   addPokemon(pokemon: Pokemon): Observable<Pokemon> {
     return this.http.post<Pokemon>(this.apiUrl, pokemon).pipe(
       catchError(this.handleHttpError)
     );
   }
+
 
   getTypes(): Observable<PokemonType[]> {
     return this.http.get<PokemonType[]>(this.typeApiUrl).pipe(
@@ -58,10 +83,12 @@ export class PokemonService {
     );
   }
 
+
   updatePokemon(pokemonId: number, pokemon: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${pokemonId}`, pokemon).pipe
     (catchError(this.handleHttpError));
   }
+  
 
   deletePokemon(pokemonId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${pokemonId}`).pipe
@@ -71,6 +98,4 @@ export class PokemonService {
   getPokemonImages(): Observable<{ url: string, name: string }[]> {
     return this.http.get<{ url: string, name: string }[]>(this.imageApiUrl);
   }
-
 }
-

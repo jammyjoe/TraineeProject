@@ -6,6 +6,7 @@ import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageSelectionModalComponent } from '../components/image-selection-modal/image-selection-modal.component';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-add',
@@ -19,12 +20,17 @@ export class AddComponent implements OnInit {
   @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
   selectedImageUrl: string = '';
   addPokemonForm: FormGroup;
+  imports: [CommonModule, ReactiveFormsModule, AppComponent]
+})
+export class AddComponent implements OnInit{
   types: PokemonType[] = [];
+  addPokemonForm: FormGroup;
   successMessage: string = '';
   pokemons: any;
 
-  constructor(private fb: FormBuilder,
+  constructor(
     private pokemonService: PokemonService,
+    private fb: FormBuilder,
     private router : Router) {
     this.addPokemonForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -41,10 +47,10 @@ export class AddComponent implements OnInit {
         this.types = types;
       },
       error => {
-        console.error('Error fetching types', error);
+        console.error('Error fetching types:', error);
+        alert('Failed to fetch types. Please check the console for details.');
       }
-    );
-  }
+    );  }
 
   get pokemonStrengths(): FormArray {
     return this.addPokemonForm.get('pokemonStrengths') as FormArray;

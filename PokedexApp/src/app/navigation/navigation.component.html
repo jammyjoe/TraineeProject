@@ -1,13 +1,37 @@
-<div class="bg-red-500 text-white py-8">
+<div class="bg-red-700 text-white py-8">
   <div class="container mx-auto flex justify-between items-center">
+    <!-- Brand Section -->
     <div>
-      <h1 class="text-4xl font-bold">Pokedex</h1>
-      <p class="text-lg">Welcome to the virtual Pokedex</p>
+      <a routerLink="/"><h1 class="text-4xl font-bold">Pokedex</h1>
+      <p class="text-lg">Welcome to the virtual Pokedex</p></a>
     </div>
-    <ul class="flex text-red-200 space-x-10">
-      <li class="text-xl hover:text-white"><a routerLink="/"><i class="fa-solid fa-house"></i></a></li>
-      <li class="text-xl hover:text-white"><a routerLink="/search"><i class="fa-solid fa-magnifying-glass"></i></a></li>
-      <li class="text-xl hover:text-white"><a routerLink="/add"><i class="fa-solid fa-plus"></i></a></li>
+
+    <!-- Navigation Links and Auth Buttons -->
+    <ul class="flex space-x-10">
+      <li class="text-xl hover:text-gray-300" *ngIf="isAuthenticated">
+        <a routerLink="/explore" class="flex items-center">
+          <i class="fa-solid fa-house"></i>
+          <span class="ml-2">Explore</span>
+        </a>
+      </li>
+      <li class="text-xl hover:text-gray-300" *ngIf="isAuthenticated">
+        <a routerLink="/search" class="flex items-center">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span class="ml-2">Search</span>
+        </a>
+      </li>
+      <li class="text-xl hover:text-gray-300" *ngIf="isAuthenticated">
+        <a routerLink="/add" class="flex items-center">
+          <i class="fa-solid fa-plus"></i>
+          <span class="ml-2">Add</span>
+        </a>
+      </li>
+      <button class="text-xl text-white hover:text-gray-300" *ngIf="!isAuthenticated" (click)="login()">
+        Login
+      </button>
+      <button class="text-xl text-white hover:text-gray-300" *ngIf="isAuthenticated" (click)="logout()">
+        Logout
+      </button>
     </ul>
   </div>
 </div>
