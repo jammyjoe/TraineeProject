@@ -7,7 +7,9 @@ variables:
   appProjectName: 'PokedexApp'
 
 trigger:
-- none
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
