@@ -1,7 +1,7 @@
 // main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, HttpClientModule, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { MSALInstanceFactory, MSALGuardConfigFactory, MSALInterceptorConfigFactory } from './services/msal-config';
@@ -12,6 +12,7 @@ import { enableProdMode } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    HttpClientModule, 
     provideHttpClient(
       withInterceptorsFromDi()
     ),

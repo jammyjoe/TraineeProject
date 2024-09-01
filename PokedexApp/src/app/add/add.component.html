@@ -51,6 +51,13 @@
     </ul>
   </div>
 
+  <button class="block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 py-2 px-4 rounded-md shadow-sm" type="button" (click)="openImagePicker()">Select Image</button>
+  <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Selected Pokemon Image" class="w-32 h-32 object-cover mt-4" />
+
+  <!-- Ensure this is using the correct selector -->
+  <app-image-selection-modal (imageSelected)="onImageSelected($event)"></app-image-selection-modal>
+
+
   <div class="flex justify-start py-4">
     <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
   </div>

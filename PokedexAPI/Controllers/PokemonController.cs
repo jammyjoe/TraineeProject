@@ -48,7 +48,7 @@ namespace Pokedex.Controllers
 
             return Ok(pokemon);
         }
-        
+
         [HttpGet("{id:int}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -68,7 +68,7 @@ namespace Pokedex.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<PokemonDto>> CreatePokemon([FromBody] PokemonDto pokemonCreate)
         {
-            if(await _pokemonRepository.PokemonExists(pokemonCreate.Name))
+            if (await _pokemonRepository.PokemonExists(pokemonCreate.Name))
             {
                 return BadRequest("This pokemon already exists");
             }

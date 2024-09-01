@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImageSelectionModalComponent } from '../components/image-selection-modal/image-selection-modal.component';
 import { AppComponent } from '../app.component';
 
 @Component({
@@ -12,6 +13,13 @@ import { AppComponent } from '../app.component';
   standalone: true,
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css'],
+  imports: [CommonModule, ReactiveFormsModule, ImageSelectionModalComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]  
+})
+export class AddComponent implements OnInit {
+  @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
+  selectedImageUrl: string = '';
+  addPokemonForm: FormGroup;
   imports: [CommonModule, ReactiveFormsModule, AppComponent]
 })
 export class AddComponent implements OnInit{
@@ -88,6 +96,18 @@ export class AddComponent implements OnInit{
     this.pokemonWeaknesses.removeAt(index);
   }
 
+  openImagePicker(): void {
+    if (this.imagePickerModal) {
+      this.imagePickerModal.open();  // Call open() to display the modal
+    } else {
+      console.error('ImagePickerModalComponent is not available.');
+    }
+  }
+
+  onImageSelected(imageUrl: string): void {
+    this.selectedImageUrl = imageUrl;
+  }
+
   onSubmit(): void {
     if (this.addPokemonForm.valid) {
       const formData = this.addPokemonForm.value;
@@ -101,7 +121,8 @@ export class AddComponent implements OnInit{
         })),
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
           type: weakness.type
-        }))
+        })),
+        imageUrl: this.selectedImageUrl 
       };
 
       this.pokemonService.addPokemon(pokemon).subscribe(

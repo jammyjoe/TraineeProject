@@ -18,42 +18,60 @@
   <div *ngIf="pokemonResult$ | async as pokemonResult" class="mt-8">
     <div *ngIf="pokemonResult; else noResults">
       <div class="pokemon-card p-4 border rounded-lg mb-4">
-        <h3 class="text-lg font-bold">{{ pokemonResult.name }}</h3>
-        <div class="text-sm text-gray-600 py-2">
-          <strong>Type</strong>
-          <p>{{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}</p>
+
+ <div class="flex flex-col p-4 space-y-4">
+  <!-- Flex Container with Text and Image -->
+  <div class="flex">
+    <!-- Text Section -->
+    <div class="w-1/6">
+      <h3 class="text-lg font-bold p-1">{{ pokemonResult.name }}</h3>
+      <div class="text-sm text-gray-600 p-1">
+        <strong>Type:</strong> 
+        {{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}
+      </div>
+      <div class="text-sm text-gray-600 p-1">
+        <strong>Strengths:</strong>
+        <div *ngIf="pokemonResult.pokemonStrengths && pokemonResult.pokemonStrengths.length > 0">
+          <div *ngFor="let strength of pokemonResult.pokemonStrengths">
+            {{ strength.type.typeName }}
+          </div>
         </div>
-        <div class="text-sm text-gray-600 py-2">
-          <strong>Strengths</strong>
-          <div *ngIf="pokemonResult.pokemonStrengths && pokemonResult.pokemonStrengths.length > 0; else noStrengths">
-            <div *ngFor="let strength of pokemonResult.pokemonStrengths">
-              <div>{{ strength.type.typeName }}</div>
-            </div>
+        <div *ngIf="pokemonResult.pokemonStrengths.length === 0">None</div>
+      </div>
+      <div class="text-sm text-gray-600 p-1">
+        <strong>Weaknesses:</strong>
+        <div *ngIf="pokemonResult.pokemonWeaknesses && pokemonResult.pokemonWeaknesses.length > 0">
+          <div *ngFor="let weakness of pokemonResult.pokemonWeaknesses">
+            {{ weakness.type.typeName }}
           </div>
-          <ng-template #noStrengths>
-            <div>None</div>
-          </ng-template>
         </div>
-        <div class="text-sm text-gray-600">
-          <strong>Weaknesses</strong>
-          <div *ngIf="pokemonResult.pokemonWeaknesses && pokemonResult.pokemonWeaknesses.length > 0; else noWeaknesses">
-            <div *ngFor="let weakness of pokemonResult.pokemonWeaknesses">
-              <div>{{ weakness.type.typeName }}</div>
-            </div>
-          </div>
-          <div class="flex justify-end items-start space-x-4 mt-4">
-            <button class="bg-blue-500 p-4 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    (click)="editPokemon(pokemonResult.id)">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button class="bg-blue-500 p-4 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    (click)="deletePokemon(pokemonResult.id)">
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-          <ng-template #noWeaknesses>
-            <div>None</div>
-          </ng-template>
+        <div *ngIf="pokemonResult.pokemonWeaknesses.length === 0">None</div>
+      </div>
+    </div>
+
+    <!-- Image Section -->
+    <div class="flex-grow">
+      <img *ngIf="pokemonResult.imageUrl"
+           [src]="pokemonResult.imageUrl"
+           alt="{{ pokemonResult.name }}"
+           class="w-16 h-auto object-contain rounded-lg">
+    </div>
+  </div>
+
+  <!-- Button Section -->
+  <div class="flex justify-end space-x-4 m-4">
+    <button class="bg-blue-500 p-4 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            (click)="editPokemon(pokemonResult.id)">
+      <i class="fa fa-edit"></i>
+    </button>
+    <button class="bg-red-500 p-4 text-white rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+            (click)="deletePokemon(pokemonResult.id)">
+      <i class="fa fa-trash"></i>
+    </button>
+  </div>
+</div>
+
+
         </div>
       </div>
     </div>
@@ -61,4 +79,3 @@
       <p>No results found...</p>
     </ng-template>
   </div>
-</div>

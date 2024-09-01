@@ -81,7 +81,8 @@
               "buildTarget": "PokedexApp:build:production"
             },
             "development": {
-              "buildTarget": "PokedexApp:build:development"
+              "buildTarget": "PokedexApp:build:development",
+              "proxyConfig": "proxy.conf.json" 
             }
           },
           "defaultConfiguration": "development"

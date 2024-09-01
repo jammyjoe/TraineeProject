@@ -4,6 +4,8 @@ using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
 using PokedexAPI.Repository;
 using PokedexAPI.RepositoryInterface;
+using AutoMapper;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using System.Configuration;
@@ -17,8 +19,13 @@ builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
+builder.Services.AddSingleton(x =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("StorageAccountConnection");
+    return new BlobServiceClient(connectionString);
+});
 builder.Services.AddDbContext<PokedexContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -29,8 +36,9 @@ builder.Services.AddCors(options =>
                        .AllowAnyMethod()
                        .AllowCredentials()
                        .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-app.azurewebsites.net");
-            });
-         });
+            })
+        });
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
@@ -47,7 +55,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -5,22 +5,22 @@
 namespace PokedexAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class AddImageUrlToPokemon : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "pokemon_type",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false),
-                    type_name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_pokemon_type", x => x.id);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "pokemon_type",
+            //    columns: table => new
+            //    {
+            //        id = table.Column<int>(type: "int", nullable: false),
+            //        type_name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_pokemon_type", x => x.id);
+            //    });
 
             migrationBuilder.CreateTable(
                 name: "pokemon",
@@ -28,9 +28,10 @@ namespace PokedexAPI.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "varchar(256)", unicode: false, maxLength: 256, nullable: false),
+                    name = table.Column<string>(type: "varchar(256)", unicode: false, maxLength: 256, nullable: true),
                     type1_id = table.Column<int>(type: "int", nullable: false),
-                    type2_id = table.Column<int>(type: "int", nullable: true)
+                    type2_id = table.Column<int>(type: "int", nullable: true),
+                    image_url = table.Column<string>(type: "varchar(2048)", unicode: false, maxLength: 2048, nullable: true)
                 },
                 constraints: table =>
                 {

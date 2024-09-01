@@ -1,6 +1,7 @@
 export interface Pokemon {
   id: number;
   name: string;
+  imageUrl?: string;
   type1: PokemonType;
   type2?: PokemonType;
   pokemonStrengths: PokemonStrength[];

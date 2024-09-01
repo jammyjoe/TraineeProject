@@ -7,16 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PokedexAPI.DTOs;
+using Microsoft.Extensions.Hosting;
 
 namespace Pokedex.Repository
 {
     public class PokemonRepository : IPokemonRepository
     {
         private readonly PokedexContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public PokemonRepository(PokedexContext context)
+
+        public PokemonRepository(PokedexContext context, IWebHostEnvironment environment )
         {
             _context = context;
+            _environment = environment;
         }
 
         public async Task<ICollection<Pokemon>> GetPokemons()
@@ -57,9 +61,12 @@ namespace Pokedex.Repository
 
         public async Task<Pokemon> CreatePokemon(PokemonDto pokemonDto)
         {
+
             var pokemon = new Pokemon
             {
                 Name = pokemonDto.Name,
+                ImageUrl = pokemonDto.ImageUrl,                
+                //ImageData = pokemonDto.ImageData // For base64 image data
             };
 
             async Task<PokemonType> GetValidatedPokemonType(string typeName)
@@ -154,14 +161,19 @@ namespace Pokedex.Repository
 
             if (existingPokemon == null)
             {
-                return false; 
+                return false;
             }
 
             existingPokemon.Name = updatedPokemonDto.Name;
+            if (!string.IsNullOrEmpty(updatedPokemonDto.ImageUrl))
+            {
+                existingPokemon.ImageUrl = updatedPokemonDto.ImageUrl;
+            }
+            
             var updateTypeResult = await UpdateType(updatedPokemonDto, existingPokemon);
             if (!updateTypeResult)
             {
-                return false; 
+                return false;
             }
 
             try
@@ -198,7 +210,7 @@ namespace Pokedex.Repository
                 var type2 = await _context.PokemonTypes.FirstOrDefaultAsync(pt => pt.TypeName == updatePokemonDto.Type2.TypeName);
                 if (type2 == null)
                 {
-                    return false; 
+                    return false;
                 }
                 existingPokemon.Type2Id = type2.Id;
             }

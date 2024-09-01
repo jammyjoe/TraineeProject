@@ -4,7 +4,9 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+    flex: {'3-1-0': '3 1 0%',}
+  },
     plugins: [],
   }
 }

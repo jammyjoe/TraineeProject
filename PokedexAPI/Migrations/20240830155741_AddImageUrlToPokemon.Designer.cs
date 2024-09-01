@@ -12,8 +12,8 @@ using PokedexAPI.Models;
 namespace PokedexAPI.Migrations
 {
     [DbContext(typeof(PokedexContext))]
-    [Migration("20240606101110_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20240830155741_AddImageUrlToPokemon")]
+    partial class AddImageUrlToPokemon
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace PokedexAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .UseCollation("Latin1_General_CI_AS")
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -35,8 +35,13 @@ namespace PokedexAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(2048)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("image_url");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .IsUnicode(false)
                         .HasColumnType("varchar(256)")
