@@ -13,6 +13,11 @@ builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
+builder.Services.AddSingleton(x =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("StorageAccountConnection");
+    return new BlobServiceClient(connectionString);
+});
 builder.Services.AddDbContext<PokedexContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
 builder.Services.AddEndpointsApiExplorer();
@@ -39,7 +44,7 @@ app.UseCors("AllowedOriginsPolicy");
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles(); 
+//app.UseStaticFiles(); 
 
 //app.UseDirectoryBrowser();
 
