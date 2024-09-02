@@ -37,7 +37,7 @@ stages:
 
   - stage: DeployInfrastructure
     displayName: 'Deploy Terraform Resources'
-    #dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp] 
+    dependsOn: [BuildPokedexWebApi, BuildPokedexWebApp] 
     jobs:
       - job: DeployInfrastructure
         variables:
