@@ -1,5 +1,6 @@
 using AutoMapper;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Pokedex.DTOs;
@@ -9,6 +10,7 @@ using PokedexAPI.RepositoryInterface;
 
 namespace Pokedex.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
