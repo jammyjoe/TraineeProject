@@ -1,9 +1,7 @@
 parameters:
-  # - name: SpokeResourceGroupName
-  #   type: string
-  # - name: StorageAccountName
-  #   type: string
-  - name: Environment
+  - name: ResourceGroupName
+    type: string
+  - name: StorageAccountName
     type: string
 
 steps:
@@ -13,13 +11,13 @@ steps:
   inputs:
     targetType: filePath
     filePath: '$(Build.SourcesDirectory)/Deployment/terraform_deploy.ps1'
-    arguments: '-deploymentEnvironment ${{parameters.Environment}}'
+    arguments: '-resourceGroupName ${{parameters.ResourceGroupName}} -storageAccountName ${{parameters.StorageAccountName}}'
   env:
     TF_VAR_SUBSCRIPTION_ID: $(SubscriptionId)
     TF_VAR_CLIENT_ID: $(ClientId)
     TF_VAR_TENANT_ID: $(TenantId)
     TF_VAR_CLIENT_SECRET: $(ClientSecret)
-    #TF_VAR_RESOURCEGROUPNAME: $(ResourceGroupName)
-    #TF_VAR_STORAGEACCOUNTNAME: $(StorageAccountName)
+    TF_VAR_RESOURCEGROUPNAME: $(ResourceGroupName)
+    TF_VAR_STORAGEACCOUNTNAME: $(StorageAccountName)
 
 

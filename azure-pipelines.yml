@@ -46,9 +46,8 @@ stages:
         steps:
         - template: deploy_infrastructure.yml
           parameters:
-          #  SpokeResourceGroupName: $(SpokeResourceGroupName)
-          #  StorageAccountName: $(StorageAccountName)
-           Environment: $(Environment)
+           ResourceGroupName: $(ResourceGroupName)
+           StorageAccountName: $(StorageAccountName)
 
   - stage: 'DeployApi'
     displayName: 'Deploy Web Api'
