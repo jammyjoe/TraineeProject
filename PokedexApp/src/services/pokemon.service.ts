@@ -9,9 +9,6 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class PokemonService {
-  // private apiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Pokemon'; 
-  // private typeApiUrl = 'https://pokedex-dev-web-api.azurewebsites.net/api/Type'; 
-
   private apiUrl = `${environment.baseUrl}/api/pokemon`;
   private typeApiUrl = `${environment.baseUrl}/api/type`;
   private imageApiUrl = `${environment.baseUrl}/api/image/pokemon`;

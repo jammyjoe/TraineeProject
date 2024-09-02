@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
                 builder.AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials()
-                       .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-app.azurewebsites.net");
+                       .WithOrigins("http://localhost:4200", "https://pokedex-web-app.azurewebsites.net");
             });
         });
 
