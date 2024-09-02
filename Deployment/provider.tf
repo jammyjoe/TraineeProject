@@ -6,12 +6,12 @@ terraform {
     }
   }
 
-  # backend "azurerm" {
-  #   resource_group_name   = "spokeconnect-rg"
-  #   storage_account_name  = "tfstate-sa"
-  #   container_name        = "tfstate"
-  #   key                   = "terraform.tfstate"
-  # }
+  backend "azurerm" {
+    resource_group_name   = "pokedex-rg"
+    storage_account_name  = "pokedexterraformsa"
+    container_name        = "terraform-state"
+    key                   = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
