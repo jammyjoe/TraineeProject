@@ -61,7 +61,7 @@ stages:
               serviceConnectionName: "Pokedex Service Connection"
               solutionName: ${{variables.solutionName}}
               ProjectName: ${{variables.apiProjectName}}
-              appName: "pokedex-dev-web-api"
+              appName: "pokedex-web-api"
 
   - stage: 'DeployApp'
     displayName: 'Deploy Web App'
@@ -75,6 +75,6 @@ stages:
               serviceConnectionName: "Pokedex Service Connection"
               solutionName: ${{variables.solutionName}}
               ProjectName: ${{variables.appProjectName}}
-              appName: "pokedex-dev-web-app"
+              appName: "pokedex-web-app"
 
 
