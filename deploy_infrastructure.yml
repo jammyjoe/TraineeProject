@@ -20,7 +20,7 @@ steps:
     ARM_TENANT_ID: $(TenantId)
     TF_VAR_TENANT_ID: $(TenantId)
     ARM_CLIENT_SECRET: $(ClientSecret)
-    TF_vAR_CLIENT_SECRET: $(ClientSecret)
+    TF_VAR_CLIENT_SECRET: $(ClientSecret)
     ARM_ACCESS_KEY: $(AccessKey)
     TF_VAR_RESOURCEGROUPNAME: $(ResourceGroupName)
     TF_VAR_STORAGEACCOUNTNAME: $(StorageAccountName)
