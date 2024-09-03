@@ -96,7 +96,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   # }
   
   app_settings = {
-    WEBSITE_NODE_DEFAULT_VERSION        = "6.9.1"
+    #WEBSITE_NODE_DEFAULT_VERSION        = "6.9.1"
     ASPNETCORE_ENVIRONMENT              = "Production"
     #default_site_hostname               = "pokedexapi"
     #"CORS_ALLOWED_ORIGINS"             = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
