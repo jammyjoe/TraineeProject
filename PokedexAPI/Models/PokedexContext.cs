@@ -21,13 +21,13 @@ namespace PokedexAPI.Models
 		public virtual DbSet<PokemonType> PokemonTypes { get; set; } = null!;
 		public virtual DbSet<PokemonWeakness> PokemonWeaknesses { get; set; } = null!;
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			if (!optionsBuilder.IsConfigured)
-			{
-				optionsBuilder.UseSqlServer("Name=DefaultConnection");
-			}
-		}
+		// protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		// {
+		// 	if (!optionsBuilder.IsConfigured)
+		// 	{
+		// 		optionsBuilder.UseSqlServer("Name=DefaultConnection");
+		// 	}
+		// }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

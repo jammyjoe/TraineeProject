@@ -12,21 +12,27 @@ using Azure.Identity;
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsProduction())
 {
-        builder.Configuration.AddAzureKeyVault(
-            new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
-            new DefaultAzureCredential());
+    builder.Configuration.AddAzureKeyVault(
+        new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
+        new DefaultAzureCredential());
 }
 
 builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
-builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
+//builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
 builder.Services.AddSingleton(x =>
     new BlobServiceClient(builder.Configuration["StorageAccountConnection"]));
 builder.Services.AddDbContext<PokedexContext>(options =>
-    options.UseSqlServer(builder.Configuration["DefaultConnection"]));
+{
+    var connectionString = builder.Environment.IsProduction()
+        ? builder.Configuration["DefaultConnection"]
+        : builder.Configuration.GetConnectionString("DefaultConnection");
+
+    options.UseSqlServer(connectionString);
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
