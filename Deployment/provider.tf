@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name   = "pokedex-rg"
+    resource_group_name   = "tfstate-rg"
     storage_account_name  = "pokedexterraformsa"
     container_name        = "terraform-state"
     key                   = "terraform.tfstate"
