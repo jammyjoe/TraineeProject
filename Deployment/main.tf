@@ -103,7 +103,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
     #"AzureVault__Uri"                  = azurerm_key_vault.key_vault.vault_uri
     #"AZURE_SQL_CONNECTIONSTRING"        = local.connection_string
     #"WEBSITE_ENABLE_SYNC_UPDATE_SITE"  = "true" 
-    "WEBSITE_RUN_FROM_PACKAGE"         = "1"
+    "WEBSITE_RUN_FROM_PACKAGE"         = "0"
   }
 }
 
@@ -134,7 +134,7 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
    }
   
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+    "WEBSITE_RUN_FROM_PACKAGE" = "0"
     "API_URL"                  = "https://${azurerm_windows_web_app.pokedex_webapi.default_hostname}"
   }
 }
