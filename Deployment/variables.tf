@@ -14,9 +14,9 @@ variable "TENANT_ID" {
   type = string
 }
 
-variable "ACCESS_KEY" {
-  type = string
-}
+# variable "ACCESS_KEY" {
+#   type = string
+# }
 
 variable "ADMIN_PASSWORD" {
   type = string
