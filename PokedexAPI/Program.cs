@@ -8,8 +8,23 @@ using AutoMapper;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+// Load configuration from Azure Key Vault
+var keyVaultName = builder.Configuration["KeyVaultName"];
+if (!string.IsNullOrEmpty(keyVaultName))
+{
+    var keyVaultUri = $"https://{keyVaultName}.vault.azure.net";
+
+    // Integrate Azure Key Vault into the configuration system
+    builder.Configuration.AddAzureKeyVault(
+        new Uri(keyVaultUri),
+        new DefaultAzureCredential());
+}
+
+
 builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);

@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name   = "tfstate-rg"
+    resource_group_name   = "pokedex-rg"
     storage_account_name  = "pokedexterraformsa"
     container_name        = "terraform-state"
     key                   = "terraform.tfstate"
@@ -16,9 +16,9 @@ terraform {
 
 provider "azurerm" {
   subscription_id = var.SUBSCRIPTION_ID
-  client_id       = var.CLIENT_ID
-  client_secret   = var.CLIENT_SECRET
-  tenant_id       = var.TENANT_ID
+  # client_id       = var.CLIENT_ID
+  # client_secret   = var.CLIENT_SECRET
+  # tenant_id       = var.TENANT_ID
 
   features {
     key_vault {

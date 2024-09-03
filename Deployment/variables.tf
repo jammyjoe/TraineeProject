@@ -2,21 +2,25 @@ variable "SUBSCRIPTION_ID" {
   type = string
 }
 
-variable "CLIENT_ID" {
-  type = string
-}
+# variable "CLIENT_ID" {
+#   type = string
+# }
 
-variable "CLIENT_SECRET" {
-  type = string
-}
+# variable "CLIENT_SECRET" {
+#   type = string
+# }
 
-variable "TENANT_ID" {
-  type = string
-}
+# variable "TENANT_ID" {
+#   type = string
+# }
 
 # variable "ACCESS_KEY" {
 #   type = string
 # }
+
+variable "ADMIN_PASSWORD" {
+  type = string
+}
 
 variable "RESOURCEGROUPNAME" {
   type = string
@@ -30,7 +34,6 @@ variable "STORAGEACCOUNTNAME" {
 locals { 
   resource_name     = "pokedex"
   admin_username    = "jamil"
-  admin_password    = "Password01!"
   resource_group    = "rg"
   sql_db_name       = "db"
   sql_server_name   = "sqlserver"

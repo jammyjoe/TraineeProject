@@ -35,7 +35,7 @@ resource "azurerm_storage_account" "pokedex_storage" {
 resource "azurerm_storage_container" "pokemon_images" {
   name                  = "pokedeximgcontainer"
   storage_account_name  = azurerm_storage_account.pokedex_storage.name
-  container_access_type = "private"  
+  container_access_type = "blob"  
 }
 
 resource "azurerm_mssql_server" "pokedex_sqlserver" {
@@ -43,7 +43,7 @@ resource "azurerm_mssql_server" "pokedex_sqlserver" {
   resource_group_name          = azurerm_resource_group.resource_group.name
   location                     = azurerm_resource_group.resource_group.location
   administrator_login          = "${local.admin_username}"
-  administrator_login_password = "${local.admin_password}"
+  administrator_login_password = var.ADMIN_PASSWORD
   version                      = "12.0"
 }
 
@@ -114,7 +114,7 @@ resource "azurerm_app_service_connection" "pokedex_api_service_connection" {
   authentication {
     type = "secret"
     name = "${local.admin_username}"
-    secret = "${local.admin_password}"
+    secret = var.ADMIN_PASSWORD
   }
   client_type = "dotnet"
 }
