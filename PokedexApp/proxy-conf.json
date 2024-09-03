@@ -1,9 +1,0 @@
-{
-    "/images": {
-      "target": "http://localhost:5019",
-      "secure": false,
-      "changeOrigin": true,
-      "logLevel": "debug",
-      "prependPath": false
-    }
-  }
