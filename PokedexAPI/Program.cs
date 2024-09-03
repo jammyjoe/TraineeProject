@@ -4,11 +4,9 @@ using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
 using PokedexAPI.Repository;
 using PokedexAPI.RepositoryInterface;
-using AutoMapper;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
 using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
