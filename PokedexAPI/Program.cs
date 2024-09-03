@@ -8,6 +8,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Azure.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsProduction())
@@ -19,12 +20,16 @@ if (builder.Environment.IsProduction())
 
 builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
-//builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
+builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
 builder.Services.AddSingleton(x =>
-    new BlobServiceClient(builder.Configuration["StorageAccountConnection"]));
+{
+    var connectionString = builder.Configuration["StorageAccountConnection"];
+    return new BlobServiceClient(connectionString);
+});
+
 builder.Services.AddDbContext<PokedexContext>(options =>
 {
     var connectionString = builder.Environment.IsProduction()
