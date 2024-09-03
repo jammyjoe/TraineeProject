@@ -8,12 +8,16 @@ resource "azurerm_key_vault" "key_vault" {
     tenant_id                   = data.azurerm_client_config.current.tenant_id
     enable_rbac_authorization  = true
     enabled_for_deployment      = true
+    access_policy {
+        tenant_id = data.azurerm_client_config.current.tenant_id
+        object_id = data.azurerm_client_config.current.object_id
+    }
 }
 
 resource "azurerm_key_vault_access_policy" "terraform_kv_ap" {
     key_vault_id = azurerm_key_vault.key_vault.id
-    tenant_id    = data.azurerm_client_config.tenant_id
-    object_id    = data.azurerm_client_config.object_id
+    tenant_id    = data.azurerm_client_config.current.tenant_id
+    object_id    = data.azurerm_client_config.current.object_id
 
     secret_permissions = [
       "Get", "List", "Delete", "Recover", "Backup", "Restore", "Set", "Purge"
