@@ -31,29 +31,17 @@ resource "azurerm_key_vault_secret" "storage_account_secret" {
   name         = "PokedexStorageAccount--ConnectionString"
   value        = "azurerm_storage_account.pokedex_storage.primary_connection_string"
   key_vault_id = azurerm_key_vault.key_vault.id
-
-  depends_on = [
-    azurerm_key_vault_access_policy.terraform_kv_ap
-  ]
 }
 
 resource "azurerm_key_vault_secret" "database_secret" {
   name         = "PokedexDatabase--ConnectionString"
   value        = azurerm_mssql_server.pokedex_sqlserver.connection_policy
   key_vault_id = azurerm_key_vault.key_vault.id
-
-  depends_on = [
-    azurerm_key_vault_access_policy.terraform_kv_ap
-  ]
 }
 
 resource "azurerm_key_vault_secret" "admin_password_secret" {
   name         = "PokedexDatabase--AdminPassword"
   value        = var.ADMIN_PASSWORD
   key_vault_id = azurerm_key_vault.key_vault.id
-
-  depends_on = [
-    azurerm_key_vault_access_policy.terraform_kv_ap
-  ]
 }
 
