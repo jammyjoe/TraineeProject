@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Pokedex.v3.ncrunchsolution
+Deployment/.terraform/providers/registry.terraform.io/hashicorp/azurerm/3.97.1/windows_amd64/terraform-provider-azurerm_v3.97.1_x5.exe
+Deployment/.terraform.lock.hcl
+Deployment/.terraform/terraform.tfstate
