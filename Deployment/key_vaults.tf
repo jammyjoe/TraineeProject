@@ -15,6 +15,11 @@ resource "azurerm_key_vault" "key_vault" {
         "Get", "List", "Delete", "Recover", "Backup", "Restore", "Set", "Purge"
     ]
     }
+    lifecycle {
+        ignore_changes = [
+            access_policy
+        ]
+    }
 }
 
 # resource "azurerm_key_vault_access_policy" "terraform_kv_ap" {
@@ -29,13 +34,13 @@ resource "azurerm_key_vault" "key_vault" {
 
 resource "azurerm_key_vault_secret" "storage_account_secret" {
   name         = "PokedexStorageAccount--ConnectionString"
-  value        = "azurerm_storage_account.pokedex_storage.primary_connection_string"
+  value        = var.SA_CONNECTION_STRING
   key_vault_id = azurerm_key_vault.key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "database_secret" {
   name         = "PokedexDatabase--ConnectionString"
-  value        = azurerm_mssql_server.pokedex_sqlserver.connection_policy
+  value        = var.SQL_DB_CONNECTION_STRING
   key_vault_id = azurerm_key_vault.key_vault.id
 }
 

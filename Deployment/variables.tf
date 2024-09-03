@@ -16,17 +16,17 @@ variable "TENANT_ID" {
 
 variable "ADMIN_PASSWORD" {
   type = string
-  sensitive = true
+  #sensitive = true
 }
 
 variable "SQL_DB_CONNECTION_STRING" {
   type = string
-  sensitive = true
+  #sensitive = true
 }
 
 variable "SA_CONNECTION_STRING" {
   type = string
-  sensitive = true
+  #sensitive = true
 }
 
 variable "RESOURCEGROUPNAME" {

@@ -10,18 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-// Load configuration from Azure Key Vault
-var keyVaultName = builder.Configuration["KeyVaultName"];
-if (!string.IsNullOrEmpty(keyVaultName))
+if (!builder.Environment.IsProduction())
 {
-    var keyVaultUri = $"https://{keyVaultName}.vault.azure.net";
-
-    // Integrate Azure Key Vault into the configuration system
-    builder.Configuration.AddAzureKeyVault(
-        new Uri(keyVaultUri),
-        new DefaultAzureCredential());
+        builder.Configuration.AddAzureKeyVault(
+            new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
+            new DefaultAzureCredential());
 }
-
 
 builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
@@ -30,12 +24,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
 builder.Services.AddSingleton(x =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("StorageAccountConnection");
-    return new BlobServiceClient(connectionString);
-});
+    new BlobServiceClient(builder.Configuration["StorageAccountConnection"]));
 builder.Services.AddDbContext<PokedexContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+    options.UseSqlServer(builder.Configuration["DefaultConnection"]));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
