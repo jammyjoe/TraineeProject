@@ -14,12 +14,19 @@ variable "TENANT_ID" {
   type = string
 }
 
-# variable "ACCESS_KEY" {
-#   type = string
-# }
-
 variable "ADMIN_PASSWORD" {
   type = string
+  sensitive = true
+}
+
+variable "SQL_DB_CONNECTION_STRING" {
+  type = string
+  sensitive = true
+}
+
+variable "SA_CONNECTION_STRING" {
+  type = string
+  sensitive = true
 }
 
 variable "RESOURCEGROUPNAME" {

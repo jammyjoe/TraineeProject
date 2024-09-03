@@ -42,6 +42,7 @@ stages:
       - job: DeployInfrastructure
         variables:
           - group: Pokedex
+          - group: PokedexSecrets
         displayName: 'Deploy Infrastructure'
         steps:
         - template: deploy_infrastructure.yml
