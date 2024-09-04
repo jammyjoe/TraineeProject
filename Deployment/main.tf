@@ -93,36 +93,13 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
     }
   }
   
-
-  # connection_string {
-  #   name  = "DefaultConnection"
-  #   type  = "SQLServer"
-  #   value = local.connection_string
-  # }
-  
   app_settings = {
     WEBSITE_NODE_DEFAULT_VERSION        = "6.9.1"
     ASPNETCORE_ENVIRONMENT              = "Production"
-    #default_site_hostname               = "pokedexapi"
-    #"CORS_ALLOWED_ORIGINS"             = "https:/${azurem_windows_web_app.pokedex_webapp.name}.azurewebsites.net"
-    #"AzureVault__Uri"                  = azurerm_key_vault.key_vault.vault_uri
-    #"AZURE_SQL_CONNECTIONSTRING"        = local.connection_string
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"  = "true" 
-    "WEBSITE_RUN_FROM_PACKAGE"         = "0"
+    "WEBSITE_RUN_FROM_PACKAGE"         = "1"
   }
 }
-
-# resource "azurerm_app_service_connection" "pokedex_api_service_connection" {
-#   name               = "serviceconnector"
-#   app_service_id     = azurerm_windows_web_app.pokedex_webapi.id
-#   target_resource_id = azurerm_mssql_database.pokedex_db.id
-#   authentication {
-#     type = "secret"
-#     name = "${local.admin_username}"
-#     secret = azurerm_key_vault_secret.database_secret.name
-#   }
-#   client_type = "dotnet"
-# }
 
 resource "azurerm_windows_web_app" "pokedex_webapp" {
   name                          = "${local.resource_name}-${local.web_app}"
@@ -139,7 +116,7 @@ resource "azurerm_windows_web_app" "pokedex_webapp" {
    }
   
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "0"
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
     "API_URL"                  = "https://${azurerm_windows_web_app.pokedex_webapi.default_hostname}"
   }
 }
