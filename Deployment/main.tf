@@ -114,9 +114,12 @@ resource "azurerm_app_service_connection" "pokedex_api_service_connection" {
   authentication {
     type = "secret"
     name = "${local.admin_username}"
-    secret = var.ADMIN_PASSWORD
+    secret = azurerm_key_vault_secret.admin_password_secret.value
   }
   client_type = "dotnet"
+  secret_store {
+    key_vault_id = azurerm_key_vault.key_vault.id
+  }
 }
 
 resource "azurerm_windows_web_app" "pokedex_webapp" {
