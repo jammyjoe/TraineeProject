@@ -1,4 +1,16 @@
-@import "@fortawesome/fontawesome-free/css/all.css";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  @import "@fortawesome/fontawesome-free/css/all.css";
+  @font-face {
+    font-family: 'Flexo-Demi';
+    src: url('/assets/fonts/Flexo-Demi.woff2') format('woff2'),
+         url('/assets/fonts/Flexo-Demi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  
+  /* Global Styles */
+  body {
+    font-family: 'Flexo-Demi', sans-serif;
+  }
