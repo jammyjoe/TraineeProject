@@ -4,25 +4,45 @@ using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
 using PokedexAPI.Repository;
 using PokedexAPI.RepositoryInterface;
-using AutoMapper;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// if (builder.Environment.IsProduction())
+// {
+    builder.Configuration.AddAzureKeyVault(
+        new Uri(builder.Configuration["KeyVaultUrl"]),
+        new DefaultAzureCredential());
+// }
+
 builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// builder.Services.AddDbContext<PokedexContext>(options =>
+// options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+builder.Services.AddDbContext<PokedexContext>(options =>
+    options.UseSqlServer(builder.Configuration["DefaultConnection"]));
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ITypeRepository, TypeRepository>();
 builder.Services.AddSingleton(x =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("StorageAccountConnection");
+    var connectionString = builder.Configuration["StorageAccountConnection"];
     return new BlobServiceClient(connectionString);
 });
-builder.Services.AddDbContext<PokedexContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+
+// builder.Services.AddDbContext<PokedexContext>(options =>
+// {
+//     var connectionString = builder.Environment.IsProduction()
+//         ? builder.Configuration["DefaultConnection"]
+//         : builder.Configuration.GetConnectionString("DefaultConnection";
+
+//     options.UseSqlServer(connectionString);
+// });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -32,7 +52,7 @@ builder.Services.AddCors(options =>
                 builder.AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials()
-                       .WithOrigins("http://localhost:4200", "https://pokedex-dev-web-app.azurewebsites.net");
+                       .WithOrigins("http://localhost:4200", "https://pokedex-web-app.azurewebsites.net");
             });
         });
 

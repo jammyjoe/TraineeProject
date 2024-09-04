@@ -9,6 +9,19 @@ jobs:
           version: 8.0.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
           workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
+
+      - task: AzureKeyVault@2
+        displayName: "Fetch secrets from Azure Key Vault"
+        inputs:
+          azureSubscription: ${{parameters.serviceConnectionName}} 
+          KeyVaultName: 'pokedex-kv' 
+          SecretsFilter: '*'
+
+      - script: |
+          echo "##vso[task.setvariable variable=DefaultConnection]$(DefaultConnection)"
+          echo "##vso[task.setvariable variable=StorageAccountConnection]$(StorageAccountConnection)"
+        displayName: 'Set environment variables from Key Vault'
+
 #       - task: NuGetToolInstaller@1
 
       - script: dotnet restore ${{parameters.apiProjectName}}
@@ -16,9 +29,6 @@ jobs:
 
       - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
         displayName: 'Build API'
-
-      # - script: dotnet build ${{parameters.apiProjectName}}.Tests
-      #   displayName: 'Build Tests'
 
       - script: dotnet test ${{parameters.apiProjectName}}.Tests
         displayName: 'Run Tests'

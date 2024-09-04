@@ -14,20 +14,33 @@ variable "TENANT_ID" {
   type = string
 }
 
-# variable "RESOURCEGROUPNAME" {
-#   type = string
-# }
+variable "ADMIN_PASSWORD" {
+  type = string
+  #sensitive = true
+}
 
-# variable "STORAGEACCOUNTNAME" {
-#   type = string
-# }
+variable "SQL_DB_CONNECTION_STRING" {
+  type = string
+  #sensitive = true
+}
+
+variable "SA_CONNECTION_STRING" {
+  type = string
+  #sensitive = true
+}
+
+variable "RESOURCEGROUPNAME" {
+  type = string
+}
+
+variable "STORAGEACCOUNTNAME" {
+  type = string
+}
 
 
 locals { 
   resource_name     = "pokedex"
   admin_username    = "jamil"
-  admin_password    = "Password01!"
-  env_name          = lower(terraform.workspace)
   resource_group    = "rg"
   sql_db_name       = "db"
   sql_server_name   = "sqlserver"
@@ -37,7 +50,6 @@ locals {
 
   tags = {
     SERVICE          = "TraineeProject"
-    ENVIRONMENT      = local.env_name
     SERVICE_OWNER    = "Jamil Munayem"
   }
 }
