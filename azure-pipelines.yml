@@ -26,6 +26,7 @@ stages:
           buildPlatform: ${{variables.buildPlatform}}
           buildConfiguration: ${{variables.buildConfiguration}}
           apiProjectName: ${{variables.apiProjectName}}
+          serviceConnectionName: "Pokedex Service Connection"
 
   - stage: BuildPokedexWebApp
     displayName: 'Check Web App Build'

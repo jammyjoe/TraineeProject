@@ -2,6 +2,13 @@ jobs:
   - job: Build
     displayName: 'Build and Publish API'
     steps:
+      - task: AzureKeyVault@2
+        displayName: "Fetch secrets from Azure Key Vault"
+        inputs:
+          azureSubscription: ${{parameters.serviceConnectionName}} 
+          KeyVaultName: 'pokedex-kv' 
+          SecretsFilter: '*'
+
       - task: UseDotNet@2
         displayName: "Use .NET 8.0.x SDK"
         inputs:
