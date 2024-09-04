@@ -72,6 +72,25 @@ resource "azurerm_service_plan" "appserviceplan" {
   tags = local.tags
 }
 
+resource "azurerm_windows_web_app" "pokedex_webapp" {
+  name                          = "${local.resource_name}-${local.web_app}"
+  service_plan_id               = azurerm_service_plan.appserviceplan.id
+  location                      = azurerm_resource_group.resource_group.location
+  resource_group_name           = azurerm_resource_group.resource_group.name
+
+   site_config {
+    app_command_line = "npm start"
+    application_stack {
+       current_stack = "node"
+       node_version = "~20"
+    }
+   }
+  
+  app_settings = {
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+  }
+}
+
 resource "azurerm_windows_web_app" "pokedex_webapi" {
   name                          = "${local.resource_name}-${local.web_api}"
   location                      = azurerm_resource_group.resource_group.location
@@ -89,7 +108,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
       current_stack = "dotnet"
     }
     cors {
-      allowed_origins = ["https://pokedex-web-app.azurewebsites.net",]    
+      allowed_origins = ["https://${azurerm_windows_web_app.pokedex_webapp.name}.azurewebsites.net"]   
     }
   }
   
@@ -98,25 +117,5 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
     ASPNETCORE_ENVIRONMENT              = "Production"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"  = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"         = "1"
-  }
-}
-
-resource "azurerm_windows_web_app" "pokedex_webapp" {
-  name                          = "${local.resource_name}-${local.web_app}"
-  service_plan_id               = azurerm_service_plan.appserviceplan.id
-  location                      = azurerm_resource_group.resource_group.location
-  resource_group_name           = azurerm_resource_group.resource_group.name
-
-   site_config {
-    app_command_line = "npm start"
-    application_stack {
-       current_stack = "node"
-       node_version = "~20"
-    }
-   }
-  
-  app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "1"
-    "API_URL"                  = "https://${azurerm_windows_web_app.pokedex_webapi.default_hostname}"
   }
 }
