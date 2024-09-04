@@ -34,9 +34,15 @@ export class SearchComponent {
       );
     }
   }
+  
   editPokemon(id: number): void {
     this.router.navigate(['/edit', id]);
   }
+
+  viewPokemonEntry(name: string): void {
+    this.router.navigate([`/pokemon/${name}`]);
+  }
+  
 
   deletePokemon(pokemonId: number): void {
     if (confirm('Are you sure you want to delete this Pokémon?')) {

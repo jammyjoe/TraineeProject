@@ -66,6 +66,10 @@
 
   <!-- Button Section -->
   <div class="flex justify-end space-x-4 m-4">
+    <button class="bg-green-500 p-4 text-white rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            (click)="viewPokemonEntry(pokemonResult.name)">
+      <i class="fa fa-search"></i>
+    </button>
     <button class="bg-blue-500 p-4 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             (click)="editPokemon(pokemonResult.id)">
       <i class="fa fa-edit"></i>

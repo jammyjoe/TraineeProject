@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { Pokemon, PokemonType } from '../shared/models/pokemon.model';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { TypeColorService } from '../../services/typecolor.service';
 
 @Component({
   selector: 'app-explore',
@@ -15,7 +17,10 @@ export class ExploreComponent implements OnInit {
   pokemons: Pokemon[] = [];
   types: PokemonType[] = [];
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(
+private pokemonService: PokemonService,
+  private typeColorService: TypeColorService, 
+  private router: Router) {}
 
   ngOnInit(): void {
     this.getPokemons();
@@ -30,5 +35,13 @@ export class ExploreComponent implements OnInit {
         console.error('Error fetching pokemons:', error);
       }
     );
+  }
+
+  getTypeColor(typeName: string): string {
+    return this.typeColorService.getTypeColor(typeName);
+  }
+
+  navigateToPokemon(pokemonId: number): void {
+    this.router.navigate(['/entry', pokemonId]);
   }
 }

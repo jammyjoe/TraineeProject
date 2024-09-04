@@ -1,43 +1,30 @@
-<div *ngIf="pokemons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 p-12">
-  <div *ngFor="let pokemon of pokemons" class="bg-white rounded-xl shadow-lg border-2 border-gray-200">
+<div *ngIf="pokemons.length > 0" class="grid grid-cols-4 gap-6 p-16">
+    <div *ngFor="let pokemon of pokemons" 
+         (click)="navigateToPokemon(pokemon.id)"
+         class="pokemon-card cursor-pointer hover:bg-gray-100 transition">
       
-      <!-- Flex container for name and image -->
-      <div class="flex items-start p-6">
-          <!-- Text Section -->
-          <div class="flex-3-1-0">
-              <h2 class="text-xl font-bold mb-4">{{ pokemon.name }}</h2>
-              
-              <!-- Basic Info -->
-              <div class="text-sm text-gray-600 mb-4">
-                  <strong>Type:</strong>
-                  {{ pokemon.type1.typeName }}
-                  <span *ngIf="pokemon.type2"> / {{ pokemon.type2.typeName }}</span>
-              </div>
-
-              <!-- Strengths Section -->
-              <div class="text-sm text-gray-600 mb-4">
-                  <strong>Strengths:</strong>
-                  <div *ngFor="let strength of pokemon.pokemonStrengths">
-                      {{ strength.type.typeName }}
-                  </div>
-              </div>
-
-              <!-- Weaknesses Section -->
-              <div class="text-sm text-gray-600">
-                  <strong>Weaknesses:</strong>
-                  <div *ngFor="let weakness of pokemon.pokemonWeaknesses">
-                      {{ weakness.type.typeName }}
-                  </div>
-              </div>
-          </div>
-
-          <!-- Image Section -->
-          <div class="flex-1">
-            <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="w-full h-auto object-contain rounded-lg">
+      <!-- Container for the Pokémon's details -->
+      <div class="flex flex-col items-center justify-center p-4">
+        <!-- Name Section -->
+        <h2 class="text-xl font-bold mb-2">{{ pokemon.name }}</h2>
+  
+        <!-- Image Section -->
+        <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="pokemon-image mb-2">
+  
+        <!-- Type Section -->
+        <div class="text-base font-semibold">
+          <span class="type-label"
+                [ngStyle]="{ 'background-color': getTypeColor(pokemon.type1.typeName) }">
+            {{ pokemon.type1.typeName }}
+          </span>
+          <span *ngIf="pokemon.type2" class="type-label ml-2"
+                [ngStyle]="{ 'background-color': getTypeColor(pokemon.type2.typeName) }">
+            {{ pokemon.type2.typeName }}
+          </span>
         </div>
       </div>
+    </div>
   </div>
-</div>
-
-<div *ngIf="pokemons.length === 0" class="text-center text-gray-500">No Pokemons Found...</div>
-
+  
+  <div *ngIf="pokemons.length === 0" class="text-center text-gray-500">No Pokemons Found...</div>
+  
