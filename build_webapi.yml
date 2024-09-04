@@ -30,9 +30,6 @@ jobs:
       - script: dotnet build ${{parameters.apiProjectName}} --configuration ${{parameters.buildConfiguration}} --no-restore
         displayName: 'Build API'
 
-      # - script: dotnet build ${{parameters.apiProjectName}}.Tests
-      #   displayName: 'Build Tests'
-
       - script: dotnet test ${{parameters.apiProjectName}}.Tests
         displayName: 'Run Tests'
 

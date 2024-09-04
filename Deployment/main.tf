@@ -79,6 +79,10 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   service_plan_id               = azurerm_service_plan.appserviceplan.id            
   https_only                    = false
   
+  identity {
+    type = "SystemAssigned"
+  }
+  
   site_config { 
     application_stack {
       dotnet_version  = "v8.0"
@@ -89,6 +93,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
     }
   }
   
+
   # connection_string {
   #   name  = "DefaultConnection"
   #   type  = "SQLServer"
@@ -114,12 +119,9 @@ resource "azurerm_app_service_connection" "pokedex_api_service_connection" {
   authentication {
     type = "secret"
     name = "${local.admin_username}"
-    secret = azurerm_key_vault_secret.admin_password_secret.value
+    secret = azurerm_key_vault_secret.database_secret.name
   }
   client_type = "dotnet"
-  secret_store {
-    key_vault_id = azurerm_key_vault.key_vault.id
-  }
 }
 
 resource "azurerm_windows_web_app" "pokedex_webapp" {
