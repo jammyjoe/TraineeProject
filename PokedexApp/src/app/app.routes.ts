@@ -6,6 +6,7 @@ import { EditComponent } from './edit/edit.component';
 import { ExploreComponent } from './explore/explore.component';
 import { MsalGuard, MsalRedirectComponent } from '@azure/msal-angular';
 import { HomeComponent } from './home/home.component';
+import { EntryComponent } from './entry/entry.component';
 
 export const routes: Routes = [
     //{ path: '', component: AppComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     { path: 'search', component: SearchComponent, canActivate: [MsalGuard] },
     { path: 'add', component: AddComponent, canActivate: [MsalGuard]  },
     { path: 'edit/:id', component: EditComponent, canActivate: [MsalGuard] },
+    { path: 'pokemon/:name', component: EntryComponent, canActivate: [MsalGuard] },
     { path: '**', redirectTo: '', pathMatch: 'full' }
   ];
 

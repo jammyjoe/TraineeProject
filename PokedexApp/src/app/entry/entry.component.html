@@ -1,0 +1,40 @@
+<div class="entry-container flex flex-col lg:flex-row p-6 pt-24 space-y-5 lg:space-y-1">
+    <!-- Left Flex Container -->
+    <div class="left-container w-full lg:w-2/3 flex flex-col items-center">
+      <h2 class="text-4xl font-bold mb-4">{{ pokemon.name }}</h2>
+      <img [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="pokemon-image w-72 h-auto">
+    </div>
+  
+    <!-- Right Flex Container -->
+    <div class="right-container w-full lg:w-1/2 flex flex-col space-y-4">
+    <div class="text-2xl pt-5">{{ pokemon.details }}</div>
+      <div class="text-xl pt-5 font-semibold">Type</div>
+      <div class="text-base text-gray-600 flex space-x-2">
+        <span class="type-label px-3 pt-1 rounded text-white"
+              [ngStyle]="{ 'background-color': getTypeColor(pokemon.type1.typeName) }">
+          {{ pokemon.type1.typeName }}
+        </span>
+        <span *ngIf="pokemon.type2" class="type-label px-3 py-1 rounded text-white"
+              [ngStyle]="{ 'background-color': getTypeColor(pokemon.type2.typeName) }">
+          {{ pokemon.type2.typeName }}
+        </span>
+      </div>
+  
+      <div class="text-xl pt-5 font-semibold">Strengths</div>
+      <div class="flex flex-wrap space-x-1">
+        <span *ngFor="let strength of pokemon.pokemonStrengths" class="type-label px-3 py-1 rounded text-white"
+              [ngStyle]="{ 'background-color': getTypeColor(strength.type.typeName) }">
+          {{ strength.type.typeName }}
+        </span>
+      </div>
+  
+      <div class="text-xl pt-5 font-semibold">Weaknesses</div>
+      <div class="flex flex-wrap space-x-1">
+        <span *ngFor="let weakness of pokemon.pokemonWeaknesses" class="type-label px-3 py-1 rounded text-white"
+              [ngStyle]="{ 'background-color': getTypeColor(weakness.type.typeName) }">
+          {{ weakness.type.typeName }}
+        </span>
+      </div>
+    </div>
+  </div>
+  
