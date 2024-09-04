@@ -2,6 +2,14 @@ jobs:
   - job: Build
     displayName: 'Build and Publish API'
     steps:
+      - task: UseDotNet@2
+        displayName: "Use .NET 8.0.x SDK"
+        inputs:
+          packageType : sdk
+          version: 8.0.x
+          installationPath: $(Agent.ToolsDirectory)/dotnet
+          workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
+
       - task: AzureKeyVault@2
         displayName: "Fetch secrets from Azure Key Vault"
         inputs:
@@ -14,13 +22,6 @@ jobs:
           echo "##vso[task.setvariable variable=StorageAccountConnection]$(StorageAccountConnection)"
         displayName: 'Set environment variables from Key Vault'
 
-      - task: UseDotNet@2
-        displayName: "Use .NET 8.0.x SDK"
-        inputs:
-          packageType : sdk
-          version: 8.0.x
-          installationPath: $(Agent.ToolsDirectory)/dotnet
-          workingDirectory: '$(Build.SourcesDirectory)/${{parameters.apiProjectName}}'
 #       - task: NuGetToolInstaller@1
 
       - script: dotnet restore ${{parameters.apiProjectName}}
