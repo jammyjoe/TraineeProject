@@ -10,9 +10,9 @@ jobs:
           SecretsFilter: '*'
 
       - script: |
-        echo "##vso[task.setvariable variable=DefaultConnection]$(DefaultConnection)"
-        echo "##vso[task.setvariable variable=StorageAccountConnection]$(StorageAccountConnection)"
-       displayName: 'Set environment variables from Key Vault'
+          echo "##vso[task.setvariable variable=DefaultConnection]$(DefaultConnection)"
+          echo "##vso[task.setvariable variable=StorageAccountConnection]$(StorageAccountConnection)"
+        displayName: 'Set environment variables from Key Vault'
 
       - task: UseDotNet@2
         displayName: "Use .NET 8.0.x SDK"
