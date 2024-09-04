@@ -24,7 +24,5 @@ if(!$?) { echo "Invalid terraform"; throw "Validation Error"}
 terraform plan -out "terraform.deployment.tfplan" | tee terraform_plan_output.txt
 if(!$?) { echo "Terraform plan failed"; throw "Plan Error"}
 
-terraform refresh 
-
 terraform apply "terraform.deployment.tfplan"
 
