@@ -1,12 +1,12 @@
 <div *ngIf="pokemons.length > 0" class="grid grid-cols-4 gap-6 p-16">
     <div *ngFor="let pokemon of pokemons" 
-         (click)="navigateToPokemon(pokemon.id)"
+         (click)="viewPokemonEntry(pokemon.name)"
          class="pokemon-card cursor-pointer hover:bg-gray-100 transition">
       
       <!-- Container for the Pokémon's details -->
-      <div class="flex flex-col items-center justify-center p-4">
+      <div class="flex flex-col items-center justify-center p-2">
         <!-- Name Section -->
-        <h2 class="text-xl font-bold mb-2">{{ pokemon.name }}</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ pokemon.name }}</h2>
   
         <!-- Image Section -->
         <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="pokemon-image mb-2">

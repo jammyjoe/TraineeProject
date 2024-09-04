@@ -10,13 +10,14 @@
   align-items: center;
   justify-content: center;
   background: #fff;
+  max-width: 100%;
   border-radius: 1rem; /* Rounded corners */
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   border: 2px solid #e2e8f0;
   cursor: pointer;
   transition: background-color 0.3s;
   aspect-ratio: 1; /* Ensures the card is square */
-  padding: 1rem;
+  padding: 0.25rem;
 }
 
 .pokemon-card:hover {
@@ -24,9 +25,9 @@
 }
 
 .pokemon-image {
-  width: 80%; /* Consistent image width */
+  width: 100%; /* Consistent image width */
   height: auto;
-  max-height: 100px; /* Set a max height for images */
+  max-height: 120px; /* Set a max height for images */
   object-fit: contain;
   border-radius: 0.5rem;
 }

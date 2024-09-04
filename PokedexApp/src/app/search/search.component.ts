@@ -6,6 +6,7 @@ import { PokemonService } from '../../services/pokemon.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TypeColorService } from '../../services/typecolor.service';
 
 @Component({
   selector: 'app-search',
@@ -20,7 +21,10 @@ export class SearchComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private pokemonService: PokemonService, private router: Router) {}
+  constructor(
+    private pokemonService: PokemonService,
+     private router: Router,
+     private typeColorService: TypeColorService) {}
 
   searchPokemon(): void {
     if (this.searchQuery.trim()) {
@@ -34,9 +38,14 @@ export class SearchComponent {
       );
     }
   }
-  
+
   editPokemon(id: number): void {
     this.router.navigate(['/edit', id]);
+  }
+
+
+  getTypeColor(typeName: string): string {
+    return this.typeColorService.getTypeColor(typeName);
   }
 
   viewPokemonEntry(name: string): void {

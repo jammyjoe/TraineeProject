@@ -18,7 +18,7 @@ export class ExploreComponent implements OnInit {
   types: PokemonType[] = [];
 
   constructor(
-private pokemonService: PokemonService,
+  private pokemonService: PokemonService,
   private typeColorService: TypeColorService, 
   private router: Router) {}
 
@@ -41,7 +41,7 @@ private pokemonService: PokemonService,
     return this.typeColorService.getTypeColor(typeName);
   }
 
-  navigateToPokemon(pokemonId: number): void {
-    this.router.navigate(['/entry', pokemonId]);
+  viewPokemonEntry(name: string): void {
+    this.router.navigate([`/pokemon/${name}`]);
   }
 }
