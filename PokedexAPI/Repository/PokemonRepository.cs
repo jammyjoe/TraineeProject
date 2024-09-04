@@ -166,15 +166,14 @@ namespace Pokedex.Repository
             }
 
             existingPokemon.Name = updatedPokemonDto.Name;
+
             if (!string.IsNullOrEmpty(updatedPokemonDto.ImageUrl))
             {
                 existingPokemon.ImageUrl = updatedPokemonDto.ImageUrl;
             }
 
-            if (!string.IsNullOrEmpty(updatedPokemonDto.Details))
-            {
-                existingPokemon.Details = updatedPokemonDto.Details;
-            }
+            existingPokemon.Details = updatedPokemonDto.Details;
+
             
             var updateTypeResult = await UpdateType(updatedPokemonDto, existingPokemon);
             if (!updateTypeResult)

@@ -32,6 +32,7 @@ export class EditComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type1: [null, Validators.required],
       type2: [null],
+      details: [''],
       pokemonStrengths: this.fb.array([]),
       pokemonWeaknesses: this.fb.array([]),
       imageUrl: ['']
@@ -58,7 +59,8 @@ export class EditComponent implements OnInit {
             this.editPokemonForm.patchValue({
               name: pokemon.name,
               type1: pokemon.type1.typeName,
-              type2: pokemon.type2 ? pokemon.type2.typeName : null,
+              type2: pokemon.type2,
+              details: pokemon.details,
               imageUrl: pokemon.imageUrl 
             });
 
@@ -147,14 +149,15 @@ export class EditComponent implements OnInit {
         id: +this.route.snapshot.paramMap.get('id')!,
         name: formData.name,
         type1: { typeName: formData.type1 },
-        type2: { typeName: formData.type2 ?? null },
+        type2: formData.type2 && formData.type2 !== 'None' ? this.types.find(type => type.typeName === formData.type2) : undefined,
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
           type: { typeName: weakness.type.typeName }
         })),
         pokemonStrengths: formData.pokemonStrengths.map((strength: any) => ({
           type: { typeName: strength.type.typeName }
         })),
-        imageUrl: formData.imageUrl,
+        details: formData.details,
+        imageUrl: formData.imageUrl
       };
 
       this.pokemonService.updatePokemon(pokemonDto.id, pokemonDto).subscribe(

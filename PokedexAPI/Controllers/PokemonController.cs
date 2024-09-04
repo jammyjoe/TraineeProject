@@ -147,12 +147,12 @@ namespace Pokedex.Controllers
             if (!(await _pokemonRepository.PokemonExists(name)))
                 return NotFound("This pokemon does not exist");
 
-            var pokemonToDelete = (await _pokemonRepository.GetPokemon(name));
+            var pokemonToDelete = await _pokemonRepository.GetPokemon(name);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!(await _pokemonRepository.DeletePokemon(pokemonToDelete)))
+            if (!await _pokemonRepository.DeletePokemon(pokemonToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting pokemon");
             }
