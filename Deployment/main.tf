@@ -113,7 +113,7 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   }
   
   app_settings = {
-    WEBSITE_NODE_DEFAULT_VERSION        = "6.9.1"
+    #WEBSITE_NODE_DEFAULT_VERSION        = "6.9.1"
     ASPNETCORE_ENVIRONMENT              = "Production"
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"  = "true" 
     "WEBSITE_RUN_FROM_PACKAGE"         = "1"
