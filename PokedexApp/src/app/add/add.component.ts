@@ -33,6 +33,7 @@ export class AddComponent implements OnInit{
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type1: ['', Validators.required],
       type2: [''],
+      details: [''],
       pokemonStrengths: this.fb.array([]),
       pokemonWeaknesses: this.fb.array([])
     });
@@ -113,6 +114,7 @@ export class AddComponent implements OnInit{
         name: formData.name,
         type1: this.types.find(type => type.typeName === formData.type1)!,
         type2: formData.type2 && formData.type2 !== 'None' ? this.types.find(type => type.typeName === formData.type2) : undefined,
+        details: formData.details,
         pokemonStrengths: formData.pokemonStrengths.map((strength: any) => ({
           type: strength.type
         })),

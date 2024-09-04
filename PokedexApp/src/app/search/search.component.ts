@@ -43,7 +43,7 @@ export class SearchComponent {
       this.pokemonService.deletePokemon(pokemonId).subscribe(
         () => {
           alert('Pokemon successfully deleted!'); 
-          this.router.navigate(['/']); 
+          this.router.navigate(['/explore']); 
         },
         error => {
           console.error('Error deleting Pokémon', error);

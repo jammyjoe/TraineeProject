@@ -65,7 +65,8 @@ namespace Pokedex.Repository
             var pokemon = new Pokemon
             {
                 Name = pokemonDto.Name,
-                ImageUrl = pokemonDto.ImageUrl,                
+                ImageUrl = pokemonDto.ImageUrl,
+                Details = pokemonDto.Details                
                 //ImageData = pokemonDto.ImageData // For base64 image data
             };
 
@@ -168,6 +169,11 @@ namespace Pokedex.Repository
             if (!string.IsNullOrEmpty(updatedPokemonDto.ImageUrl))
             {
                 existingPokemon.ImageUrl = updatedPokemonDto.ImageUrl;
+            }
+
+            if (!string.IsNullOrEmpty(updatedPokemonDto.Details))
+            {
+                existingPokemon.Details = updatedPokemonDto.Details;
             }
             
             var updateTypeResult = await UpdateType(updatedPokemonDto, existingPokemon);

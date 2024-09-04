@@ -22,6 +22,11 @@
         <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
       </select>
     </div>
+
+    <div class="form-group">
+      <label for="details" class="block text-sm font-medium text-gray-700">Details</label>
+      <input id="details" formControlName="details" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+    </div>
   
     <div class="form-group py-4">
       <label class="block text-sm font-medium text-gray-700">Strengths</label>

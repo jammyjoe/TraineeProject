@@ -26,11 +26,11 @@
     <div class="w-1/6">
       <h3 class="text-lg font-bold p-1">{{ pokemonResult.name }}</h3>
       <div class="text-sm text-gray-600 p-1">
-        <strong>Type:</strong> 
+        <strong>Type</strong> 
         {{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}
       </div>
       <div class="text-sm text-gray-600 p-1">
-        <strong>Strengths:</strong>
+        <strong>Strengths</strong>
         <div *ngIf="pokemonResult.pokemonStrengths && pokemonResult.pokemonStrengths.length > 0">
           <div *ngFor="let strength of pokemonResult.pokemonStrengths">
             {{ strength.type.typeName }}
@@ -39,13 +39,19 @@
         <div *ngIf="pokemonResult.pokemonStrengths.length === 0">None</div>
       </div>
       <div class="text-sm text-gray-600 p-1">
-        <strong>Weaknesses:</strong>
+        <strong>Weaknesses</strong>
         <div *ngIf="pokemonResult.pokemonWeaknesses && pokemonResult.pokemonWeaknesses.length > 0">
           <div *ngFor="let weakness of pokemonResult.pokemonWeaknesses">
             {{ weakness.type.typeName }}
           </div>
         </div>
         <div *ngIf="pokemonResult.pokemonWeaknesses.length === 0">None</div>
+      </div>
+      <div class="text-sm text-gray-600 p-1">
+        <strong>Details</strong> 
+        <div>
+          {{ pokemonResult.details }} 
+        </div>     
       </div>
     </div>
 
