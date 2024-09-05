@@ -14,11 +14,17 @@
         <!-- Type Section -->
         <div class="text-base font-semibold">
           <span class="type-label"
-                [ngStyle]="{ 'background-color': getTypeColor(pokemon.type1.typeName) }">
+          [ngStyle]="{ 
+            'background-color': getTypeColor(pokemon.type1.typeName).backgroundColor,
+            'color': getTypeColor(pokemon.type1.typeName).fontColor
+          }">
             {{ pokemon.type1.typeName }}
           </span>
           <span *ngIf="pokemon.type2" class="type-label ml-2"
-                [ngStyle]="{ 'background-color': getTypeColor(pokemon.type2.typeName) }">
+          [ngStyle]="{ 
+            'background-color': getTypeColor(pokemon.type2.typeName).backgroundColor,
+            'color': getTypeColor(pokemon.type2.typeName).fontColor
+          }">
             {{ pokemon.type2.typeName }}
           </span>
         </div>

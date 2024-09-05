@@ -33,11 +33,17 @@
         <!-- Type Section -->
         <div class="text-xl p-4 font-semibold flex space-x-2">
           <span class="type-label"
-                [ngStyle]="{ 'background-color': getTypeColor(pokemonResult.type1.typeName) }">
+          [ngStyle]="{ 
+            'background-color': getTypeColor(pokemonResult.type1.typeName).backgroundColor,
+            'color': getTypeColor(pokemonResult.type1.typeName).fontColor
+          }">
             {{ pokemonResult.type1.typeName }}
           </span>
           <span *ngIf="pokemonResult.type2" class="type-label ml-2"
-                [ngStyle]="{ 'background-color': getTypeColor(pokemonResult.type2.typeName) }">
+          [ngStyle]="{ 
+            'background-color': getTypeColor(pokemonResult.type2.typeName).backgroundColor,
+            'color': getTypeColor(pokemonResult.type2.typeName).fontColor
+          }">
             {{ pokemonResult.type2.typeName }}
           </span>
         </div>

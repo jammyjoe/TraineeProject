@@ -11,11 +11,17 @@
       <div class="text-xl pt-5 font-semibold">Type</div>
       <div class="text-base text-gray-600 flex space-x-2">
         <span class="type-label px-3 pt-1 rounded text-white"
-              [ngStyle]="{ 'background-color': getTypeColor(pokemon.type1.typeName) }">
+        [ngStyle]="{ 
+            'background-color': getTypeColor(pokemon.type1.typeName).backgroundColor,
+            'color': getTypeColor(pokemon.type1.typeName).fontColor
+          }">
           {{ pokemon.type1.typeName }}
         </span>
         <span *ngIf="pokemon.type2" class="type-label px-3 py-1 rounded text-white"
-              [ngStyle]="{ 'background-color': getTypeColor(pokemon.type2.typeName) }">
+        [ngStyle]="{ 
+            'background-color': getTypeColor(pokemon.type2.typeName).backgroundColor,
+            'color': getTypeColor(pokemon.type2.typeName).fontColor
+          }">
           {{ pokemon.type2.typeName }}
         </span>
       </div>
@@ -23,7 +29,10 @@
       <div class="text-xl pt-5 font-semibold">Strengths</div>
       <div class="flex flex-wrap space-x-1">
         <span *ngFor="let strength of pokemon.pokemonStrengths" class="type-label px-3 py-1 rounded text-white"
-              [ngStyle]="{ 'background-color': getTypeColor(strength.type.typeName) }">
+        [ngStyle]="{ 
+                'background-color': getTypeColor(strength.type.typeName).backgroundColor,
+                'color': getTypeColor(strength.type.typeName).fontColor
+              }">
           {{ strength.type.typeName }}
         </span>
       </div>
@@ -31,7 +40,10 @@
       <div class="text-xl pt-5 font-semibold">Weaknesses</div>
       <div class="flex flex-wrap space-x-1">
         <span *ngFor="let weakness of pokemon.pokemonWeaknesses" class="type-label px-3 py-1 rounded text-white"
-              [ngStyle]="{ 'background-color': getTypeColor(weakness.type.typeName) }">
+        [ngStyle]="{ 
+            'background-color': getTypeColor(weakness.type.typeName).backgroundColor,
+            'color': getTypeColor(weakness.type.typeName).fontColor
+          }">
           {{ weakness.type.typeName }}
         </span>
       </div>

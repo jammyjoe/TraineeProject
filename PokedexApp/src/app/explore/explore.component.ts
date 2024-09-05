@@ -37,7 +37,7 @@ export class ExploreComponent implements OnInit {
     );
   }
 
-  getTypeColor(typeName: string): string {
+  getTypeColor(typeName: string): { backgroundColor: string, fontColor: string } {
     return this.typeColorService.getTypeColor(typeName);
   }
 

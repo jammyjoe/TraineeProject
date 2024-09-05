@@ -26,7 +26,12 @@ export class TypeColorService {
     fairy: '#D685AD'
   };
 
-  getTypeColor(typeName: string): string {
-    return this.typeColors[typeName.toLowerCase()] || '#FFFFFF'; // Default to white if type not found
+  getTypeColor(typeName: string): { backgroundColor: string, fontColor: string } {
+    const backgroundColor = this.typeColors[typeName.toLowerCase()] || '#FFFFFF'; 
+    const darkFontTypes = ['electric', 'ice', 'ground', 'steel', 'fairy']; 
+
+    const fontColor = darkFontTypes.includes(typeName.toLowerCase()) ? '#000000' : '#FFFFFF';
+
+    return { backgroundColor, fontColor };
   }
 }
