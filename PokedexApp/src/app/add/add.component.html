@@ -4,20 +4,33 @@
 
       <!-- Left Form Section (Shorter Width) -->
       <div class="flex flex-col space-y-8 w-1/2"> <!-- Changed to space-y-8 for larger vertical gaps -->
-        <!-- Name Section -->
-        <div class="form-group">
-          <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-          <input id="name" formControlName="name" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input id="name" formControlName="name" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+        <div *ngIf="addPokemonForm.get('name')?.invalid && (addPokemonForm.get('name')?.touched || addPokemonForm.get('name')?.dirty)" class="text-red-600">
+          <div *ngIf="addPokemonForm.get('name')?.errors?.['required']">
+            Name is required.
+          </div>
+          <div *ngIf="addPokemonForm.get('name')?.errors?.['maxlength']">
+            Name cannot be longer than 50 characters.
+          </div>
         </div>
+      </div>
 
-        <!-- Type 1 Section -->
-        <div class="form-group py-4">
-          <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
-          <select id="type1" formControlName="type1" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            <option value="" disabled selected hidden></option>
-            <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
-          </select>
+      <!-- Type 1 Field -->
+      <div class="form-group py-4">
+        <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
+        <select id="type1" formControlName="type1" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="" disabled selected hidden></option>
+          <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
+        </select>
+        <div *ngIf="addPokemonForm.get('type1')?.invalid && (addPokemonForm.get('type1')?.touched || addPokemonForm.get('type1')?.dirty)" class="text-red-600">
+          <div *ngIf="addPokemonForm.get('type1')?.errors?.['required']">
+            Type 1 is required.
+          </div>
         </div>
+      </div>
 
         <!-- Type 2 Section -->
         <div class="form-group py-4">
@@ -61,6 +74,10 @@
             </li>
           </ul>
         </div>
+
+        <div *ngIf="successMessage" class="text-green-600 mt-4">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="bg-red-100 text-red-600 p-4 mb-4 rounded">{{ errorMessage }}
+        </div>
       </div>
 
       <!-- Right Section (Image and Details, Larger Details Box) -->
@@ -87,10 +104,8 @@
 
     <!-- Submit Button -->
     <div class="flex justify-end py-4">
-      <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+      <button type="submit" class="py-2 px-6 border border-transparent rounded-md shadow-sm text-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
     </div>
   </form>
 
-  <!-- Success Message -->
-  <div *ngIf="successMessage" class="text-green-600 mt-4">{{ successMessage }}</div>
 </div>

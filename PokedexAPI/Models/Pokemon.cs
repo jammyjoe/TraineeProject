@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PokedexAPI.Models
 {
@@ -11,6 +12,9 @@ namespace PokedexAPI.Models
 			PokemonWeaknesses = new HashSet<PokemonWeakness>();
 		}
 		public int Id { get; set; }
+		
+		[Required]
+		[MaxLength(50)]
 		public string Name { get; set; } = null!;
 		public int Type1Id { get; set; }
 		public int? Type2Id { get; set; }

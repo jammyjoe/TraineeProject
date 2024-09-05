@@ -19,6 +19,7 @@ export class EditComponent implements OnInit {
   editPokemonForm: FormGroup;
   types: PokemonType[] = [];
   successMessage: string = '';
+  errorMessage: string = '';
   pokemonId!: number;
   selectedImageUrl: string | null = null;;
 
@@ -168,15 +169,22 @@ export class EditComponent implements OnInit {
       this.pokemonService.updatePokemon(pokemonDto.id, pokemonDto).subscribe(
         response => {
           console.log('Pokemon updated successfully:', response);
-          alert('Pokemon updated successfully!'); 
-          this.router.navigate(['/explore']);  
+          this.successMessage = 'Pokemon updated successfully!';
+          this.errorMessage = ''; // Clear any previous error messages
+          setTimeout(() => {
+            this.router.navigate([`/pokemon/${pokemonDto.name}`]);
+          }, 1000);
         },
         error => {
           console.error('Error updating Pokemon:', error);
+          this.successMessage = ''; // Clear any previous success messages
+          this.errorMessage = `Error updating Pokemon ${error.message || 'An unexpected error occurred.'}`;
         }
       );
     } else {
       console.error('Form is invalid. Cannot submit.');
+      this.successMessage = ''; // Clear any previous success messages
+      this.errorMessage = 'Please correct the errors in the form before submitting.';
     }
   }
 }
