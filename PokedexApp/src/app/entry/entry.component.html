@@ -1,13 +1,15 @@
 <div class="entry-container flex flex-col lg:flex-row p-6 pt-24 space-y-5 lg:space-y-1">
     <!-- Left Flex Container -->
     <div class="left-container w-full lg:w-2/3 flex flex-col items-center">
-      <h2 class="text-4xl font-bold mb-4">{{ pokemon.name }}</h2>
-      <img [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="pokemon-image w-72 h-auto">
+        <div class="border border-gray-300 rounded-lg shadow-md p-16">
+            <h2 class="text-4xl text-center font-bold mb-8">{{ pokemon.name }}</h2>
+            <img [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="pokemon-image w-72 h-auto">
+        </div>
     </div>
   
     <!-- Right Flex Container -->
     <div class="right-container w-full lg:w-1/2 flex flex-col space-y-4">
-    <div class="text-2xl pt-5 max-w-screen-sm">{{ pokemon.details }}</div>
+    <div class="text-2xl max-w-screen-sm">{{ pokemon.details }}</div>
       <div class="text-xl pt-5 font-semibold">Type</div>
       <div class="text-base text-gray-600 flex space-x-2">
         <span class="type-label px-3 pt-1 rounded text-white"

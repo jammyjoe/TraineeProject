@@ -1,19 +1,19 @@
-<div class="add-container p-9">
+<div class="add-container p-12 mx-16">
   <form [formGroup]="addPokemonForm" (ngSubmit)="onSubmit()">
-    <div class="flex space-x-32"> <!-- Increased space between columns -->
+    <div class="flex space-x-28"> <!-- Increased space between columns -->
 
       <!-- Left Form Section (Shorter Width) -->
-      <div class="flex flex-col space-y-8 w-1/3"> <!-- Changed to space-y-8 for larger vertical gaps -->
+      <div class="flex flex-col space-y-8 w-1/2"> <!-- Changed to space-y-8 for larger vertical gaps -->
         <!-- Name Section -->
         <div class="form-group">
           <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-          <input id="name" formControlName="name" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+          <input id="name" formControlName="name" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
         </div>
 
         <!-- Type 1 Section -->
         <div class="form-group py-4">
           <label for="type1" class="block text-sm font-medium text-gray-700">Type 1</label>
-          <select id="type1" formControlName="type1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <select id="type1" formControlName="type1" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <option value="" disabled selected hidden></option>
             <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
           </select>
@@ -22,7 +22,7 @@
         <!-- Type 2 Section -->
         <div class="form-group py-4">
           <label for="type2" class="block text-sm font-medium text-gray-700">Type 2</label>
-          <select id="type2" formControlName="type2" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <select id="type2" formControlName="type2" class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <option value="" selected>None</option>
             <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
           </select>
@@ -31,7 +31,7 @@
         <!-- Strengths Section -->
         <div class="form-group py-4">
           <label class="block text-sm font-medium text-gray-700">Strengths</label>
-          <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addStrength($event)">
+          <select class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addStrength($event)">
             <option value="" disabled selected hidden></option>
             <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
           </select>
@@ -48,7 +48,7 @@
         <!-- Weaknesses Section -->
         <div class="form-group py-4">
           <label class="block text-sm font-medium text-gray-700">Weaknesses</label>
-          <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addWeakness($event)">
+          <select class="mt-1 block w-4/5 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (change)="addWeakness($event)">
             <option value="" disabled selected hidden></option>
             <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
           </select>
@@ -68,7 +68,7 @@
         <!-- Details Section (Larger Box) -->
         <div class="form-group">
           <label for="details" class="block text-sm font-medium text-gray-700">Details</label>
-          <textarea id="details" formControlName="details" rows="6" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-h-60 sm:text-sm"></textarea>
+          <textarea id="details" formControlName="details" rows="6" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-h-60 max-w-4xl sm:text-sm" placeholder="Optional"></textarea>
         </div>
 
         <!-- Image Selection Section -->
