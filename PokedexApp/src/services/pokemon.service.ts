@@ -59,6 +59,13 @@ export class PokemonService {
     );
   }
 
+  getPokemonsByTypes(typeNames: string[]): Observable<Pokemon[]> {
+    const queryString = typeNames.map(typeName => `typeNames=${encodeURIComponent(typeName)}`).join('&');
+    return this.http.get<Pokemon[]>(`${this.typeApiUrl}/by-types?${queryString}`).pipe(
+      catchError(this.handleHttpError)
+    );
+  }
+  
 
   updatePokemon(pokemonId: number, pokemon: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${pokemonId}`, pokemon).pipe

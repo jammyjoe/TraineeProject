@@ -48,8 +48,8 @@ export class SearchComponent {
     return this.typeColorService.getTypeColor(typeName);
   }
 
-  viewPokemonEntry(name: string): void {
-    this.router.navigate([`/pokemon/${name}`]);
+  viewPokemonEntry(pokemonName: string): void {
+    this.router.navigate([`/pokemon/${pokemonName}`]);
   }
   
 
