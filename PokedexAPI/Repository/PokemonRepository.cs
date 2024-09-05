@@ -167,10 +167,7 @@ namespace Pokedex.Repository
 
             existingPokemon.Name = updatedPokemonDto.Name;
 
-            if (!string.IsNullOrEmpty(updatedPokemonDto.ImageUrl))
-            {
-                existingPokemon.ImageUrl = updatedPokemonDto.ImageUrl;
-            }
+            existingPokemon.ImageUrl = updatedPokemonDto.ImageUrl;
 
             existingPokemon.Details = updatedPokemonDto.Details;
 

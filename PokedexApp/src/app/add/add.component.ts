@@ -19,11 +19,11 @@ import { ImageSelectionModalComponent } from '../components/image-selection-moda
 
 export class AddComponent implements OnInit{
   @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
-  selectedImageUrl: string = '';
   types: PokemonType[] = [];
   addPokemonForm: FormGroup;
   successMessage: string = '';
   pokemons: any;
+  selectedImageUrl: string | null = null;
 
   constructor(
     private pokemonService: PokemonService,
@@ -106,6 +106,11 @@ export class AddComponent implements OnInit{
     this.selectedImageUrl = imageUrl;
   }
 
+  removeImage() {
+    this.selectedImageUrl = null; 
+    this.addPokemonForm.patchValue({ imageUrl: null });
+  }
+
   onSubmit(): void {
     if (this.addPokemonForm.valid) {
       const formData = this.addPokemonForm.value;
@@ -121,7 +126,7 @@ export class AddComponent implements OnInit{
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
           type: weakness.type
         })),
-        imageUrl: this.selectedImageUrl 
+        imageUrl: this.selectedImageUrl ?? undefined 
       };
 
       this.pokemonService.addPokemon(pokemon).subscribe(

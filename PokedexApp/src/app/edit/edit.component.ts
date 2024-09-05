@@ -20,7 +20,7 @@ export class EditComponent implements OnInit {
   types: PokemonType[] = [];
   successMessage: string = '';
   pokemonId!: number;
-  selectedImageUrl: string = '';
+  selectedImageUrl: string | null = null;;
 
   constructor(
     private fb: FormBuilder,
@@ -67,7 +67,7 @@ export class EditComponent implements OnInit {
             // Populate strengths and weaknesses
             this.setFormArray('pokemonStrengths', pokemon.pokemonStrengths);
             this.setFormArray('pokemonWeaknesses', pokemon.pokemonWeaknesses);
-            this.selectedImageUrl = pokemon.imageUrl ?? '';
+            this.selectedImageUrl = pokemon.imageUrl ?? null;
           },
           error => {
             console.error('Error fetching Pokémon data', error);
@@ -140,6 +140,11 @@ export class EditComponent implements OnInit {
   }
 
   onModalClosed(): void {
+  }
+
+  removeImage() {
+    this.selectedImageUrl = null; 
+    this.editPokemonForm.patchValue({ imageUrl: null });
   }
 
   onSubmit(): void {

@@ -72,11 +72,16 @@
         </div>
 
         <!-- Image Selection Section -->
-        <button class="block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 py-2 px-4 w-32 rounded-md shadow-sm" type="button" (click)="openImagePicker()">Select Image</button> <!-- Added w-32 to make the button less wide -->
-        <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Selected Pokemon Image" class="w-48 h-48 object-cover mt-4" />
+          <div class="flex flex-row space-y-4 justify-between">
+            <button class="block self-center text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 py-2 px-4 w-32 rounded-md shadow-sm" type="button" (click)="openImagePicker()">Select Image</button> <!-- Added w-32 to make the button less wide -->
+            <div class="flex flex-col self-end mr-80">
 
-        <!-- Modal for Image Selection -->
-        <app-image-selection-modal (imageSelected)="onImageSelected($event)"></app-image-selection-modal>
+            <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Selected Pokemon Image" class="mt-4 w-48 h-48 object-cover self-end" />
+            <button *ngIf="selectedImageUrl" class="block text-sm font-medium text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 py-2 px-4 rounded-md" type="button" (click)="removeImage()">Remove Image</button>
+            <!-- Modal for Image Selection -->
+            <app-image-selection-modal (imageSelected)="onImageSelected($event)"></app-image-selection-modal>
+          </div>
+        </div>
       </div>
     </div>
 
