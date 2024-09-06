@@ -32,32 +32,32 @@ resource "azurerm_key_vault" "key_vault" {
 #     ]
 # }
 
-resource "azurerm_key_vault_secret" "storage_account_secret" {
-  name         = "StorageAccountConnection"
-  value        = var.SA_CONNECTION_STRING
-  key_vault_id = azurerm_key_vault.key_vault.id
-}
+# resource "azurerm_key_vault_secret" "storage_account_secret" {
+#   name         = "StorageAccountConnection"
+#   value        = var.SA_CONNECTION_STRING
+#   key_vault_id = azurerm_key_vault.key_vault.id
+# }
 
-resource "azurerm_key_vault_secret" "database_secret" {
-  name         = "DefaultConnection"
-  value        = var.SQL_DB_CONNECTION_STRING
-  key_vault_id = azurerm_key_vault.key_vault.id
-}
+# resource "azurerm_key_vault_secret" "database_secret" {
+#   name         = "DefaultConnection"
+#   value        = var.SQL_DB_CONNECTION_STRING
+#   key_vault_id = azurerm_key_vault.key_vault.id
+# }
 
-resource "azurerm_key_vault_secret" "admin_password_secret" {
-  name         = "AdminPassword"
-  value        = var.ADMIN_PASSWORD
-  key_vault_id = azurerm_key_vault.key_vault.id
-}
+# resource "azurerm_key_vault_secret" "admin_password_secret" {
+#   name         = "AdminPassword"
+#   value        = var.ADMIN_PASSWORD
+#   key_vault_id = azurerm_key_vault.key_vault.id
+# }
 
-resource "azurerm_key_vault_secret" "authority_secret" {
-  name         = "Authority"
-  value        = var.AUTHORITY
-  key_vault_id = azurerm_key_vault.key_vault.id
-}
+# resource "azurerm_key_vault_secret" "authority_secret" {
+#   name         = "Authority"
+#   value        = var.AUTHORITY
+#   key_vault_id = azurerm_key_vault.key_vault.id
+# }
 
-resource "azurerm_key_vault_secret" "audience_secret" {
-  name         = "Audience"
-  value        = var.AUDIENCE
-  key_vault_id = azurerm_key_vault.key_vault.id
-}
+# resource "azurerm_key_vault_secret" "audience_secret" {
+#   name         = "Audience"
+#   value        = var.AUDIENCE
+#   key_vault_id = azurerm_key_vault.key_vault.id
+# }
