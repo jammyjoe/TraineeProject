@@ -16,14 +16,10 @@ namespace Pokedex.Controllers;
 [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
 public class ImageController : ControllerBase
 {
-    private readonly PokedexContext _context;
-    private readonly IMapper _mapper;
     private readonly BlobServiceClient _blobServiceClient;
     private readonly string _containerName = "pokedeximgcontainer";
-    public ImageController(PokedexContext context, IMapper mapper, BlobServiceClient blobServiceClient)
+    public ImageController(BlobServiceClient blobServiceClient)
     {
-        _context = context;
-        _mapper = mapper;
         _blobServiceClient = blobServiceClient;
 
     }
@@ -51,7 +47,7 @@ public class ImageController : ControllerBase
 
         return Ok(images);
     }
-
+}
     // [HttpGet("pokemon")]
     // public IActionResult GetPokemonImages()
     // {
@@ -76,4 +72,4 @@ public class ImageController : ControllerBase
 
     //     return Ok(images);
     // }
-}
+

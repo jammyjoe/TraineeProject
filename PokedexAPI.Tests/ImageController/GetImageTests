@@ -1,0 +1,76 @@
+using FakeItEasy;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using System.Linq;
+using Pokedex.Controllers;
+
+namespace Pokedex.Tests
+{
+    [TestFixture]
+    public class ImageControllerTests
+    {
+        private ImageController _controller;
+        private BlobServiceClient _fakeBlobServiceClient;
+        private BlobContainerClient _fakeContainerClient;
+
+        [SetUp]
+        public void Setup()
+        {
+            _fakeBlobServiceClient = A.Fake<BlobServiceClient>();
+            _fakeContainerClient = A.Fake<BlobContainerClient>();
+            A.CallTo(() => _fakeBlobServiceClient.GetBlobContainerClient(A<string>.Ignored)).Returns(_fakeContainerClient);
+            _controller = new ImageController(_fakeBlobServiceClient);
+        }
+
+        [Test]
+        public async Task GetPokemonImages_ShouldReturnOkResult_WithListOfImages_WhenContainerExists()
+        {
+            // Arrange
+            var blobs = new List<BlobItem>
+            {
+                new BlobItem("image1.png", BlobItem.Properties),
+                new BlobItem("image2.png", BlobItem.Properties)
+            };
+
+            A.CallTo(() => _fakeContainerClient.ExistsAsync()).Returns(Task.FromResult(true));
+            A.CallTo(() => _fakeContainerClient.GetBlobsAsync()).Returns(blobs.ToAsyncEnumerable());
+
+            // Act
+            var result = await _controller.GetPokemonImages();
+
+            // Assert
+            var okResult = result as OkObjectResult;
+            okResult.Should().NotBeNull();
+            okResult.StatusCode.Should().Be(200);
+
+            var images = okResult.Value as List<string>; // Assuming that GetPokemonImages returns a list of strings
+            images.Should().NotBeNull();
+            images.Count.Should().Be(2);
+
+            images.Should().Contain("image1.png");
+            images.Should().Contain("image2.png");
+        }
+
+        [Test]
+        public async Task GetPokemonImages_ShouldReturnNotFound_WhenContainerDoesNotExist()
+        {
+            // Arrange
+            A.CallTo(() => _fakeContainerClient.ExistsAsync()).Returns(Task.FromResult(false));
+
+            // Act
+            var result = await _controller.GetPokemonImages();
+
+            // Assert
+            var notFoundResult = result as NotFoundObjectResult;
+            notFoundResult.Should().NotBeNull();
+            notFoundResult.StatusCode.Should().Be(404);
+            notFoundResult.Value.Should().Be("Image container not found.");
+        }
+    }
+}

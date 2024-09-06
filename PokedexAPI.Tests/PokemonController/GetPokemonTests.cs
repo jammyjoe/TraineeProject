@@ -2,15 +2,17 @@ using AutoMapper;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 using Pokedex.Controllers;
 using Pokedex.DTOs;
 using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 [TestFixture]
 public class GetPokemonTests
 {
-    private PokedexContext _fakeContext;
     private IPokemonRepository _fakePokemonRepository;
     private IMapper _fakeMapper;
     private PokemonController _fakePokemonController;
@@ -20,15 +22,23 @@ public class GetPokemonTests
     {
         _fakePokemonRepository = A.Fake<IPokemonRepository>();
         _fakeMapper = A.Fake<IMapper>();
-        _fakePokemonController = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
+        _fakePokemonController = new PokemonController(_fakePokemonRepository, _fakeMapper);
     }
 
     [Test]
-    public async Task PokemonController_GetPokemons_ReturnsOkObjectResult()
+    public async Task GetPokemons_ReturnsOkObjectResult_WhenPokemonsExist()
     {
         // Arrange
-        var fakePokemonEntities = A.Fake<ICollection<Pokemon>>();
-        var fakePokemonDtos = A.Fake<List<PokemonDto>>();
+        var fakePokemonEntities = new List<Pokemon>
+        {
+            new Pokemon { Name = "Pikachu" },
+            new Pokemon { Name = "Charmander" }
+        };
+        var fakePokemonDtos = new List<PokemonDto>
+        {
+            new PokemonDto { Name = "Pikachu" },
+            new PokemonDto { Name = "Charmander" }
+        };
 
         A.CallTo(() => _fakePokemonRepository.GetPokemons()).Returns(fakePokemonEntities);
         A.CallTo(() => _fakeMapper.Map<List<PokemonDto>>(fakePokemonEntities)).Returns(fakePokemonDtos);
@@ -38,21 +48,21 @@ public class GetPokemonTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeSameAs(fakePokemonDtos);
+        var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
+        okResult?.Value.Should().BeEquivalentTo(fakePokemonDtos);
 
         A.CallTo(() => _fakePokemonRepository.GetPokemons()).MustHaveHappenedOnceExactly();
         A.CallTo(() => _fakeMapper.Map<List<PokemonDto>>(fakePokemonEntities)).MustHaveHappenedOnceExactly();
     }
 
-
     [Test]
     public async Task GetPokemon_ReturnsOkObjectResult_WhenPokemonExists()
     {
         // Arrange
-        var pokemonName = "ExistingPokemon";
-        var fakePokemonEntity = A.Fake<Pokemon>();
-        var fakePokemonDto = A.Fake<PokemonDto>();
+        var pokemonName = "Pikachu";
+        var fakePokemonEntity = new Pokemon { Name = pokemonName };
+        var fakePokemonDto = new PokemonDto { Name = pokemonName };
 
         A.CallTo(() => _fakePokemonRepository.PokemonExists(pokemonName)).Returns(true);
         A.CallTo(() => _fakePokemonRepository.GetPokemon(pokemonName)).Returns(fakePokemonEntity);
@@ -63,9 +73,9 @@ public class GetPokemonTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
-        okResult.Value.Should().Be(fakePokemonDto);
+        okResult.Should().NotBeNull();
+        okResult?.Value.Should().BeEquivalentTo(fakePokemonDto);
     }
 
     [Test]
@@ -81,8 +91,8 @@ public class GetPokemonTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Result.Should().BeOfType<NotFoundObjectResult>();
         var notFoundResult = result.Result as NotFoundObjectResult;
-        notFoundResult.Value.Should().Be("This pokemon does not exist");
+        notFoundResult.Should().NotBeNull();
+        notFoundResult?.Value.Should().Be("This pokemon does not exist");
     }
 }

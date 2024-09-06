@@ -15,13 +15,11 @@ namespace Pokedex.Controllers
     [EnableCors("AllowedOriginsPolicy")]
     public class PokemonController : ControllerBase
     {
-        private readonly PokedexContext _context;
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMapper _mapper;
 
-        public PokemonController(PokedexContext context, IPokemonRepository pokemonRepository, IMapper mapper)
+        public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
         {
-            _context = context;
             _pokemonRepository = pokemonRepository;
             _mapper = mapper;
         }
@@ -144,13 +142,19 @@ namespace Pokedex.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<Pokemon>> DeletePokemon(string name)
         {
-            if (!(await _pokemonRepository.PokemonExists(name)))
+            var pokemon = await _pokemonRepository.GetPokemon(name);
+
+            if (!await _pokemonRepository.PokemonExists(name) || pokemon == null)
                 return NotFound("This pokemon does not exist");
 
-            var pokemonToDelete = await _pokemonRepository.GetPokemon(name);
+            var result = await _pokemonRepository.DeletePokemon(pokemon);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!result)
+            {
+                return NotFound("Deletion failed or the pokemon was not found");
+            }
+
+            var pokemonToDelete = await _pokemonRepository.GetPokemon(name);
 
             if (!await _pokemonRepository.DeletePokemon(pokemonToDelete))
             {
@@ -165,15 +169,22 @@ namespace Pokedex.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<Pokemon>> DeletePokemon(int id)
         {
-            if (!(await _pokemonRepository.PokemonExists(id)))
+
+            var pokemon = await _pokemonRepository.GetPokemon(id);
+
+            if (pokemon == null)
                 return NotFound("This pokemon does not exist");
+
+            var result = await _pokemonRepository.DeletePokemon(pokemon);
+
+            if (!result)
+            {
+                return NotFound("Deletion failed or the pokemon was not found");
+            }
 
             var pokemonToDelete = (await _pokemonRepository.GetPokemon(id));
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (!(await _pokemonRepository.DeletePokemon(pokemonToDelete)))
+            if (!await _pokemonRepository.DeletePokemon(pokemonToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong deleting pokemon");
             }
