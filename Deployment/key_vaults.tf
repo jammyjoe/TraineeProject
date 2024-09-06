@@ -22,16 +22,6 @@ resource "azurerm_key_vault" "key_vault" {
     }
 }
 
-# resource "azurerm_key_vault_access_policy" "terraform_kv_ap" {
-#     key_vault_id = azurerm_key_vault.key_vault.id
-#     tenant_id    = data.azurerm_client_config.current.tenant_id
-#     object_id    = data.azurerm_client_config.current.object_id
-
-#     secret_permissions = [
-#       "Get", "List", "Delete", "Recover", "Backup", "Restore", "Set", "Purge"
-#     ]
-# }
-
 resource "azurerm_key_vault_secret" "storage_account_secret" {
   name         = "StorageAccountConnection"
   value        = var.SA_CONNECTION_STRING
@@ -45,8 +35,7 @@ resource "azurerm_key_vault_secret" "database_secret" {
 }
 
 resource "azurerm_key_vault_secret" "admin_password_secret" {
-  name         = "PokedexDatabase--AdminPassword"
+  name         = "AdminPassword"
   value        = var.ADMIN_PASSWORD
   key_vault_id = azurerm_key_vault.key_vault.id
 }
-

@@ -25,6 +25,9 @@ For example the home page calls GetAllPokemons to generate cards of all the Poke
 Pokedex SQL Database uses Entity Framework to create models based on relational mappings made between Pokemons, Type, PokemonStrengths, PokemonWeaknesses. Using foreign keys to cross references the types as they exist as a fixed list of 18 types that are references using their IDs.
 Similarly the PokemonWeaknesses and PokemonStrengths tables use foreign keys from both TypeId and PokemonId to map a pokemons strength/weakness.
 
+# Pokedex Azure Storage Account
+Pokedex Azure Storage Account uses blob containers to host Pokemon Images used and retrieved by my database, this allows a seamless and memory efficient way of rendering and storing many images.
+
 # Deployment
 This application uses YAML to build and deploy the apps and the Infrastructure is created using terraform via bash scripts. The YAML has been split out into build templates and deploy templates with a deploy_infrastructure.yml to trigger a bash script and create the terraform resources in azure.
 _
