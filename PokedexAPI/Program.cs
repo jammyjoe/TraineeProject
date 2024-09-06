@@ -27,7 +27,6 @@ builder.Services.AddSingleton(x =>
     var connectionString = builder.Configuration["StorageAccountConnection"];
     return new BlobServiceClient(connectionString);
 });
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -41,6 +40,7 @@ builder.Services.AddCors(options =>
             });
         });
 
+builder.Configuration.GetSection("AzureAd");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
