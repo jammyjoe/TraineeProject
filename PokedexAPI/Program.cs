@@ -15,9 +15,7 @@ builder.Configuration.AddAzureKeyVault(
     new Uri(builder.Configuration["KeyVaultUrl"]),
     new DefaultAzureCredential());
 
-builder.Services.AddDbContext<PokedexContext>(options =>
-options.UseSqlServer(builder.Configuration["DefaultConnection"]));
-builder.Configuration.GetSection(builder.Configuration["AzureAd"]);
+// builder.Configuration.GetSection(builder.Configuration["AzureAd"]);
 builder.Services.AddControllers();
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -47,8 +45,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
-		options.Authority = builder.Configuration["Authority"];
-		options.Audience = builder.Configuration["Audience"];
+		options.Authority = builder.Configuration["AzureAd:Authority"];
+		options.Audience = builder.Configuration["AzureAd:Audience"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
