@@ -15,7 +15,7 @@ builder.Configuration.AddAzureKeyVault(
     new Uri(builder.Configuration["KeyVaultUrl"]),
     new DefaultAzureCredential());
 
-// builder.Configuration.GetSection(builder.Configuration["AzureAd"]);
+builder.Configuration.GetSection("AzureAd");
 builder.Services.AddControllers();
 builder.Services.AddResponseCaching(x => x.MaximumBodySize = 1024);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
