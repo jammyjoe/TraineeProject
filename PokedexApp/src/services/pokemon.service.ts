@@ -19,31 +19,13 @@ export class PokemonService {
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-      errorMessage = `Network Error: ${error.error.message}`;
+      errorMessage = `(Network Error) ${error.error.message}`;
     } else {
-      errorMessage = `Server Error: ${error.error}`;
+      errorMessage = `(Server Error): ${error.error || 'An unexpected error occurred.'}`;
     }
     console.error(errorMessage); 
     return throwError(() => new Error(errorMessage));
   }
-
-  // getPokemons(): Observable<Pokemon[]> {
-  //   return this.authService.acquireToken().pipe(
-  //     switchMap(token => {
-  //       const headers = this.getHeaders(token);
-  //       return this.http.get<Pokemon[]>(this.apiUrl, { headers }).pipe(
-  //         catchError(this.handleHttpError)
-  //       );
-  //     })
-  //   );
-  // }
-
-  // getPokemons(): Observable<Pokemon[]> {
-  //   return this.getAuthHeaders().pipe(
-  //     switchMap(headers => this.http.get<Pokemon[]>(this.apiUrl, { headers })),
-  //     catchError(this.handleHttpError)
-  //   );
-  // }
 
   getPokemons(): Observable<Pokemon[]> {
     return this.http.get<Pokemon[]>(this.apiUrl).pipe(
@@ -77,6 +59,13 @@ export class PokemonService {
     );
   }
 
+  getPokemonsByTypes(typeNames: string[]): Observable<Pokemon[]> {
+    const queryString = typeNames.map(typeName => `typeNames=${encodeURIComponent(typeName)}`).join('&');
+    return this.http.get<Pokemon[]>(`${this.typeApiUrl}/by-types?${queryString}`).pipe(
+      catchError(this.handleHttpError)
+    );
+  }
+  
 
   updatePokemon(pokemonId: number, pokemon: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${pokemonId}`, pokemon).pipe

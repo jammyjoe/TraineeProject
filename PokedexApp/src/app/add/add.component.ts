@@ -19,11 +19,12 @@ import { ImageSelectionModalComponent } from '../components/image-selection-moda
 
 export class AddComponent implements OnInit{
   @ViewChild(ImageSelectionModalComponent) imagePickerModal!: ImageSelectionModalComponent;
-  selectedImageUrl: string = '';
   types: PokemonType[] = [];
   addPokemonForm: FormGroup;
   successMessage: string = '';
+  errorMessage: string = '';
   pokemons: any;
+  selectedImageUrl: string | null = null;
 
   constructor(
     private pokemonService: PokemonService,
@@ -33,6 +34,7 @@ export class AddComponent implements OnInit{
       name: ['', [Validators.required, Validators.maxLength(50)]],
       type1: ['', Validators.required],
       type2: [''],
+      details: [''],
       pokemonStrengths: this.fb.array([]),
       pokemonWeaknesses: this.fb.array([])
     });
@@ -84,7 +86,7 @@ export class AddComponent implements OnInit{
         this.pokemonWeaknesses.push(this.fb.group({
           type: selectedType
         }));
-        selectElement.selectedIndex = 0; // Reset the select element
+        selectElement.selectedIndex = 0; 
       }
     }
   }
@@ -95,7 +97,7 @@ export class AddComponent implements OnInit{
 
   openImagePicker(): void {
     if (this.imagePickerModal) {
-      this.imagePickerModal.open();  // Call open() to display the modal
+      this.imagePickerModal.open(); 
     } else {
       console.error('ImagePickerModalComponent is not available.');
     }
@@ -103,6 +105,11 @@ export class AddComponent implements OnInit{
 
   onImageSelected(imageUrl: string): void {
     this.selectedImageUrl = imageUrl;
+  }
+
+  removeImage() {
+    this.selectedImageUrl = null; 
+    this.addPokemonForm.patchValue({ imageUrl: null });
   }
 
   onSubmit(): void {
@@ -113,34 +120,34 @@ export class AddComponent implements OnInit{
         name: formData.name,
         type1: this.types.find(type => type.typeName === formData.type1)!,
         type2: formData.type2 && formData.type2 !== 'None' ? this.types.find(type => type.typeName === formData.type2) : undefined,
+        details: formData.details,
         pokemonStrengths: formData.pokemonStrengths.map((strength: any) => ({
           type: strength.type
         })),
         pokemonWeaknesses: formData.pokemonWeaknesses.map((weakness: any) => ({
           type: weakness.type
         })),
-        imageUrl: this.selectedImageUrl 
+        imageUrl: this.selectedImageUrl ?? undefined 
+
       };
 
       this.pokemonService.addPokemon(pokemon).subscribe(
         response => {
-          console.log('Pokemon added successfully:', response);
-          alert('Pokemon added successfully!');  
-          this.addPokemonForm.reset();
           this.successMessage = 'Pokemon successfully saved.';
-          this.router.navigate(['/explore']);
+          this.errorMessage = ''; 
+          this.addPokemonForm.reset();
+          setTimeout(() => {
+            this.router.navigate([`/pokemon/${pokemon.name}`]);
+          }, 1000);
         },
         error => {
-          if (error.status === 400) {
-            alert(error.error.Message);
-          } else {
-            console.error('Error updating Pokemon:', error);
-          }
+          this.successMessage = ''; 
+          this.errorMessage = `Error updating Pokemon ${error.message || 'An unexpected error occurred.'}`;
         }
       );
     } else {
-      alert("This form is invalid");
-      console.error('Form is invalid. Cannot submit.');
+      this.errorMessage = 'This form is invalid. Cannot submit.';
+      this.successMessage = ''; 
     }
   }
 }

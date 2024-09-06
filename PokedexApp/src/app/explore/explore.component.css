@@ -1,0 +1,109 @@
+/* explore.component.css */
+.grid {
+  grid-template-columns: repeat(5, 1fr); /* 5 columns per row */
+  gap: 1.5rem; /* Larger gaps between items */
+}
+
+.pokemon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  max-width: 100%;
+  border-radius: 1rem; /* Rounded corners */
+  box-shadow: 0 5px 6px rgba(0,0,0,0.1);
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  aspect-ratio: 1; /* Ensures the card is square */
+  padding: 0.25rem;
+}
+
+.pokemon-card:hover {
+  background-color: #f7fafc;
+}
+
+.pokemon-image {
+  width: 100%; /* Consistent image width */
+  height: auto;
+  max-height: 120px; /* Set a max height for images */
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.type-label {
+  padding: 0.25rem 1rem; /* Adjust padding for better spacing */
+  border-radius: 0.5rem;
+  margin: 1rem 0.5rem 0rem 0.5rem;
+  color: #fff;
+  display: inline-block;
+}
+
+.filter-container {
+  position: relative; /* Ensure dropdown is positioned relative to this container */
+  display: inline-block; /* Allows the dropdown to be positioned correctly */
+}
+
+.filter-button {
+  background-color: #007bff; /* Primary button color */
+  color: #ffffff; /* Text color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Spacing inside the button */
+  font-size: 16px; /* Font size */
+  font-weight: 600; /* Font weight for bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+
+.filter-button:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+.filter-button:active {
+  background-color: #00408b; /* Even darker shade for active state */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow for pressed effect */
+}
+
+.filter-button:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5); /* Custom focus outline */
+}
+
+/* CSS for the filter dropdown */
+.filter-dropdown {
+  position: absolute; /* Positioned relative to the filter-container */
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 400px; /* Adjust width as needed */
+  z-index: 2; /* Ensure dropdown is above other elements */
+  display: flex; /* Display columns side by side */
+  flex-wrap: wrap; /* Wrap items to the next line */
+}
+
+/* Ensure each column takes up 1/3 of the dropdown width */
+.filter-dropdown-column {
+  flex: 1 1 33%; /* Each column takes up 33% of the dropdown width */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.filter-dropdown-column:last-child {
+  padding-right: 0; /* Remove padding for the last column */
+}
+
+/* Style for each label */
+.filter-dropdown label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px; /* Font size for labels */
+}
+
+/* Style for checkboxes */
+.filter-dropdown input {
+  margin-right: 8px; /* Space between checkbox and label text */
+}
+

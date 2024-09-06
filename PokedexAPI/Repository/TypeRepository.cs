@@ -21,15 +21,13 @@ public class TypeRepository : ITypeRepository
         return await _context.PokemonTypes.ToListAsync();
     }
 
-    public async Task<List<Pokemon>> GetPokemonsByType(string typeNames)
+    public async Task<List<Pokemon>> GetPokemonsByType(IEnumerable<string> typeNames)
     {
         if (typeNames == null || !typeNames.Any())
         {
-            // Throw an exception if no type names are provided
             throw new ArgumentException("At least one type name must be provided.", nameof(typeNames));
         }
 
-        // Fetch Pokemons where either Type1 or Type2 name matches any of the provided type names
         var pokemons = await _context.Pokemons
             .Include(p => p.Type1)
             .Include(p => p.Type2)

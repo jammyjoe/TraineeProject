@@ -1,81 +1,75 @@
-<div class="search-container p-9">
-  <form (ngSubmit)="searchPokemon()" #searchForm="ngForm">
+<div class="search-container flex flex-col items-center p-9">
+  <form (ngSubmit)="onSearchSubmit()" #searchForm="ngForm" class="w-full max-w-screen-lg">
     <div class="flex items-center">
       <input [(ngModel)]="searchQuery"
              name="searchQuery"
              type="text"
-             placeholder="Enter Pokemon name"
+             placeholder="Enter pokémon name"
              class="search-input border p-2 rounded-lg flex-grow"
+             (input)="onSearchInput()"
              required />
       <button type="submit"
-              class="search-button bg-blue-500 text-white p-2 rounded-lg ml-4">
+              class="search-button bg-blue-500 text-white p-3 rounded-lg ml-4">
         Search
       </button>
     </div>
   </form>
-  <div *ngIf="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</div>
-  <div *ngIf="successMessage" class="text-green-500 mt-4">{{ successMessage }}</div>
-  <div *ngIf="pokemonResult$ | async as pokemonResult" class="mt-8">
-    <div *ngIf="pokemonResult; else noResults">
-      <div class="pokemon-card p-4 border rounded-lg mb-4">
 
- <div class="flex flex-col p-4 space-y-4">
-  <!-- Flex Container with Text and Image -->
-  <div class="flex">
-    <!-- Text Section -->
-    <div class="w-1/6">
-      <h3 class="text-lg font-bold p-1">{{ pokemonResult.name }}</h3>
-      <div class="text-sm text-gray-600 p-1">
-        <strong>Type:</strong> 
-        {{ pokemonResult.type1.typeName }}{{ pokemonResult.type2 ? ' / ' + pokemonResult.type2.typeName : '' }}
-      </div>
-      <div class="text-sm text-gray-600 p-1">
-        <strong>Strengths:</strong>
-        <div *ngIf="pokemonResult.pokemonStrengths && pokemonResult.pokemonStrengths.length > 0">
-          <div *ngFor="let strength of pokemonResult.pokemonStrengths">
-            {{ strength.type.typeName }}
-          </div>
-        </div>
-        <div *ngIf="pokemonResult.pokemonStrengths.length === 0">None</div>
-      </div>
-      <div class="text-sm text-gray-600 p-1">
-        <strong>Weaknesses:</strong>
-        <div *ngIf="pokemonResult.pokemonWeaknesses && pokemonResult.pokemonWeaknesses.length > 0">
-          <div *ngFor="let weakness of pokemonResult.pokemonWeaknesses">
-            {{ weakness.type.typeName }}
-          </div>
-        </div>
-        <div *ngIf="pokemonResult.pokemonWeaknesses.length === 0">None</div>
-      </div>
-    </div>
-
-    <!-- Image Section -->
-    <div class="flex-grow">
-      <img *ngIf="pokemonResult.imageUrl"
-           [src]="pokemonResult.imageUrl"
-           alt="{{ pokemonResult.name }}"
-           class="w-16 h-auto object-contain rounded-lg">
-    </div>
+  <!-- Dropdown for search results -->
+  <div *ngIf="filteredPokemons.length > 0" class="search-dropdown mt-2 w-full max-w-screen-lg">
+    <ul>
+      <li *ngFor="let pokemon of filteredPokemons"
+          (click)="selectPokemon(pokemon)"
+          class="search-result-item cursor-pointer p-2 hover:bg-gray-100">
+        {{ pokemon.name }}
+      </li>
+    </ul>
   </div>
 
-  <!-- Button Section -->
-  <div class="flex justify-end space-x-4 m-4">
-    <button class="bg-blue-500 p-4 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            (click)="editPokemon(pokemonResult.id)">
-      <i class="fa fa-edit"></i>
-    </button>
-    <button class="bg-red-500 p-4 text-white rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-            (click)="deletePokemon(pokemonResult.id)">
-      <i class="fa fa-trash"></i>
-    </button>
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</div>
+
+  <!-- Pokémon Cards -->
+  <div *ngIf="filteredPokemons.length > 0" class="pokemon-cards-container mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" [ngClass]="{ 'grid-template-none': filteredPokemons.length == 1 }">
+    <div *ngFor="let pokemon of filteredPokemons" class="pokemon-card cursor-pointer hover:bg-gray-100 transition p-4 rounded-lg border">
+      <h2 class="text-2xl font-bold mb-4">{{ pokemon.name }}</h2>
+
+      <!-- Pokémon Image -->
+      <img *ngIf="pokemon.imageUrl" [src]="pokemon.imageUrl" alt="{{ pokemon.name }}" class="pokemon-image mb-2">
+
+      <!-- Pokémon Type -->
+      <div class="text-xl p-4 font-semibold flex space-x-2">
+        <span class="type-label"
+              [ngStyle]="{ 'background-color': getTypeColor(pokemon.type1.typeName).backgroundColor, 'color': getTypeColor(pokemon.type1.typeName).fontColor }">
+          {{ pokemon.type1.typeName }}
+        </span>
+        <span *ngIf="pokemon.type2" class="type-label ml-2"
+              [ngStyle]="{ 'background-color': getTypeColor(pokemon.type2.typeName).backgroundColor, 'color': getTypeColor(pokemon.type2.typeName).fontColor }">
+          {{ pokemon.type2.typeName }}
+        </span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end space-x-4 mt-6">
+        <button class="circular-button bg-green-400 text-white hover:bg-green-700"
+                (click)="viewPokemonEntry(pokemon.name)">
+          <i class="fa fa-search"></i>
+        </button>
+        <button class="circular-button bg-blue-400 text-white hover:bg-blue-700"
+                (click)="editPokemon(pokemon.id)">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button class="circular-button bg-red-400 text-white hover:bg-red-700"
+                (click)="deletePokemon(pokemon.id)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-
-        </div>
-      </div>
-    </div>
-    <ng-template #noResults>
-      <p>No results found...</p>
-    </ng-template>
-  </div>
+<div>
+  <ng-template #noResults>
+    <p>No results found...</p>
+  </ng-template>
+</div>

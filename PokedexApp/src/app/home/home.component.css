@@ -1,0 +1,39 @@
+/* Feature Card Styles */
+.feature-card {
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  border-radius: 1rem; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Light shadow */
+  padding: 0.75rem; /* Padding inside the card */
+  text-align: center; /* Center align text */
+  transition: box-shadow 0.3s ease-in-out; /* Smooth shadow transition */
+  max-width: 20rem; /* Maximum width */
+  margin: 0 auto; /* Center align card horizontally */
+}
+
+.feature-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+}
+
+/* Icon styling */
+.feature-card i {
+  font-size: 2.5rem; /* Icon size */
+  margin-bottom: 1rem; /* Space below the icon */
+}
+
+/* Heading styling */
+.feature-card h3 {
+  font-size: 1.25rem; /* Heading font size */
+  font-weight: 700; /* Bold heading */
+  color: #1a202c; /* Dark text color */
+  margin-bottom: 0.75rem; /* Space below the heading */
+}
+
+/* Paragraph styling */
+.feature-card p {
+  font-size: 1rem; /* Paragraph font size */
+  color: #4a5568; /* Text color */
+}
+
+.screen-height {
+    height: 85vh
+}

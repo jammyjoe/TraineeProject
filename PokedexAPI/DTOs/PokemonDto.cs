@@ -13,6 +13,7 @@ namespace Pokedex.DTOs
         //public IFormFile ImageFile { get; set; }
         public string ImageUrl { get; set; }
         //public byte[] ImageData { get; set; } // Nullable byte array for image data
+		public string Details { get; set; }
 
 		[Required(ErrorMessage = "Type1 is required.")]
         public PokemonTypeDto Type1 { get; set; }

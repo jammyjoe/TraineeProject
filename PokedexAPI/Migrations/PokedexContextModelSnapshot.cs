@@ -32,9 +32,10 @@ namespace PokedexAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("image_data");
+                    b.Property<string>("Details")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("details");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(2048)

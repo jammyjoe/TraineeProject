@@ -1,20 +1,52 @@
-<div class="relative min-h-screen flex items-center justify-center bg-blue-50">
+<div class="relative screen-height bg-blue-50 flex flex-col items-center justify-center">
+    <!-- Background Pokeball Image -->
     <img
-        src="favicon.png" 
-        alt="Pokéball Background"
-        class="relative inset-0 w-full h-full object-contain opacity-70"
+      src="favicon.png"
+      alt="Pokéball Background"
+      class="absolute top-0 w-2/5 h-auto opacity-20"
     />
+  
     <div class="relative z-10 container mx-auto px-4 py-12 flex flex-col items-center text-center">
-        <div class="bg-white p-8 rounded-3xl shadow-lg max-w-3xl mx-auto border-gray-900">
-        <h1 class="text-6xl font-extrabold text-red-700 mb-6">
-            Welcome to the Pokedex
-        </h1>
-        <p class="text-xl font-light text-gray-700 mb-8">
-            Explore the world of Pokémon! Discover detailed information about all Pokémon species, search for your favorites, and even contribute to our growing database.
+  
+      <!-- Heading Section -->
+      <div class="bg-white p-5 rounded-3xl shadow-lg max-w-3xl mx-auto mb-6">
+        <h1 class="text-4xl font-extrabold text-red-700 mb-6">Welcome to the Pokédex</h1>
+        <p class="text-xl font-light text-gray-700 mb-8 max-w-3xl">
+          Explore the world of Pokémon! Discover detailed information about all Pokémon species, search for your favorites, and contribute to our growing database.
         </p>
-        <p class="text-2xl font-semibold text-red-700 mb-10">
-            Please log in to continue your journey.
-        </p>
+      </div>
+  
+      <!-- Features Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14">
+  
+        <!-- Comprehensive View Card -->
+        <div class="feature-card bg-white bg-opacity-80 rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto">
+          <i class="fa fa-list text-4xl text-blue-500 mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Comprehensive View</h3>
+          <p class="text-base text-gray-700">
+            Browse our extensive Pokédex to view all Pokémon entries. Search, filter, and explore Pokémon details effortlessly.
+          </p>
         </div>
+  
+        <!-- Manage Pokémon Card -->
+        <div class="feature-card bg-white bg-opacity-80 rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto">
+          <i class="fa fa-cogs text-4xl text-green-500 mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Manage Pokémon</h3>
+          <p class="text-base text-gray-700">
+            Add new Pokémon, edit existing ones, or delete unwanted entries. Keep your Pokédex up-to-date and organized.
+          </p>
+        </div>
+  
+        <!-- Advanced Search Card -->
+        <div class="feature-card bg-white bg-opacity-80 rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto">
+          <i class="fa fa-search text-4xl text-purple-500 mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Advanced Search</h3>
+          <p class="text-base text-gray-700">
+            Use our powerful search functionality to find specific Pokémon quickly. Filter by various criteria to get precise results.
+          </p>
+        </div>
+  
+      </div>
     </div>
-</div>
+  </div>
+  

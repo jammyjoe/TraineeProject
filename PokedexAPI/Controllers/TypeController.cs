@@ -36,21 +36,45 @@ public class TypeController : ControllerBase
         return Ok(types);
     }
 
-    [HttpGet("{typeName}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
+//     [HttpGet("{typeName}")]
+//     [ProducesResponseType(200)]
+//     [ProducesResponseType(400)]
 
-    public async Task<ActionResult<Type>> GetPokemonsByType(string typeName)
-    {
-        var pokemons = await _typeRepository.GetPokemonsByType(typeName);
+//     public async Task<ActionResult<Type>> GetPokemonsByType(string typeName)
+//     {
+//         var pokemons = await _typeRepository.GetPokemonsByType(typeName);
 
-        if (pokemons == null || pokemons.Count == 0)
+//         if (pokemons == null || pokemons.Count == 0)
+//         {
+//             return NotFound();
+//         }
+
+//         var pokemonDtos = _mapper.Map<List<PokemonDto>>(pokemons);
+
+//         return Ok(pokemonDtos);
+//     }
+// }
+        [HttpGet("by-types")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<PokemonDto>>> GetPokemonsByTypes([FromQuery] List<string> typeNames)
         {
-            return NotFound();
+            if (typeNames == null || !typeNames.Any())
+            {
+                return BadRequest("At least one type name must be provided.");
+            }
+
+            var pokemons = await _typeRepository.GetPokemonsByType(typeNames);
+
+            if (pokemons == null || !pokemons.Any())
+            {
+                return NotFound("No Pokémon found for the given types.");
+            }
+
+            var pokemonDtos = _mapper.Map<List<PokemonDto>>(pokemons);
+
+            return Ok(pokemonDtos);
         }
 
-        var pokemonDtos = _mapper.Map<List<PokemonDto>>(pokemons);
-
-        return Ok(pokemonDtos);
-    }
 }

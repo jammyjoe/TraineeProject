@@ -21,13 +21,13 @@ namespace PokedexAPI.Models
 		public virtual DbSet<PokemonType> PokemonTypes { get; set; } = null!;
 		public virtual DbSet<PokemonWeakness> PokemonWeaknesses { get; set; } = null!;
 
-		// protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		// {
-		// 	if (!optionsBuilder.IsConfigured)
-		// 	{
-		// 		optionsBuilder.UseSqlServer("Name=DefaultConnection");
-		// 	}
-		// }
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			if (!optionsBuilder.IsConfigured)
+			{
+				optionsBuilder.UseSqlServer("Name=DefaultConnection");
+			}
+		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -55,9 +55,10 @@ namespace PokedexAPI.Models
 					.IsUnicode(false)
 					.HasColumnName("image_url");
 
-				// entity.Property(e => e.ImageData)
-				// 	.HasColumnName("image_data")
-				// 	.HasColumnType("varbinary(max)");
+				entity.Property(e => e.Details)
+				    .HasColumnType("varchar(max)")
+            		.IsUnicode(false)
+					.HasColumnName("details");
 
 				entity.Property(e => e.Type1Id).HasColumnName("type1_id");
 

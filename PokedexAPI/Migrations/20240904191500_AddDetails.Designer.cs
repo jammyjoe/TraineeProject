@@ -12,8 +12,8 @@ using PokedexAPI.Models;
 namespace PokedexAPI.Migrations
 {
     [DbContext(typeof(PokedexContext))]
-    [Migration("20240830155741_AddImageUrlToPokemon")]
-    partial class AddImageUrlToPokemon
+    [Migration("20240904191500_AddDetails")]
+    partial class AddDetails
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,11 @@ namespace PokedexAPI.Migrations
                         .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Details")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("details");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(2048)
