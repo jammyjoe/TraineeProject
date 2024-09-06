@@ -20,24 +20,63 @@ export class SearchComponent {
   pokemonResult$!: Observable<Pokemon | null>;
   errorMessage: string = '';
   successMessage: string = '';
+  filteredPokemons: Pokemon[] = []; // List to hold filtered results
+  displayedPokemons: Pokemon[] = [];
 
   constructor(
     private pokemonService: PokemonService,
      private router: Router,
      private typeColorService: TypeColorService) {}
 
-  searchPokemon(): void {
-    if (this.searchQuery.trim()) {
-      this.errorMessage = '';
-      this.pokemonResult$ = this.pokemonService.getPokemon(this.searchQuery).pipe(
-        catchError(err => {
-          console.error('Search failed', err);
-          this.errorMessage = 'Pokemon not found.';
-          return of(null);
-        })
-      );
+
+     onSearchInput(): void {
+      const query = this.searchQuery.trim().toLowerCase();
+      
+      if (query) {
+        this.pokemonService.getPokemons().subscribe(
+          (pokemons) => {
+            this.filteredPokemons = pokemons.filter(pokemon =>
+              pokemon.name.toLowerCase().startsWith(query)
+            );
+            
+            if (this.filteredPokemons.length === 0) {
+              this.errorMessage = 'No matching Pokémon found.';
+            } else {
+              this.errorMessage = '';
+            }
+          },
+          (err) => {
+            console.error('Error fetching Pokémon', err);
+            this.errorMessage = 'Error fetching Pokémon.';
+          }
+        );
+      } else {
+        this.filteredPokemons = [];
+        this.errorMessage = '';
+      }
     }
+  
+    onSearchSubmit(): void {
+      const query = this.searchQuery.trim().toLowerCase();
+  
+      if (query) {
+        const exactMatch = this.filteredPokemons.find(pokemon => pokemon.name.toLowerCase() === query);
+        
+        if (exactMatch) {
+          this.viewPokemonEntry(exactMatch.name);
+        } else {
+          this.errorMessage = 'This Pokémon does not exist.';
+          this.filteredPokemons = [];
+        }
+      }
+    }
+
+  selectPokemon(pokemon: Pokemon): void {
+    this.searchQuery = pokemon.name; // Set input to selected Pokémon name
+    this.filteredPokemons = [pokemon]; // Show the selected Pokémon card
   }
+
+
 
   editPokemon(id: number): void {
     this.router.navigate(['/edit', id]);
