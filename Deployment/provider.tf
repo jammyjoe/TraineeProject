@@ -5,7 +5,6 @@ terraform {
       version = "~> 3.97.0"
     }
   }
-
   backend "azurerm" {
     resource_group_name   = "pokedex-rg"
     storage_account_name  = "pokedexterraformsa"
