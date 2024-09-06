@@ -49,7 +49,7 @@
             <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
           </select>
           <ul class="mt-2 space-y-2">
-            <li class="flex items-center justify-around p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let strength of pokemonStrengths.controls; let i = index">
+            <li class="max-w-32 flex items-left p-2 border border-gray-200 rounded-md" *ngFor="let strength of pokemonStrengths.controls; let i = index">
               {{ strength.value.type.typeName }}
               <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeStrength(i)">
                 <i class="fa-solid fa-xmark"></i>
@@ -66,7 +66,7 @@
             <option *ngFor="let type of types" [value]="type.typeName">{{ type.typeName }}</option>
           </select>
           <ul class="mt-2 space-y-2">
-            <li class="flex items-center justify-between p-2 border border-gray-300 rounded-md shadow-sm" *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
+            <li class="max-w-32 flex items-left p-2 border border-gray-200 rounded-md" *ngFor="let weakness of pokemonWeaknesses.controls; let i = index">
               {{ weakness.value.type.typeName }}
               <button type="button" class="text-red-500 hover:text-red-700 px-2" (click)="removeWeakness(i)">
                 <i class="fa-solid fa-xmark"></i>
