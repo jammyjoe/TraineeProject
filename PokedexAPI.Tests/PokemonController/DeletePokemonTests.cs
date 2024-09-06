@@ -55,43 +55,6 @@ public class DeletePokemonTests
     }
 
     [Test]
-    public async Task DeletePokemonByName_ReturnsNotFound_WhenDeletionFails()
-    {
-        // Arrange
-        var pokemonName = "Pikachu";
-        var pokemonToDelete = new Pokemon { Name = pokemonName };
-        A.CallTo(() => _fakePokemonRepository.PokemonExists(pokemonName)).Returns(true);
-        A.CallTo(() => _fakePokemonRepository.GetPokemon(pokemonName)).Returns(pokemonToDelete);
-        A.CallTo(() => _fakePokemonRepository.DeletePokemon(pokemonToDelete)).Returns(false);
-
-        // Act
-        var result = await _fakePokemonController.DeletePokemon(pokemonName);
-
-        // Assert
-        var notFoundResult = result.Result.Should().BeOfType<NotFoundObjectResult>().Subject;
-        notFoundResult.Value.Should().Be("Deletion failed or the pokemon was not found");
-    }
-
-
-    [Test]
-    public async Task DeletePokemonById_ReturnsNotFound_WhenDeletionFails()
-    {
-        // Arrange
-        var pokemonId = 1;
-        var pokemonToDelete = new Pokemon { Id = pokemonId };
-        A.CallTo(() => _fakePokemonRepository.PokemonExists(pokemonId)).Returns(true);
-        A.CallTo(() => _fakePokemonRepository.GetPokemon(pokemonId)).Returns(pokemonToDelete);
-        A.CallTo(() => _fakePokemonRepository.DeletePokemon(pokemonToDelete)).Returns(false);
-
-        // Act
-        var result = await _fakePokemonController.DeletePokemon(pokemonId);
-
-        // Assert
-        var notFoundResult = result.Result.Should().BeOfType<NotFoundObjectResult>().Subject;
-        notFoundResult.Value.Should().Be("Deletion failed or the pokemon was not found"); 
-    }
-
-    [Test]
     public async Task DeletePokemonById_ReturnsNoContent_WhenDeletionIsSuccessful()
     {
         // Arrange

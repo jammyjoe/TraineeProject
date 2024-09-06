@@ -147,18 +147,12 @@ namespace Pokedex.Controllers
             if (!await _pokemonRepository.PokemonExists(name) || pokemon == null)
                 return NotFound("This pokemon does not exist");
 
-            var result = await _pokemonRepository.DeletePokemon(pokemon);
-
-            if (!result)
-            {
-                return NotFound("Deletion failed or the pokemon was not found");
-            }
-
             var pokemonToDelete = await _pokemonRepository.GetPokemon(name);
 
-            if (!await _pokemonRepository.DeletePokemon(pokemonToDelete))
+            var deletionSuccess = await _pokemonRepository.DeletePokemon(pokemonToDelete);
+            if (!deletionSuccess)
             {
-                ModelState.AddModelError("", "Something went wrong deleting pokemon");
+                return StatusCode(500, "Failed to delete the Pokémon.");
             }
             return NoContent();
         }
@@ -175,18 +169,12 @@ namespace Pokedex.Controllers
             if (pokemon == null)
                 return NotFound("This pokemon does not exist");
 
-            var result = await _pokemonRepository.DeletePokemon(pokemon);
+            var pokemonToDelete = await _pokemonRepository.GetPokemon(id);
 
-            if (!result)
+            var deletionSuccess = await _pokemonRepository.DeletePokemon(pokemonToDelete);
+            if (!deletionSuccess)
             {
-                return NotFound("Deletion failed or the pokemon was not found");
-            }
-
-            var pokemonToDelete = (await _pokemonRepository.GetPokemon(id));
-
-            if (!await _pokemonRepository.DeletePokemon(pokemonToDelete))
-            {
-                ModelState.AddModelError("", "Something went wrong deleting pokemon");
+                return StatusCode(500, "Failed to delete the Pokémon.");
             }
             return NoContent();
         }

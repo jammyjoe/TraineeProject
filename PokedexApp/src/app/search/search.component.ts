@@ -96,11 +96,8 @@ export class SearchComponent {
     if (confirm('Are you sure you want to delete this Pokémon?')) {
       this.pokemonService.deletePokemon(pokemonId).subscribe(
         () => {
-          // Show success message for deletion
           this.successMessage = 'Pokemon successfully deleted!';
           this.errorMessage = '';
-
-          // Delay navigation for 3 seconds (3000ms) to show the message
           setTimeout(() => {
             this.router.navigate(['/explore']);
           }, 1000);
