@@ -31,16 +31,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 ) {}
 
   ngOnInit(): void {
-    this.loadAllPokemons();
-    this.loadPokemonTypes();
-    this.addClickListener();
-  }
-
-  ngOnDestroy(): void {
-    this.removeClickListener();
-  }
-
-  loadAllPokemons(): void {
     this.pokemonService.getPokemons().subscribe(
       (pokemons) => {
         this.pokemons = pokemons;
@@ -50,7 +40,25 @@ export class ExploreComponent implements OnInit, OnDestroy {
         console.error('Error fetching pokemons:', error);
       }
     );
+    this.loadPokemonTypes();
+    this.addClickListener();
   }
+
+  ngOnDestroy(): void {
+    this.removeClickListener();
+  }
+
+  // loadAllPokemons(): void {
+  //   this.pokemonService.getPokemons().subscribe(
+  //     (pokemons) => {
+  //       this.pokemons = pokemons;
+  //       this.filteredPokemons = this.pokemons; // Initialize with all Pokémon
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching pokemons:', error);
+  //     }
+  //   );
+  // }
 
   loadPokemonTypes(): void {
     this.pokemonService.getTypes().subscribe(

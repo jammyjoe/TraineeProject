@@ -1,4 +1,4 @@
-<div class="filter-container pt-16 px-16">
+<div class="filter-container pt-8 px-16">
   <button (click)="toggleDropdown()" class="filter-button">
     Filter By
   </button>
@@ -76,4 +76,11 @@
   </div>
 </div>
 
-<div *ngIf="filteredPokemons.length === 0" class="text-center text-gray-500">No Pokemons Found...</div>
+<div *ngIf="pokemons.length === 0; else showFilteredPokemons" class="text-center text-gray-500">
+  Loading Pokemons...
+</div>
+
+<ng-template #showFilteredPokemons>
+  <div *ngIf="filteredPokemons.length === 0" class="text-center text-gray-500">No Pokemons Found...</div>
+  <div *ngIf="filteredPokemons.length > 0"></div>
+</ng-template>

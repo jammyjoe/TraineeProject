@@ -22,8 +22,11 @@
     padding: 1rem;
     margin: 0 auto; /* Centers the card horizontally */
   }
-  
-  
+
+  .grid-template-none {
+      grid-template: none;
+  }
+
   .pokemon-card:hover {
     background-color: #f7fafcd3;
   }
@@ -40,7 +43,7 @@
     padding: 0.25rem 1rem; /* Adjust padding for better spacing */
     border-radius: 0.5rem;
     color: #fff;
-    display: inline-block;
+    /* display: inline-block; */
   }
 
   .circular-button {

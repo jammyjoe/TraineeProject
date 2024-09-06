@@ -30,7 +30,7 @@
   <div *ngIf="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</div>
 
   <!-- Pokémon Cards -->
-  <div *ngIf="filteredPokemons.length > 0" class="pokemon-cards-container mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div *ngIf="filteredPokemons.length > 0" class="pokemon-cards-container mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" [ngClass]="{ 'grid-template-none': filteredPokemons.length == 1 }">
     <div *ngFor="let pokemon of filteredPokemons" class="pokemon-card cursor-pointer hover:bg-gray-100 transition p-4 rounded-lg border">
       <h2 class="text-2xl font-bold mb-4">{{ pokemon.name }}</h2>
 
