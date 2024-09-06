@@ -45,8 +45,19 @@ resource "azurerm_key_vault_secret" "database_secret" {
 }
 
 resource "azurerm_key_vault_secret" "admin_password_secret" {
-  name         = "PokedexDatabase--AdminPassword"
+  name         = "AdminPassword"
   value        = var.ADMIN_PASSWORD
   key_vault_id = azurerm_key_vault.key_vault.id
 }
 
+resource "azurerm_key_vault_secret" "authority_secret" {
+  name         = "Authority"
+  value        = var.AUTHORITY
+  key_vault_id = azurerm_key_vault.key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "audience_secret" {
+  name         = "Audience"
+  value        = var.AUDIENCE
+  key_vault_id = azurerm_key_vault.key_vault.id
+}

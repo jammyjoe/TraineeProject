@@ -29,6 +29,16 @@ variable "SA_CONNECTION_STRING" {
   #sensitive = true
 }
 
+variable "AUTHORITY" {
+  type = string
+  #sensitive = true
+}
+
+variable "AUDIENCE" {
+  type = string
+  #sensitive = true
+}
+
 variable "RESOURCEGROUPNAME" {
   type = string
 }

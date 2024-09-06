@@ -26,9 +26,8 @@ steps:
     TF_VAR_STORAGEACCOUNTNAME: $(StorageAccountName)
     TF_VAR_SA_CONNECTION_STRING: $(StorageAccountConnectionString)
     TF_VAR_SQL_DB_CONNECTION_STRING: $(SqlDatabaseConnectionString)
-    # TF_VAR_INSTANCE: $(Instance)
-    # TF_VAR_API_CLIENT_ID: $(ApiClientId)
-    # TF_VAR_AUDIENCE: $(Audience)
+    TF_VAR_AUDIENCE: $(Audience)
+    TF_VAR_AUTHORITY: $(Authority)
     TF_VAR_ADMIN_PASSWORD: $(AdminPassword)
 
 
