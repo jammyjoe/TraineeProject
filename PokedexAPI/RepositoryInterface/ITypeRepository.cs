@@ -7,5 +7,4 @@ public interface ITypeRepository
 {
     Task<List<PokemonType>> GetTypes();
      Task<List<Pokemon>> GetPokemonsByType(IEnumerable<string> typeName);
-
 }

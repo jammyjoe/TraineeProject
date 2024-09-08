@@ -1,16 +1,20 @@
 ﻿using AutoMapper;
 using FakeItEasy;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using NUnit.Framework;
 using Pokedex.Controllers;
 using Pokedex.DTOs;
 using Pokedex.RepositoryInterface;
 using PokedexAPI.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 [TestFixture]
 public class UpdatePokemonTests
 {
-    private PokedexContext _fakeContext;
     private IPokemonRepository _fakePokemonRepository;
     private IMapper _fakeMapper;
     private PokemonController _fakePokemonController;
@@ -20,27 +24,28 @@ public class UpdatePokemonTests
     {
         _fakePokemonRepository = A.Fake<IPokemonRepository>();
         _fakeMapper = A.Fake<IMapper>();
-        _fakePokemonController = new PokemonController(_fakeContext, _fakePokemonRepository, _fakeMapper);
+        _fakePokemonController = new PokemonController(_fakePokemonRepository, _fakeMapper);
     }
 
-    [Test]
-    public async Task UpdatePokemon_ReturnsNoContent_WhenUpdateIsSuccessful()
-    {
-        // Arrange
-        var pokemonUpdate = A.Fake<PokemonDto>();
-        var existingPokemon = new Pokemon { Id = 1, Name = "Pikachu" };
+[Test]
+public async Task UpdatePokemon_ReturnsNoContent_WhenUpdateIsSuccessful()
+{
+    // Arrange
+    var pokemonUpdate = new PokemonDto { Name = "UpdatedPikachu" };
+    A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(true);
+    A.CallTo(() => _fakePokemonRepository.ValidateDistinctTypes(pokemonUpdate)).Returns(true);
+    A.CallTo(() => _fakePokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonUpdate)).Returns(true);
+    A.CallTo(() => _fakePokemonRepository.UpdatePokemon(1, A<PokemonDto>._)).Returns(true);
 
-        A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(true);
-        A.CallTo(() => _fakePokemonRepository.ValidateDistinctTypes(pokemonUpdate)).Returns(true);
-        A.CallTo(() => _fakePokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonUpdate)).Returns(true);
-        A.CallTo(() => _fakePokemonRepository.UpdatePokemon(1, A<PokemonDto>._)).Returns(true);
+    // Act
+    var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
-        // Act
-        var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
+    // Assert
+    var noContentResult = result.Result.Should().BeOfType<NoContentResult>().Which;
+    noContentResult.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+}
 
-        // Assert
-        result.Result.Should().BeOfType<NoContentResult>();
-    }
+
 
     [Test]
     public async Task UpdatePokemon_ReturnsBadRequest_WhenPokemonUpdateIsNull()
@@ -57,7 +62,7 @@ public class UpdatePokemonTests
     public async Task UpdatePokemon_ReturnsNotFound_WhenPokemonDoesNotExist()
     {
         // Arrange
-        var pokemonUpdate = A.Fake<PokemonDto>();
+        var pokemonUpdate = new PokemonDto();
         A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(false);
 
         // Act
@@ -68,31 +73,40 @@ public class UpdatePokemonTests
             .Value.Should().Be("This pokemon does not exist");
     }
 
-    //[Test]
-    //public async Task UpdatePokemon_ReturnsBadRequest_WhenModelStateIsInvalid()
-    //{
-    //    // Arrange
-    //    var pokemonUpdate = A.Fake<PokemonDto>();
-    //    _fakePokemonController.ModelState.AddModelError("Name", "Required");
+   [Test]
+    public async Task UpdatePokemon_ReturnsBadRequest_WhenModelStateIsInvalid()
+    {
+        // Arrange
+        var pokemonUpdate = A.Fake<PokemonDto>();
+        _fakePokemonController.ModelState.AddModelError("Name", "Required");
 
-    //    // Assuming that `_fakePokemonRepository.PokemonExists(id)` is not affecting the result
-    //    A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(true);
+        A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(true);
+        A.CallTo(() => _fakePokemonRepository.ValidateDistinctTypes(pokemonUpdate)).Returns(true);
+        A.CallTo(() => _fakePokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonUpdate)).Returns(true);
 
-    //    // Act
-    //    var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
+        // Act
+        var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
-    //    // Assert
-    //    result.Should().NotBeNull();
-    //    result.Result.Should().BeOfType<BadRequestObjectResult>()
-    //        .Which.Value.Should().BeEquivalentTo(_fakePokemonController.ModelState);
-    //}
+        // Assert
+        result.Should().NotBeNull();
 
+        var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
+        badRequestResult?.StatusCode.Should().Be(400);
+
+        var modelState = badRequestResult?.Value as SerializableError;
+        modelState.Should().NotBeNull();  
+        modelState.Should().ContainKey("Name");
+        var errorMessages = modelState?["Name"] as IEnumerable<string>;
+        errorMessages.Should().NotBeNull();
+        errorMessages.Should().Contain("Required");
+    }
 
     [Test]
     public async Task UpdatePokemon_ReturnsBadRequest_WhenTypesAreNotDistinct()
     {
         // Arrange
-        var pokemonUpdate = A.Fake<PokemonDto>();
+        var pokemonUpdate = new PokemonDto();
         A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(true);
         A.CallTo(() => _fakePokemonRepository.ValidateDistinctTypes(pokemonUpdate)).Returns(false);
 
@@ -108,7 +122,7 @@ public class UpdatePokemonTests
     public async Task UpdatePokemon_ReturnsBadRequest_WhenStrengthsAndWeaknessesAreNotDistinct()
     {
         // Arrange
-        var pokemonUpdate = A.Fake<PokemonDto>();
+        var pokemonUpdate = new PokemonDto();
         A.CallTo(() => _fakePokemonRepository.PokemonExists(1)).Returns(true);
         A.CallTo(() => _fakePokemonRepository.ValidateDistinctTypes(pokemonUpdate)).Returns(true);
         A.CallTo(() => _fakePokemonRepository.AreStrengthsAndWeaknessesDistinct(pokemonUpdate)).Returns(false);
@@ -121,7 +135,7 @@ public class UpdatePokemonTests
             .Value.Should().Be("Strengths and weaknesses cannot have duplicate types.");
     }
 
-    [Test]
+   [Test]
     public async Task UpdatePokemon_ReturnsStatusCode500_WhenUpdateFails()
     {
         // Arrange
@@ -135,11 +149,15 @@ public class UpdatePokemonTests
         var result = await _fakePokemonController.UpdatePokemon(1, pokemonUpdate);
 
         // Assert
-        result.Result.Should().BeOfType<ObjectResult>().Which.StatusCode.Should().Be(500);
-        ((ObjectResult)result.Result).Value.Should().BeEquivalentTo(_fakePokemonController.ModelState);
+        var statusCodeResult = result.Result.Should().BeOfType<ObjectResult>().Which;
+        statusCodeResult.StatusCode.Should().Be(500);
+        
+        // Assert that ModelState is included in the response
+        var modelState = statusCodeResult.Value as ModelStateDictionary;
+        modelState.Should().NotBeNull();
+        
+        // Ensure that model state contains the specific error message
+        modelState.Should().ContainKey("");
+        modelState?[""]?.Errors.Should().ContainSingle(e => e.ErrorMessage == "Something went wrong while saving.");
     }
-
-
-
-
 }
