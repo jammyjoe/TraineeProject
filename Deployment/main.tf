@@ -49,8 +49,8 @@ resource "azurerm_mssql_server" "pokedex_sqlserver" {
 
  resource "azurerm_mssql_firewall_rule" "allow_client_ip" {
   name                = "allow-client-ip"
-  start_ip_address    = "62.172.108.16" 
-  end_ip_address      = "62.172.108.16"
+  start_ip_address    = "20.108.105.42" 
+  end_ip_address      = "20.108.105.42"
   server_id           = azurerm_mssql_server.pokedex_sqlserver.id
 }
 
