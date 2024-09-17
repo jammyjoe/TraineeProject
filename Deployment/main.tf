@@ -119,9 +119,9 @@ resource "azurerm_windows_web_app" "pokedex_webapi" {
   }
 }
 
- resource "azurerm_mssql_firewall_rule" "allow_api" {
-  name                = "allow-client-ip"
-  start_ip_address    = azurerm_windows_web_app.pokedex_webapi.outbound_ip_addresses
-  end_ip_address      = azurerm_windows_web_app.pokedex_webapi.outbound_ip_addresses
-  server_id           = azurerm_mssql_server.pokedex_sqlserver.id
-}
+#  resource "azurerm_mssql_firewall_rule" "allow_api" {
+#   name                = "allow-client-ip"
+#   start_ip_address    = azurerm_windows_web_app.pokedex_webapi.outbound_ip_addresses
+#   end_ip_address      = azurerm_windows_web_app.pokedex_webapi.outbound_ip_addresses
+#   server_id           = azurerm_mssql_server.pokedex_sqlserver.id
+# }
